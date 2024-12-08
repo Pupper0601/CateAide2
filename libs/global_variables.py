@@ -5,4 +5,5 @@
 from libs.cache_images import images_cache
 
 CACHE_IMAGES = images_cache()
+MOUSE_RIGHT_IDENTIFICATION = None
 GUNS_DATA = {}

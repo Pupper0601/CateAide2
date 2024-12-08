@@ -6,16 +6,17 @@
 """
 处理多个位置的屏幕截图并对比
 """
-
+import asyncio
 import time
 import cv2
 import numpy as np
 from PIL import Image
 from mss import mss
+
+from libs.config import debug
 from libs.global_variables import CACHE_IMAGES, GUNS_DATA
 from tools.logs import logger
 from skimage.metrics import structural_similarity as ssim
-
 
 
 def take_screenshot(region):
@@ -50,6 +51,9 @@ def compare_images(binary_image, key):
                 best_similarity = similarity
                 best_match = img_key
 
+    if debug:
+        logger.info(f"{key} 相似度: {best_similarity:.2f}\n")
+
     return best_match, best_similarity
 
 def process_screenshot(key, value):
@@ -75,11 +79,6 @@ def weapon_identification():
     start_time = time.time()
     _guns = {"1":{}, "2":{}}
 
-    if not backpack_identification():
-        GUNS_DATA.update( {'1': {'weapon': 'weapon_none', 'scope': 'scope_none', 'muzzle': 'muzzle_none', 'grip': 'grip_none', 'stock': 'stock_none'},
-                '2': {'weapon': 'weapon_none', 'scope': 'scope_none', 'muzzle': 'muzzle_none', 'grip': 'grip_none',
-                      'stock': 'stock_none'}})
-
     for key, value in CACHE_IMAGES["config"]["guns"].items():
         if weapon_position_identification(key):
             for _key, _value in value.items():
@@ -101,9 +100,11 @@ def weapon_identification():
 
     logger.info(f"获取枪械信息耗时: {time.time() - start_time:.2f}秒")
     GUNS_DATA.update(_guns)
+    logger.info(f"枪械信息: {GUNS_DATA}")
 
-def backpack_identification():
+async def backpack_identification():
     """处理背包截图"""
+    await asyncio.sleep(0.3)
     start_time = time.time()
     _value = CACHE_IMAGES["config"]["inventory"]["inventory"]
 

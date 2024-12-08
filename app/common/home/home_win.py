@@ -11,7 +11,11 @@ from BlurWindow.blurWindow import GlobalBlur
 from app.common.common import click_qq_group, get_gun_pressure_script
 from app.view.home import Ui_HomeMainWindow
 from app.common.state.state_win import StateMainWin
-from libs.config import qq
+import resource_rc
+from libs.keyboard import KeyboardMonitor
+from libs.mouse import MouseMonitor
+from tools.logs import logger
+from tools.paths import object_join_path
 
 
 class HomeMainWin(QMainWindow):
@@ -21,6 +25,9 @@ class HomeMainWin(QMainWindow):
         self.ui.setupUi(self)
         self.setWindowTitle("CuteAide")
         self.start_win = StateMainWin()
+
+        self.keyboard_monitor = KeyboardMonitor()
+        self.mouse_monitor = MouseMonitor()
 
         # 隐藏窗口边框
         self.setWindowFlags(Qt.FramelessWindowHint)
@@ -41,10 +48,26 @@ class HomeMainWin(QMainWindow):
         self.ui.SwitchButton_3.checkedChanged.connect(self.show_state)
         self.ui.PushButton_2.clicked.connect(click_qq_group)
         self.ui.PushButton_3.clicked.connect(get_gun_pressure_script)
+        self.ui.PushButton.clicked.connect(self.identification_control)
 
     def identification_control(self):
         # 识别控制
-        pass
+        if self.ui.PushButton.text() == " 开始压枪识别":
+            self.ui.PushButton.setText(" 停止压枪识别")
+            self.ui.PushButton.setIcon(QIcon(object_join_path("app/resource/icon/stop.png")))
+
+            # 启动监控
+            self.keyboard_monitor.start()
+            self.mouse_monitor.start()
+            logger.info("鼠标、键盘监控已启动")
+        else:
+            self.ui.PushButton.setText(" 开始压枪识别")
+            self.ui.PushButton.setIcon(QIcon(object_join_path("app/resource/icon/start.png")))
+
+            # 停止监控
+            self.keyboard_monitor.stop()
+            self.mouse_monitor.stop()
+            logger.info("鼠标、键盘监控已停止")
 
     def show_state(self):
         # 显示/隐藏状态窗口
