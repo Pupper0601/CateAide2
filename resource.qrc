@@ -1,0 +1,31 @@
+<RCC>
+  <qresource prefix="image">
+    <file>app/resource/images/log.ico</file>
+    <file>app/resource/images/log.png</file>
+    <file>app/resource/images/login_bg.png</file>
+  </qresource>
+  <qresource prefix="icon">
+    <file>app/resource/icon/buy.png</file>
+    <file>app/resource/icon/close.png</file>
+    <file>app/resource/icon/dashang.png</file>
+    <file>app/resource/icon/error.png</file>
+    <file>app/resource/icon/export.png</file>
+    <file>app/resource/icon/floating.png</file>
+    <file>app/resource/icon/github.png</file>
+    <file>app/resource/icon/import.png</file>
+    <file>app/resource/icon/keyboard.png</file>
+    <file>app/resource/icon/minimize.png</file>
+    <file>app/resource/icon/mouse.png</file>
+    <file>app/resource/icon/now.png</file>
+    <file>app/resource/icon/qq.png</file>
+    <file>app/resource/icon/start.png</file>
+    <file>app/resource/icon/stop.png</file>
+    <file>app/resource/icon/success.png</file>
+    <file>app/resource/icon/time.png</file>
+    <file>app/resource/icon/Tips.png</file>
+    <file>app/resource/icon/versrion.png</file>
+    <file>app/resource/icon/vip.png</file>
+    <file>app/resource/icon/vip_1.png</file>
+  </qresource>
+  <qresource prefix="qss"/>
+</RCC>
