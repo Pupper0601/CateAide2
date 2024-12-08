@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>700</width>
+    <width>750</width>
     <height>20</height>
    </rect>
   </property>
@@ -18,13 +18,13 @@
   </property>
   <property name="minimumSize">
    <size>
-    <width>700</width>
+    <width>750</width>
     <height>20</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
-    <width>700</width>
+    <width>750</width>
     <height>20</height>
    </size>
   </property>
@@ -37,28 +37,28 @@
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>700</width>
+      <width>750</width>
       <height>20</height>
      </rect>
     </property>
     <property name="minimumSize">
      <size>
-      <width>700</width>
+      <width>750</width>
       <height>20</height>
      </size>
     </property>
     <property name="maximumSize">
      <size>
-      <width>700</width>
+      <width>750</width>
       <height>20</height>
      </size>
     </property>
     <property name="styleSheet">
      <string notr="true">#widget{
 	border: 1px solid rgba(214,214,214, 50);
-	background-color: rgba(235, 235, 235, 50);
-	border-bottom-left-radius: 15px;
-	border-bottom-right-radius: 15px;
+	background-color: rgba(173, 173, 173,100);
+	border-bottom-left-radius: 10px;
+	border-bottom-right-radius: 10px;
 }
 Line{
 	border: 1px solid rgb(255, 255, 255);
@@ -83,6 +83,12 @@ Line{
      </property>
      <item>
       <widget class="QFrame" name="frame">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+         <horstretch>1</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
        <property name="minimumSize">
         <size>
          <width>0</width>
@@ -130,12 +136,13 @@ Line{
           <property name="styleSheet">
            <string notr="true">#label{
 	
-	color: rgb(74, 74, 74);
+	color: rgb(220, 220, 220);
+	font: 500 7pt;
 
 }</string>
           </property>
           <property name="text">
-           <string>TextLabel</string>
+           <string/>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -160,6 +167,12 @@ Line{
      </item>
      <item>
       <widget class="QFrame" name="frame_2">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+         <horstretch>1</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
        <property name="minimumSize">
         <size>
          <width>0</width>
@@ -213,12 +226,12 @@ Line{
           <property name="styleSheet">
            <string notr="true">#label_2{
 	
-	color: rgb(74, 74, 74);
-
+	color: rgb(220, 220, 220);
+	font: 500 7pt;
 }</string>
           </property>
           <property name="text">
-           <string>TextLabel</string>
+           <string/>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>

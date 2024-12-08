@@ -3,20 +3,24 @@
 # @Author : Pupper
 # @Email  : pupper.cheng@gmail.com
 import asyncio
+import threading
 
+from PySide6.QtCore import QObject, QThread, Signal
 from pynput import keyboard
 
+from libs.common import Worker
 from libs.config import debug
-from libs.identification import backpack_identification, weapon_identification
+from libs.identification import backpack_identification, start_weapon_identification, weapon_identification
 from tools.current_window import is_pubg_active
 from tools.logs import logger
 import libs.global_variables as gv
 
 
 class KeyboardMonitor:
-    def __init__(self):
+    def __init__(self, window):
         self.monitoring = False
         self.listener = None
+        self.window = window
 
     def start(self):
         self.monitoring = True
@@ -38,16 +42,28 @@ class KeyboardMonitor:
             if is_pubg_active() or debug:
                 if key == "tab":
                     if asyncio.run(backpack_identification()):
-                        weapon_identification()
+                        self.start_thread("tab")
                         gv.MOUSE_RIGHT_IDENTIFICATION = True
+                        self.window.keyPressedSignal.emit(key)  # 发送信号
                     else:
                         gv.MOUSE_RIGHT_IDENTIFICATION = False
                 elif key == "esc":
-                    if not backpack_identification():
-                        print("按下了 esc 键")
+                    if not asyncio.run(backpack_identification()):
+                        gv.MOUSE_RIGHT_IDENTIFICATION = False
                 elif key in ("1", "2", "3", "4", "5"):
-                    print(f"按下了数字键 {key}")
+                    self.window.keyPressedSignal.emit(key)
                 elif key == "x":
                     print("按下了 x 键")
+
+    def start_thread(self, key):
+        # 创建一个工作对象
+        worker = Worker(target_function=start_weapon_identification)
+        # 连接`finished`信号到需要执行的函数
+        worker.finished.connect(lambda: self.window.keyPressedSignal.emit(key))
+
+        # 创建并启动线程
+        thread = threading.Thread(target=worker.run)
+        thread.start()
+
 
 

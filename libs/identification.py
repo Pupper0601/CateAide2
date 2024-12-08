@@ -13,7 +13,7 @@ import numpy as np
 from PIL import Image
 from mss import mss
 
-from libs.config import debug
+from libs.config import TRANSLATE, debug
 from libs.global_variables import CACHE_IMAGES, GUNS_DATA
 from tools.logs import logger
 from skimage.metrics import structural_similarity as ssim
@@ -74,8 +74,12 @@ def process_screenshot(key, value):
     best_match, best_similarity = compare_images(binary_image, key)
     return best_match, best_similarity
 
-def weapon_identification():
+def start_weapon_identification():
+    asyncio.run(weapon_identification())
+
+async def weapon_identification():
     """处理枪械截图，返回相似度最高的图片名称和相似度"""
+    await asyncio.sleep(0.1)
     start_time = time.time()
     _guns = {"1":{}, "2":{}}
 
@@ -99,12 +103,15 @@ def weapon_identification():
                 "stock": "stock_none"}
 
     logger.info(f"获取枪械信息耗时: {time.time() - start_time:.2f}秒")
+    for key, value in _guns.items():
+        for k, v in value.items():
+            _guns[key][k] = [TRANSLATE.get(v, v), v]
     GUNS_DATA.update(_guns)
     logger.info(f"枪械信息: {GUNS_DATA}")
 
 async def backpack_identification():
     """处理背包截图"""
-    await asyncio.sleep(0.3)
+    await asyncio.sleep(0.1)
     start_time = time.time()
     _value = CACHE_IMAGES["config"]["inventory"]["inventory"]
 

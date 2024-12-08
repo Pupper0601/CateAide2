@@ -22,26 +22,26 @@ class Ui_StateMainWindow(object):
     def setupUi(self, StateMainWindow):
         if not StateMainWindow.objectName():
             StateMainWindow.setObjectName(u"StateMainWindow")
-        StateMainWindow.resize(700, 20)
+        StateMainWindow.resize(750, 20)
         sizePolicy = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Preferred)
         sizePolicy.setHorizontalStretch(1)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(StateMainWindow.sizePolicy().hasHeightForWidth())
         StateMainWindow.setSizePolicy(sizePolicy)
-        StateMainWindow.setMinimumSize(QSize(700, 20))
-        StateMainWindow.setMaximumSize(QSize(700, 20))
+        StateMainWindow.setMinimumSize(QSize(750, 20))
+        StateMainWindow.setMaximumSize(QSize(750, 20))
         self.centralwidget = QWidget(StateMainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
         self.widget = QWidget(self.centralwidget)
         self.widget.setObjectName(u"widget")
-        self.widget.setGeometry(QRect(0, 0, 700, 20))
-        self.widget.setMinimumSize(QSize(700, 20))
-        self.widget.setMaximumSize(QSize(700, 20))
+        self.widget.setGeometry(QRect(0, 0, 750, 20))
+        self.widget.setMinimumSize(QSize(750, 20))
+        self.widget.setMaximumSize(QSize(750, 20))
         self.widget.setStyleSheet(u"#widget{\n"
 "	border: 1px solid rgba(214,214,214, 50);\n"
-"	background-color: rgba(235, 235, 235, 50);\n"
-"	border-bottom-left-radius: 15px;\n"
-"	border-bottom-right-radius: 15px;\n"
+"	background-color: rgba(173, 173, 173,100);\n"
+"	border-bottom-left-radius: 10px;\n"
+"	border-bottom-right-radius: 10px;\n"
 "}\n"
 "Line{\n"
 "	border: 1px solid rgb(255, 255, 255);\n"
@@ -53,6 +53,8 @@ class Ui_StateMainWindow(object):
         self.horizontalLayout.setContentsMargins(0, 0, 0, 0)
         self.frame = QFrame(self.widget)
         self.frame.setObjectName(u"frame")
+        sizePolicy.setHeightForWidth(self.frame.sizePolicy().hasHeightForWidth())
+        self.frame.setSizePolicy(sizePolicy)
         self.frame.setMinimumSize(QSize(0, 20))
         self.frame.setMaximumSize(QSize(16777215, 20))
         self.frame.setStyleSheet(u"#frame{\n"
@@ -69,7 +71,8 @@ class Ui_StateMainWindow(object):
         self.label.setMinimumSize(QSize(0, 20))
         self.label.setStyleSheet(u"#label{\n"
 "	\n"
-"	color: rgb(92, 99, 112);\n"
+"	color: rgb(220, 220, 220);\n"
+"	font: 500 7pt;\n"
 "\n"
 "}")
         self.label.setAlignment(Qt.AlignCenter)
@@ -89,6 +92,8 @@ class Ui_StateMainWindow(object):
 
         self.frame_2 = QFrame(self.widget)
         self.frame_2.setObjectName(u"frame_2")
+        sizePolicy.setHeightForWidth(self.frame_2.sizePolicy().hasHeightForWidth())
+        self.frame_2.setSizePolicy(sizePolicy)
         self.frame_2.setMinimumSize(QSize(0, 20))
         self.frame_2.setMaximumSize(QSize(16777215, 20))
         self.frame_2.setLayoutDirection(Qt.LeftToRight)
@@ -107,8 +112,8 @@ class Ui_StateMainWindow(object):
         self.label_2.setLayoutDirection(Qt.LeftToRight)
         self.label_2.setStyleSheet(u"#label_2{\n"
 "	\n"
-"	color: rgb(92, 99, 112);\n"
-"\n"
+"	color: rgb(220, 220, 220);\n"
+"	font: 500 7pt;\n"
 "}")
         self.label_2.setAlignment(Qt.AlignCenter)
 
@@ -126,7 +131,7 @@ class Ui_StateMainWindow(object):
 
     def retranslateUi(self, StateMainWindow):
         StateMainWindow.setWindowTitle(QCoreApplication.translate("StateMainWindow", u"MainWindow", None))
-        self.label.setText(QCoreApplication.translate("StateMainWindow", u"TextLabel", None))
-        self.label_2.setText(QCoreApplication.translate("StateMainWindow", u"TextLabel", None))
+        self.label.setText("")
+        self.label_2.setText("")
     # retranslateUi
 

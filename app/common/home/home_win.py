@@ -26,8 +26,8 @@ class HomeMainWin(QMainWindow):
         self.setWindowTitle("CuteAide")
         self.start_win = StateMainWin()
 
-        self.keyboard_monitor = KeyboardMonitor()
-        self.mouse_monitor = MouseMonitor()
+        self.keyboard_monitor = KeyboardMonitor(self.start_win)
+        self.mouse_monitor = MouseMonitor(self.start_win)
 
         # 隐藏窗口边框
         self.setWindowFlags(Qt.FramelessWindowHint)
