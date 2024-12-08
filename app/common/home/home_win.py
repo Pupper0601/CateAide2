@@ -42,7 +42,12 @@ class HomeMainWin(QMainWindow):
         self.ui.PushButton_2.clicked.connect(click_qq_group)
         self.ui.PushButton_3.clicked.connect(get_gun_pressure_script)
 
+    def identification_control(self):
+        # 识别控制
+        pass
+
     def show_state(self):
+        # 显示/隐藏状态窗口
         if self.ui.SwitchButton_3.isChecked():
             self.start_win.show()
         else:
