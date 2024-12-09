@@ -10,3 +10,5 @@ GUNS_DATA = {}
 CURRENT_WEAPON = "1"
 
 shooting_state = False
+pubg_win = False
+ingram = False

@@ -156,6 +156,17 @@ def has_large_color_block(image_array, threshold=210):
         return True
     return False
 
+def get_in_gram():
+    start_time = time.time()
+    _value = CACHE_IMAGES["config"]["ingram"]["ingram"]
+    region = {'left': _value[0], 'top': _value[1], 'width': _value[2], 'height': _value[3]}
+    screenshot = take_screenshot(region)
+    if has_large_color_block(screenshot):
+        logger.info(f"当前正在对局中, 识别耗时: {time.time() - start_time:.2f}秒")
+        return True
+    else:
+        logger.info(f"当前未在对局中, 识别耗时: {time.time() - start_time:.2f}秒")
+        return False
 
 
 

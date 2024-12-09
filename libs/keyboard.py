@@ -39,7 +39,7 @@ class KeyboardMonitor:
         replace_dict = {"!": "1","@": "2","#": "3","$": "4","%": "5"}
         key = replace_dict.get(key, key)
         if self.monitoring: # 检查是否正在监听
-            if is_pubg_active() or debug:
+            if gv.pubg_win or debug:
                 if key == "tab":
                     if asyncio.run(backpack_identification()):
                         start_weapon_identification()
@@ -68,9 +68,6 @@ class KeyboardMonitor:
                     else:
                         gv.shooting_state = True
                         self.window.shootingSignal.emit("枪械已自动识别完成, 开始压枪")
-            else:
-                self.window.shootingSignal.emit("当前不是 PUBG 窗口")
-                gv.shooting_state = False
 
     def get_current_weapon(self):
         _gun = current_weapon_identification()
