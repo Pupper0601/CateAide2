@@ -13,6 +13,7 @@ from PySide6.QtCore import Signal
 
 from app.view.state import Ui_StateMainWindow
 import libs.global_variables as gv
+from libs.global_variables import GDV
 from libs.config import debug
 from tools.logs import logger
 
@@ -52,40 +53,37 @@ class StateMainWin(QMainWindow):
         # 连接信号到槽
         self.shootingSignal.connect(self.update_shooting_state)
         self.keyPressedSignal.connect(self.update_window_info)
-        self.ui.label.setStyleSheet("font-size: 12px; color: white; letter-spacing: 1.5px; ")
-        self.ui.label_2.setStyleSheet("font-size: 12px; color: white; letter-spacing: 1.5px; ")
+        self.ui.label.setStyleSheet("font-size: 10px; color: white; letter-spacing: 1.5px; ")
+        self.ui.label_2.setStyleSheet("font-size: 10px; color: white; letter-spacing: 1.5px; ")
 
     def update_window_info(self, key):
         _str = ""
         _gun_info = None
-        if len(gv.GUNS_DATA) <= 0:
-            self.ui.label_2.setText("未获取到枪械信息")
-            gv.shooting_state = False
+        if len(GDV.guns_data) == 0:
+            GDV.shooting_state = False
+            self.update_shooting_state("获取背包信息失败, 请重试")
             return
 
-        if debug:
-            logger.info(f"当前武器为 {gv.CURRENT_WEAPON}")
-
         if key not in ("1", "2"):
-            if gv.GUNS_DATA[gv.CURRENT_WEAPON]["weapon"][1] != "weapon_none":
-                _gun_info = gv.GUNS_DATA[gv.CURRENT_WEAPON]
-            elif gv.GUNS_DATA["1" if gv.CURRENT_WEAPON == "2" else "2"]["weapon"][1] != "weapon_none":
-                _gun_info = gv.GUNS_DATA["1" if gv.CURRENT_WEAPON == "2" else "2"]
-                gv.CURRENT_WEAPON = "1" if gv.CURRENT_WEAPON == "2" else "2"
+            if GDV.guns_data[GDV.current_weapon]["weapon"][1] != "weapon_none":
+                _gun_info = GDV.guns_data[GDV.current_weapon]
+            elif GDV.guns_data["1" if GDV.current_weapon == "2" else "2"]["weapon"][1] != "weapon_none":
+                _gun_info = GDV.guns_data["1" if GDV.current_weapon == "2" else "2"]
+                GDV.current_weapon = "1" if GDV.current_weapon == "2" else "2"
             else:
-                self.ui.label_2.setText("未获取到枪械信息")
-                gv.shooting_state = False
+                GDV.shooting_state = False
+                self.update_shooting_state("获取背包信息失败, 请重试")
                 return
         else:
-            if gv.GUNS_DATA[key]["weapon"][1] != "weapon_none":
-                _gun_info = gv.GUNS_DATA[key]
-                gv.CURRENT_WEAPON = key
-            elif gv.GUNS_DATA["1" if key == "2" else "2"]["weapon"][1] != "weapon_none":
-                _gun_info = gv.GUNS_DATA["1" if key == "2" else "2"]
-                gv.CURRENT_WEAPON = "1" if key == "2" else "2"
+            if GDV.guns_data[key]["weapon"][1] != "weapon_none":
+                _gun_info = GDV.guns_data[key]
+                GDV.current_weapon = key
+            elif GDV.guns_data["1" if key == "2" else "2"]["weapon"][1] != "weapon_none":
+                _gun_info = GDV.guns_data["1" if key == "2" else "2"]
+                GDV.current_weapon = "1" if key == "2" else "2"
             else:
-                self.ui.label_2.setText("未获取到枪械信息")
-                gv.shooting_state = False
+                GDV.shooting_state = False
+                self.update_shooting_state("获取背包信息失败, 请重试")
                 return
 
         for _key, _value in _gun_info.items():
@@ -94,10 +92,16 @@ class StateMainWin(QMainWindow):
             elif "无" not in _value[0]:
                 _str += f", {_value[0]}"
         self.ui.label_2.setText(_str)
-        gv.shooting_state = True
-        self.ui.label.setText("枪械识别已经完成, 开始压枪")
+        GDV.shooting_state = True
+        self.update_shooting_state("自动识别已完成")
+        logger.info(f"当前武器信息: {GDV.current_weapon}, {_gun_info}")
+        GDV.current_weapon_info = _gun_info
 
     def update_shooting_state(self, _str):
+        if GDV.shooting_state:
+            _str += ", 开始压枪"
+        else:
+            _str += ", 暂停压枪"
         self.ui.label.setText(_str)
 
 

@@ -14,3 +14,6 @@ def load_file(_path):
     except Exception as e:
         logger.error(f"无法读取配置文件 {_path}: {e}")
         return None
+
+if __name__ == '__main__':
+    print(load_file("../gun_data.json")["global_recoil"])

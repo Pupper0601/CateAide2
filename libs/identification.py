@@ -14,11 +14,9 @@ from PIL import Image
 from mss import mss
 
 from libs.config import TRANSLATE, debug
-from libs.global_variables import CACHE_IMAGES, GUNS_DATA
+from libs.global_variables import GDV
 from tools.logs import logger
 from skimage.metrics import structural_similarity as ssim
-import libs.global_variables as gv
-
 
 
 def take_screenshot(region):
@@ -42,7 +40,7 @@ def compare_images(binary_image, key):
     best_match = None     # 最佳匹配图片名称
     best_similarity = 0   # 最佳匹配图片的相似度
 
-    for img_key, img_value in CACHE_IMAGES["images"][key].items():
+    for img_key, img_value in GDV.CACHE["images"][key].items():
         img_bin_value = adaptive_binarize_image(img_value)
 
         if img_bin_value is not None:
@@ -54,7 +52,7 @@ def compare_images(binary_image, key):
                 best_match = img_key
 
     if debug:
-        logger.info(f"{key} 相似度: {best_similarity:.2f}\n")
+        logger.info(f"{key} 相似度: {best_similarity:.2f}")
 
     return best_match, best_similarity
 
@@ -81,7 +79,7 @@ def start_weapon_identification():
     start_time = time.time()
     _guns = {"1":{}, "2":{}}
 
-    for key, value in CACHE_IMAGES["config"]["guns"].items():
+    for key, value in GDV.CACHE["config"]["guns"].items():
         if weapon_position_identification(key):
             for _key, _value in value.items():
                 best_match, best_similarity = process_screenshot(_key, _value)
@@ -104,14 +102,13 @@ def start_weapon_identification():
     for key, value in _guns.items():
         for k, v in value.items():
             _guns[key][k] = [TRANSLATE.get(v, v), v]
-    GUNS_DATA.update(_guns)
-    logger.info(f"枪械信息: {GUNS_DATA}")
+    GDV.guns_data.update(_guns)
 
 async def backpack_identification():
     """处理背包截图"""
     await asyncio.sleep(0.1)
     start_time = time.time()
-    _value = CACHE_IMAGES["config"]["inventory"]["inventory"]
+    _value = GDV.CACHE["config"]["inventory"]["inventory"]
 
     best_match, best_similarity = process_screenshot("inventory", _value)
     if best_similarity > 0.6:
@@ -124,7 +121,7 @@ async def backpack_identification():
 def weapon_position_identification(key):
     """处理枪械位置截图"""
     start_time = time.time()
-    _value = CACHE_IMAGES["config"]["position"][key]
+    _value = GDV.CACHE["config"]["position"][key]
 
     best_match, best_similarity = process_screenshot("position", _value)
     if best_similarity > 0.6:
@@ -132,15 +129,14 @@ def weapon_position_identification(key):
         return True
     else:
         logger.info(f"{key} 号位置 没有武器, 识别耗时: {time.time() - start_time:.2f}秒, 相似度: {best_similarity:.2f}")
-        if gv.CURRENT_WEAPON == key:
-            gv.CURRENT_WEAPON = "2" if key == "1" else "1"
+        if GDV.current_weapon == key:
+            GDV.current_weapon = "2" if key == "1" else "1"
         return False
 
-async def current_weapon_identification():
+def current_weapon_identification():
     """处理当前武器截图"""
-    await asyncio.sleep(0.5)
     start_time = time.time()
-    _value = CACHE_IMAGES["config"]["shooting_state"]
+    _value = GDV.CACHE["config"]["shooting_state"]
     for k, v in _value.items():
         region = {'left': v[0], 'top': v[1], 'width': v[2], 'height': v[3]}
         screenshot = take_screenshot(region)
@@ -158,7 +154,7 @@ def has_large_color_block(image_array, threshold=210):
 
 def get_in_gram():
     start_time = time.time()
-    _value = CACHE_IMAGES["config"]["ingram"]["ingram"]
+    _value = GDV.CACHE["config"]["ingram"]["ingram"]
     region = {'left': _value[0], 'top': _value[1], 'width': _value[2], 'height': _value[3]}
     screenshot = take_screenshot(region)
     if has_large_color_block(screenshot):

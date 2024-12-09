@@ -72,7 +72,6 @@ class Ui_StateMainWindow(object):
         self.label.setStyleSheet(u"#label{\n"
 "	\n"
 "	color: rgb(220, 220, 220);\n"
-"	font: 500 7pt;\n"
 "\n"
 "}")
         self.label.setAlignment(Qt.AlignCenter)
@@ -113,7 +112,6 @@ class Ui_StateMainWindow(object):
         self.label_2.setStyleSheet(u"#label_2{\n"
 "	\n"
 "	color: rgb(220, 220, 220);\n"
-"	font: 500 7pt;\n"
 "}")
         self.label_2.setAlignment(Qt.AlignCenter)
 

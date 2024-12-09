@@ -2,15 +2,12 @@
 # -*- coding: utf-8 -*-
 # @Author : Pupper
 # @Email  : pupper.cheng@gmail.com
-import asyncio
-import threading
 
 from pynput import mouse
 
-from libs.common import Worker
-from libs.identification import get_in_gram, start_weapon_identification
+from libs.identification import current_weapon_identification, get_in_gram, start_weapon_identification
 
-import libs.global_variables as gv
+from libs.global_variables import GDV
 from tools.current_window import is_pubg_active
 
 
@@ -34,20 +31,26 @@ class MouseMonitor:
 
     def on_click(self, x, y, button, pressed):
         if self.monitoring:
-            if pressed and button == mouse.Button.right and  gv.MOUSE_RIGHT_IDENTIFICATION:
+            if pressed and button == mouse.Button.right and  GDV.mouse_right_identification:
                 start_weapon_identification()
                 self.window.keyPressedSignal.emit("right")
             elif not pressed and button == mouse.Button.left:
                 if not is_pubg_active():
-                    self.window.shootingSignal.emit("当前窗口不是PUBG, 请切换到PUBG窗口")
-                    gv.shooting_state = False
-                    gv.pubg_win = False
+                    GDV.shooting_state = False
+                    GDV.pubg_win = False
+                    self.window.shootingSignal.emit("当前窗口不是PUBG")
                 else:
-                    gv.pubg_win = True
-
-                    if not gv.GUNS_DATA:
-                        self.window.shootingSignal.emit("当前没有枪械信息, 请按 'tab' 键获取")
-                        gv.shooting_state = False
+                    GDV.pubg_win = True
+                    if not GDV.guns_data:
+                        GDV.shooting_state = False
+                        self.window.shootingSignal.emit("当前没有枪械信息")
+                    else:
+                        if current_weapon_identification() != "0":
+                            GDV.shooting_state = True
+                            self.window.shootingSignal.emit("自动识别已完成")
+                        else:
+                            GDV.shooting_state = False
+                            self.window.shootingSignal.emit("自动识别已完成")
                     if not get_in_gram():
-                        self.window.shootingSignal.emit("当前不在对局中, 请进入对局后再试")
-                        gv.shooting_state = False
+                        GDV.shooting_state = False
+                        self.window.shootingSignal.emit("当前不在对局中")

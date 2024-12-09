@@ -2,18 +2,13 @@
 # -*- coding: utf-8 -*-
 # @Author : Pupper
 # @Email  : pupper.cheng@gmail.com
-import asyncio
-import threading
 
-from PySide6.QtCore import QObject, QThread, Signal
+import asyncio
 from pynput import keyboard
 
-from libs.common import Worker
 from libs.config import debug
 from libs.identification import backpack_identification, current_weapon_identification, start_weapon_identification
-from tools.current_window import is_pubg_active
-from tools.logs import logger
-import libs.global_variables as gv
+from libs.global_variables import GDV
 
 
 class KeyboardMonitor:
@@ -39,39 +34,60 @@ class KeyboardMonitor:
         replace_dict = {"!": "1","@": "2","#": "3","$": "4","%": "5"}
         key = replace_dict.get(key, key)
         if self.monitoring: # 检查是否正在监听
-            if gv.pubg_win or debug:
+            if GDV.pubg_win or debug:
                 if key == "tab":
                     if asyncio.run(backpack_identification()):
+                        GDV.shooting_state = False
+                        self.window.shootingSignal.emit("武器识别中...")
                         start_weapon_identification()
-                        gv.MOUSE_RIGHT_IDENTIFICATION = True
+                        GDV.mouse_right_identification = True
                         self.window.keyPressedSignal.emit(key)  # 发送信号
                     else:
-                        gv.MOUSE_RIGHT_IDENTIFICATION = False
+                        self._close_backpack()
+
                 elif key == "esc":
-                    if not asyncio.run(backpack_identification()):
-                        gv.MOUSE_RIGHT_IDENTIFICATION = False
+                    self._close_backpack()
+
                 elif key in ("1", "2"):
-                    gv.CURRENT_WEAPON = key
+                    GDV.current_weapon = key
                     self.window.keyPressedSignal.emit(key)
-                elif key in ("3", "4", "5"):
-                    if asyncio.run(current_weapon_identification()) == "0":
-                        gv.shooting_state = False
-                        self.window.shootingSignal.emit("没有手持枪械, 暂停压枪")
-                    else:
-                        gv.shooting_state = True
-                        self.window.shootingSignal.emit("枪械已自动识别完成, 开始压枪")
 
-                elif key == "x":
-                    if asyncio.run(current_weapon_identification()) == "0":
-                        gv.shooting_state = False
-                        self.window.shootingSignal.emit("没有手持枪械, 暂停压枪")
-                    else:
-                        gv.shooting_state = True
-                        self.window.shootingSignal.emit("枪械已自动识别完成, 开始压枪")
+                elif key in ("3", "4", "5", "x", "m"):
+                    self._shooting_state()
 
-    def get_current_weapon(self):
-        _gun = current_weapon_identification()
-        if _gun == "0":
-            gv.shooting_state = False
+                elif key in ("ctrl_l", "space", "z", "c"):
+                    posture = GDV.posture_state
+                    posture_map = {
+                        "c"     : ("蹲姿", "站姿", "dun", "zhan"),
+                        "ctrl_l": ("蹲姿", "站姿", "dun", "zhan"),
+                        "z"     : ("卧姿", "站姿", "pa", "zhan"),
+                        "space" : ("站姿", "站姿", "zhan", "zhan")
+                    }
+                    if key in posture_map:
+                        if GDV.posture_state_button == key.lower() or key.lower() == "z":
+                            if posture == posture_map[key][0]:
+                                GDV.posture_state = posture_map[key][3]
+                            else:
+                                GDV.posture_state = posture_map[key][2]
+
+                        elif key == "space":
+                            if posture != posture_map[key][0]:
+                                GDV.posture_state = posture_map[key][3]
+
+                        self._shooting_state()
+
+    def _shooting_state(self):
+        if current_weapon_identification() == "0":
+            GDV.shooting_state = False
+            self.window.shootingSignal.emit("没有手持枪械")
         else:
-            gv.shooting_state = True
+            GDV.shooting_state = True
+            self.window.shootingSignal.emit("自动识别已完成")
+
+    def _close_backpack(self):
+        GDV.mouse_right_identification = False
+        if GDV.guns_data:
+            self._shooting_state()
+        else:
+            GDV.shooting_state = False
+            self.window.shootingSignal.emit("获取背包信息失败, 请重试")

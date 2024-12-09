@@ -137,7 +137,6 @@ Line{
            <string notr="true">#label{
 	
 	color: rgb(220, 220, 220);
-	font: 500 7pt;
 
 }</string>
           </property>
@@ -227,7 +226,6 @@ Line{
            <string notr="true">#label_2{
 	
 	color: rgb(220, 220, 220);
-	font: 500 7pt;
 }</string>
           </property>
           <property name="text">

@@ -12,10 +12,13 @@ from app.common.common import click_qq_group, get_gun_pressure_script
 from app.view.home import Ui_HomeMainWindow
 from app.common.state.state_win import StateMainWin
 import resource_rc
+from libs.cache_images import images_cache
+from libs.global_variables import GDV
 from libs.keyboard import KeyboardMonitor
 from libs.mouse import MouseMonitor
 from tools.logs import logger
 from tools.paths import object_join_path
+from tools.resolution import get_primary_screen_resolution
 
 
 class HomeMainWin(QMainWindow):
@@ -49,6 +52,17 @@ class HomeMainWin(QMainWindow):
         self.ui.PushButton_2.clicked.connect(click_qq_group)
         self.ui.PushButton_3.clicked.connect(get_gun_pressure_script)
         self.ui.PushButton.clicked.connect(self.identification_control)
+        self.ui.RadioButton.clicked.connect(self.update_mouse_gun)
+        self.ui.RadioButton_2.clicked.connect(self.update_mouse_gun)
+        self.ui.RadioButton_3.clicked.connect(self.update_posture_buttons)
+        self.ui.RadioButton_4.clicked.connect(self.update_posture_buttons)
+        self.resolution()
+
+    def resolution(self):
+        # 获取屏幕分辨率
+        width, height = get_primary_screen_resolution()
+        self.ui.StrongBodyLabel_2.setText(f"分辨率: {width}x{height}")
+        GDV.CACHE = images_cache()
 
     def identification_control(self):
         # 识别控制
@@ -75,6 +89,20 @@ class HomeMainWin(QMainWindow):
             self.start_win.show()
         else:
             self.start_win.close()
+
+    def update_mouse_gun(self):
+        # 更新开镜方式
+        if self.ui.RadioButton.isChecked():
+            GDV.opening_method = "click"
+        elif self.ui.RadioButton_2.isChecked():
+            GDV.opening_method = "long_press"
+
+    def update_posture_buttons(self):
+        # 判断当前选中的姿势
+        if self.ui.RadioButton_3.isChecked():  # C 键 下蹲
+            GDV.posture_state_button = "c"
+        elif self.ui.RadioButton_4.isChecked():  # ctrl 键 下蹲
+            GDV.posture_state_button = "ctrl_l"
 
     # ----------- 窗口拖动 -----------
     def mousePressEvent(self, event):
