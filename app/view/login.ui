@@ -31,6 +31,7 @@
   <property name="styleSheet">
    <string notr="true">#LoginMainWindow{
 	border-radius: 10px;
+	border: none;
 }</string>
   </property>
   <property name="tabShape">

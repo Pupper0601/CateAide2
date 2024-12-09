@@ -33,6 +33,7 @@ class Ui_LoginMainWindow(object):
         LoginMainWindow.setMouseTracking(True)
         LoginMainWindow.setStyleSheet(u"#LoginMainWindow{\n"
 "	border-radius: 10px;\n"
+"	border: none;\n"
 "}")
         LoginMainWindow.setTabShape(QTabWidget.Rounded)
         self.centralwidget = QWidget(LoginMainWindow)
@@ -45,7 +46,7 @@ class Ui_LoginMainWindow(object):
         self.widget.setStyleSheet(u"#widget{\n"
 "	border-radius: 10px;\n"
 "	border: 1px solid rbg(0,0,0);\n"
-"	background: rgba(255, 255, 255, 50);\n"
+"	background: rgba(255, 255, 255, 80);\n"
 "}")
         self.horizontalLayout = QHBoxLayout(self.widget)
         self.horizontalLayout.setSpacing(0)

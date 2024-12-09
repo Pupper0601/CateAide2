@@ -29,6 +29,12 @@
    <iconset>
     <normaloff>:/images/resource/images/log.png</normaloff>:/images/resource/images/log.png</iconset>
   </property>
+  <property name="styleSheet">
+   <string notr="true">#HomeMainWindow{
+	border-radius: 10px;
+	border: none;
+}</string>
+  </property>
   <property name="animated">
    <bool>false</bool>
   </property>

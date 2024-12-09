@@ -10,7 +10,7 @@ from pynput import keyboard
 
 from libs.common import Worker
 from libs.config import debug
-from libs.identification import backpack_identification, start_weapon_identification, weapon_identification
+from libs.identification import backpack_identification, current_weapon_identification, start_weapon_identification
 from tools.current_window import is_pubg_active
 from tools.logs import logger
 import libs.global_variables as gv
@@ -42,7 +42,7 @@ class KeyboardMonitor:
             if is_pubg_active() or debug:
                 if key == "tab":
                     if asyncio.run(backpack_identification()):
-                        self.start_thread("tab")
+                        start_weapon_identification()
                         gv.MOUSE_RIGHT_IDENTIFICATION = True
                         self.window.keyPressedSignal.emit(key)  # 发送信号
                     else:
@@ -50,20 +50,31 @@ class KeyboardMonitor:
                 elif key == "esc":
                     if not asyncio.run(backpack_identification()):
                         gv.MOUSE_RIGHT_IDENTIFICATION = False
-                elif key in ("1", "2", "3", "4", "5"):
+                elif key in ("1", "2"):
+                    gv.CURRENT_WEAPON = key
                     self.window.keyPressedSignal.emit(key)
+                elif key in ("3", "4", "5"):
+                    if asyncio.run(current_weapon_identification()) == "0":
+                        gv.shooting_state = False
+                        self.window.shootingSignal.emit("没有手持枪械, 暂停压枪")
+                    else:
+                        gv.shooting_state = True
+                        self.window.shootingSignal.emit("枪械已自动识别完成, 开始压枪")
+
                 elif key == "x":
-                    print("按下了 x 键")
+                    if asyncio.run(current_weapon_identification()) == "0":
+                        gv.shooting_state = False
+                        self.window.shootingSignal.emit("没有手持枪械, 暂停压枪")
+                    else:
+                        gv.shooting_state = True
+                        self.window.shootingSignal.emit("枪械已自动识别完成, 开始压枪")
+            else:
+                self.window.shootingSignal.emit("当前不是 PUBG 窗口")
+                gv.shooting_state = False
 
-    def start_thread(self, key):
-        # 创建一个工作对象
-        worker = Worker(target_function=start_weapon_identification)
-        # 连接`finished`信号到需要执行的函数
-        worker.finished.connect(lambda: self.window.keyPressedSignal.emit(key))
-
-        # 创建并启动线程
-        thread = threading.Thread(target=worker.run)
-        thread.start()
-
-
-
+    def get_current_weapon(self):
+        _gun = current_weapon_identification()
+        if _gun == "0":
+            gv.shooting_state = False
+        else:
+            gv.shooting_state = True

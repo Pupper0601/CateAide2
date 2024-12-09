@@ -32,6 +32,10 @@ class Ui_HomeMainWindow(object):
         icon = QIcon()
         icon.addFile(u":/images/resource/images/log.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         HomeMainWindow.setWindowIcon(icon)
+        HomeMainWindow.setStyleSheet(u"#HomeMainWindow{\n"
+"	border-radius: 10px;\n"
+"	border: none;\n"
+"}")
         HomeMainWindow.setAnimated(False)
         HomeMainWindow.setUnifiedTitleAndToolBarOnMac(False)
         self.centralwidget = QWidget(HomeMainWindow)
@@ -44,7 +48,7 @@ class Ui_HomeMainWindow(object):
         self.widget.setStyleSheet(u"#widget{\n"
 "	border-radius: 10px;\n"
 "	border: 1px solid rbg(0,0,0);\n"
-"	background: rgba(255, 255, 255, 100);\n"
+"	background: rgba(255, 255, 255, 80);\n"
 "}")
         self.verticalLayout = QVBoxLayout(self.widget)
         self.verticalLayout.setSpacing(0)

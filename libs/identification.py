@@ -17,6 +17,8 @@ from libs.config import TRANSLATE, debug
 from libs.global_variables import CACHE_IMAGES, GUNS_DATA
 from tools.logs import logger
 from skimage.metrics import structural_similarity as ssim
+import libs.global_variables as gv
+
 
 
 def take_screenshot(region):
@@ -75,11 +77,7 @@ def process_screenshot(key, value):
     return best_match, best_similarity
 
 def start_weapon_identification():
-    asyncio.run(weapon_identification())
-
-async def weapon_identification():
     """处理枪械截图，返回相似度最高的图片名称和相似度"""
-    await asyncio.sleep(0.1)
     start_time = time.time()
     _guns = {"1":{}, "2":{}}
 
@@ -134,12 +132,37 @@ def weapon_position_identification(key):
         return True
     else:
         logger.info(f"{key} 号位置 没有武器, 识别耗时: {time.time() - start_time:.2f}秒, 相似度: {best_similarity:.2f}")
+        if gv.CURRENT_WEAPON == key:
+            gv.CURRENT_WEAPON = "2" if key == "1" else "1"
         return False
+
+async def current_weapon_identification():
+    """处理当前武器截图"""
+    await asyncio.sleep(0.5)
+    start_time = time.time()
+    _value = CACHE_IMAGES["config"]["shooting_state"]
+    for k, v in _value.items():
+        region = {'left': v[0], 'top': v[1], 'width': v[2], 'height': v[3]}
+        screenshot = take_screenshot(region)
+        if has_large_color_block(screenshot):
+            logger.info(f"当前武器状态 --->>> {k}, 识别耗时: {time.time() - start_time:.2f}秒")
+            return k
+    logger.info(f"当前武器状态 --->>> 无, 识别耗时: {time.time() - start_time:.2f}秒")
+    return "0"
+
+def has_large_color_block(image_array, threshold=210):
+    """检查图像中是否存在大于阈值的色块"""
+    if np.any(image_array > threshold):
+        return True
+    return False
+
+
 
 
 
 if __name__ == '__main__':
-    weapon_identification()
-    print(GUNS_DATA)
+    # weapon_identification()
+    # print(GUNS_DATA)
     # print(backpack_identification())
     # print(weapon_position_identification("2"))
+    print(current_weapon_identification())
