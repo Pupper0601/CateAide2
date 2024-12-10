@@ -39,7 +39,7 @@ class KeyboardMonitor:
             if GDV.pubg_win or debug:
                 if key == "tab":
                     future = THREAD_POOL.submit(backpack_identification)
-                    future.add_done_callback(partial(self.on_backpack_identification, key=key))
+                    future.add_done_callback(self.on_backpack_identification)
 
                 elif key == "esc":
                     self._close_backpack()
@@ -47,6 +47,7 @@ class KeyboardMonitor:
                 elif key in ("1", "2"):
                     GDV.current_weapon = key
                     self.window.keyPressedSignal.emit(key)
+                    self._shooting_state()
 
                 elif key in ("3", "4", "5", "x", "m"):
                     self._shooting_state()
@@ -65,17 +66,16 @@ class KeyboardMonitor:
                             GDV.posture_state = "zhan"
                         else:
                             GDV.posture_state = "pa"
-
                     self._shooting_state()
-
-    def on_backpack_identification(self, future, key):
-        if future.result():
+    def on_backpack_identification(self, future):
+        future.result()
+        if GDV.backpack_state:
             if GDV.shooting_state:
                 GDV.shooting_state = False
             self.window.shootingSignal.emit("武器识别中...")
             start_weapon_identification()
             GDV.mouse_right_identification = True
-            self.window.keyPressedSignal.emit(key)  # 发送信号
+            self.window.keyPressedSignal.emit(GDV.current_weapon)  # 发送信号
         else:
             self._close_backpack()
 
@@ -84,7 +84,8 @@ class KeyboardMonitor:
         future.add_done_callback(self.on_shooting_state)
 
     def on_shooting_state(self, future):
-        if future.result() == "0":
+        future.result()
+        if not GDV.current_weapon_info:
             if GDV.shooting_state:
                 GDV.shooting_state = False
             self.window.shootingSignal.emit("没有手持枪械")
@@ -95,6 +96,7 @@ class KeyboardMonitor:
 
     def _close_backpack(self):
         GDV.mouse_right_identification = False
+        GDV.backpack_state = False
         if GDV.guns_data:
             self._shooting_state()
         else:

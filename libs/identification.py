@@ -10,6 +10,7 @@ import asyncio
 import time
 import cv2
 import numpy as np
+from Demos.win32console_demo import coord
 from PIL import Image
 import mss
 
@@ -20,7 +21,10 @@ from skimage.metrics import structural_similarity as ssim
 
 
 def take_full_screenshot():
-    # 截取整个屏幕的屏幕截图
+    """
+    截取整个屏幕
+    :return: 将截取的屏幕保存在全局变量中
+    """
     with mss.mss() as sct:
         start_time = time.time()
         monitor = sct.monitors[1]  # 获取主显示器的分辨率
@@ -32,19 +36,36 @@ def take_full_screenshot():
         logger.info(f"截取整个屏幕耗时: {time.time() - start_time:.2f}秒")
 
 def get_specific_regin(image, region):
+    """
+    获取指定区域的图片
+    :param image: 存放全屏截图的变量
+    :param region: 需要截取的区域, 格式为 (left, top, width, height)
+    :return: 返回截取的图片
+    """
     region = {'left': region[0], 'top': region[1], 'width': region[2], 'height': region[3]}
     return image[region['top']:region['top'] + region['height'], region['left']:region['left'] + region['width']]
 
-# def take_screenshot(region):
-#     """截取屏幕区域并返回为图片"""
-#     sct = mss()
-#     screenshot = sct.grab(region)
-#     img = Image.frombytes('RGBA', screenshot.size, screenshot.bgra, 'raw', 'BGRA')
-#     img = img.convert('RGB')  # 转换为 RGB 格式
-#     return np.array(img)
+def take_screenshot(region):
+    """
+    截取屏幕指定区域
+    :param region: 需要截取的区域, 格式为 (left, top, width, height)
+    :return: 截取的图片
+    """
+    
+    """截取屏幕区域并返回为图片"""
+    region = {'left': region[0], 'top': region[1], 'width': region[2], 'height': region[3]}
+    sct = mss.mss()
+    screenshot = sct.grab(region)
+    img = Image.frombytes('RGBA', screenshot.size, screenshot.bgra, 'raw', 'BGRA')
+    img = img.convert('RGB')  # 转换为 RGB 格式
+    return np.array(img)
 
 def adaptive_binarize_image(image):
-    """对输入图像进行自适应二值化处理"""
+    """
+    对输入图像进行自适应二值化处理
+    :param image: 需要处理的图像
+    :return: 返回处理后的图像 或 None
+    """
     if image is not None:
         gray = cv2.cvtColor(image, cv2.COLOR_RGB2GRAY)
         return cv2.adaptiveThreshold(gray, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C,
@@ -52,7 +73,12 @@ def adaptive_binarize_image(image):
     return None
 
 def compare_images(binary_image, key):
-    """比较图片，返回与文件夹中图片的相似度最高的图片名称"""
+    """
+    比较图片，返回与文件夹中图片的相似度最高的图片名称
+    :param binary_image: 二值化处理后的图片
+    :param key: 需要遍历的文件夹名称
+    :return: 最佳匹配图片名称, 最佳匹配图片的相似度
+    """
     best_match = None     # 最佳匹配图片名称
     best_similarity = 0   # 最佳匹配图片的相似度
 
@@ -73,7 +99,13 @@ def compare_images(binary_image, key):
     return best_match, best_similarity
 
 def process_screenshot(key, value):
-    """处理单个截图，返回相似度最高的图片名称和相似度"""
+    """
+    截取指定区域的图片并进行二值化处理，返回与文件夹中图片的相似度最高的图片名称
+    :param key: 需要遍历的文件夹名称
+    :param value: 需要截取的区域, 格式为 (left, top, width, height)
+    :return: 最佳匹配图片名称, 最佳匹配图片的相似度
+    """
+
     screenshot = get_specific_regin(GDV.global_screenshot, value)
 
     if screenshot is None:
@@ -90,16 +122,18 @@ def process_screenshot(key, value):
     return best_match, best_similarity
 
 def start_weapon_identification():
-    """处理枪械截图，返回相似度最高的图片名称和相似度"""
-    time.sleep(0.3)
-    take_full_screenshot()
+    """
+    获取背包中的枪械信息, 并将结果存入全局变量中
+    :return:
+    """
+    take_full_screenshot()  # 截取整个屏幕
     start_time = time.time()
     _guns = {"1":{}, "2":{}}
 
     for key, value in GDV.CACHE["config"]["guns"].items():
-        if weapon_position_identification(key):
+        if weapon_position_identification(key): # 判断背包中的枪械位置是否有武器
             for _key, _value in value.items():
-                best_match, best_similarity = process_screenshot(_key, _value)
+                best_match, best_similarity = process_screenshot(_key, _value)  # 获取枪械信息
                 if best_match is not None:
                     if best_similarity > 0.6:
                         _guns[key][_key]= best_match
@@ -122,7 +156,10 @@ def start_weapon_identification():
     GDV.guns_data.update(_guns)
 
 def backpack_identification():
-    """ 判断当前是否打开背包 """
+    """
+    判断当前是否打开背包
+    :return: True or False
+    """
     time.sleep(0.3)
     take_full_screenshot()
     start_time = time.time()
@@ -131,13 +168,17 @@ def backpack_identification():
     best_match, best_similarity = process_screenshot("inventory", _value)
     if best_similarity > 0.6:
         logger.info(f"当前背包状态 --->>> 打开, 识别耗时: {time.time() - start_time:.2f}秒, 相似度: {best_similarity:.2f}")
-        return True
+        GDV.backpack_state = True
     else:
         logger.info(f"当前背包状态 --->>> 关闭, 识别耗时: {time.time() - start_time:.2f}秒, 相似度: {best_similarity:.2f}")
-        return False
+        GDV.backpack_state = False
 
 def weapon_position_identification(key):
-    """ 判断背包中的枪械位置是否有武器 """
+    """
+    判断背包中的枪械位置是否有武器
+    :param key: 位置编号
+    :return: True or False
+    """
     start_time = time.time()
     _value = GDV.CACHE["config"]["position"][key]
 
@@ -152,39 +193,59 @@ def weapon_position_identification(key):
         return False
 
 def current_weapon_identification():
-    """ 判断当前所持的武器 """
+    """
+    判断当前所持的武器
+    :return:
+    """
     time.sleep(0.5)
-    take_full_screenshot()
-    """处理当前武器截图"""
     start_time = time.time()
     _value = GDV.CACHE["config"]["shooting_state"]
-    for k, v in _value.items():
-        screenshot = get_specific_regin(GDV.global_screenshot, v)
-        if has_large_color_block(screenshot):
-            logger.info(f"当前武器状态 --->>> {k}, 识别耗时: {time.time() - start_time:.2f}秒")
-            return k
-    logger.info(f"当前武器状态 --->>> 无, 识别耗时: {time.time() - start_time:.2f}秒")
-    return "0"
+    _img = take_screenshot(_value)
+    res, coordinates = has_large_color_block(_img)
+    if res:
+        if coordinates[0] > 1009:
+            k = "1"
+        else:
+            k = "2"
+        logger.info(f"当前所持武器 --->>> {k}, 识别耗时: {time.time() - start_time:.2f}秒")
+        GDV.current_weapon = k
+        return k
+    return "1"
 
 def has_large_color_block(image_array, threshold=220):
-    """检查图像中是否存在大于阈值的色块"""
-    if np.any(image_array > threshold):
-        return True
-    return False
+    """
+    检查图像中是否存在大于阈值的色块，并返回其坐标
+    :param image_array: 需要处理的图像
+    :param threshold: 颜色阈值
+    :return: True or False, 坐标 or None
+    """
+    """检查图像中是否存在大于阈值的色块，并返回其坐标"""
+    coordinates = np.argwhere(image_array > threshold)
+    if coordinates.size > 0:
+        return True, coordinates
+    return False, None
+
 
 def get_in_game():
     """ 判断是否在对局中 """
-    take_full_screenshot()
     start_time = time.time()
-    _value = GDV.CACHE["config"]["ingram"]["ingram"]
-    screenshot = get_specific_regin(GDV.global_screenshot, _value)
-    if has_large_color_block(screenshot):
+    _value = GDV.CACHE["config"]["ingram"]
+    _img = take_screenshot(_value)
+    res, coordinates = has_large_color_block(_img)
+    if res:
         logger.info(f"当前正在对局中, 识别耗时: {time.time() - start_time:.2f}秒")
         return True
     else:
         logger.info(f"当前未在对局中, 识别耗时: {time.time() - start_time:.2f}秒")
         return False
-
+    
+# def posture_state_identification():
+#     """ 判断当前的姿态 """
+#     time.sleep(0.3)
+#     take_full_screenshot()
+#     start_time = time.time()
+#     _value = GDV.CACHE["config"]["pose"]["pose"]
+#     screenshot = get_specific_regin(GDV.global_screenshot, _value)
 
 
 

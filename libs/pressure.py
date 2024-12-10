@@ -64,7 +64,10 @@ class Pressure:
                 _factor_data["no_gun"] = True
 
             # 获取武器射击状态
-            _factor_data["shooting_state"] = GDV.shooting_state
+            if GDV.shooting_state:
+                _factor_data["shooting_state"] = "1"
+            else:
+                _factor_data["shooting_state"] = "0"
 
             # 开镜方式
             _factor_data["opening_method"] = GDV.opening_method
@@ -75,7 +78,7 @@ class Pressure:
             # 获取全局后坐力系数
             _factor_data["global_recoil"] = _gun_data["global_recoil"]
 
-            logger.info(f"当前武器: {_factor_data}")
+            logger.info(f"当前武器压枪信息: {_factor_data}")
             return _factor_data
 
     def calculate_factors(self):

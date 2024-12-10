@@ -54,6 +54,8 @@ class GlobalVariable(Observable):
         self._posture_state = "zhan"
         self._posture_state_button = "c"
         self._global_screenshot = None
+        self._state_left_info = ""
+        self._backpack_state = False
 
 
     @property
@@ -164,6 +166,22 @@ class GlobalVariable(Observable):
     @global_screenshot.setter
     def global_screenshot(self, value):
         self._global_screenshot = value
+
+    @property
+    def state_left_info(self):
+        return self._state_left_info
+
+    @state_left_info.setter
+    def state_left_info(self, value):
+        self._state_left_info = value
+
+    @property
+    def backpack_state(self):
+        return self._backpack_state
+
+    @backpack_state.setter
+    def backpack_state(self, value):
+        self._backpack_state = value
 
 
 

@@ -43,7 +43,7 @@ Auto_Down = function()
     last_logged_bullet = 0  -- 记录最后输出的子弹数
 
     while IsMouseButtonPressed(1) do
-        if shooting_state == "stop" then
+        if shooting_state == "0" then
             break
         end
 
@@ -58,19 +58,7 @@ Auto_Down = function()
                                      calculate_influencing_factor(), adjusted_recoil)
                     last_logged_bullet = _number_bullets  -- 更新最后输出的子弹数
                 end
-
-                -- 计算每次移动的像素数和时间间隔
-            local total_distance = adjusted_recoil
-            local total_time = weapon_intervals  -- 每颗子弹的时间间隔，单位为毫秒
-            local step_size = 1  -- 每次移动的像素数
-            local steps = math.ceil(math.abs(total_distance) / step_size)
-            local step_time = total_time / steps  -- 每次移动的时间间隔
-
-            for i = 1, steps do
-                MoveMouseRelative(0, step_size * (total_distance > 0 and 1 or -1))
-                Sleep(step_time)
-            end
-
+                MoveMouseRelative(0, adjusted_recoil)
                 if not IsMouseButtonPressed(1) then
                     break
                 end

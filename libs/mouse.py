@@ -5,7 +5,7 @@
 
 from pynput import mouse
 
-from libs.identification import current_weapon_identification, get_in_game, start_weapon_identification
+from libs.identification import current_weapon_identification, start_weapon_identification
 
 from libs.global_variables import GDV, THREAD_POOL
 from tools.current_window import is_pubg_active
@@ -36,7 +36,7 @@ class MouseMonitor:
                     future = THREAD_POOL.submit(start_weapon_identification)
                     future.add_done_callback(self.on_start_weapon_identification)
 
-            elif not pressed and button == mouse.Button.left:
+            elif not pressed and button == mouse.Button.left and not GDV.mouse_right_identification:
                 if not is_pubg_active():
                     if GDV.shooting_state:
                         GDV.shooting_state = False
@@ -46,16 +46,14 @@ class MouseMonitor:
                 else:
                     if not GDV.pubg_win:
                         GDV.pubg_win = True
-                    if not GDV.guns_data:
+
+                    if GDV.current_weapon_info:
+                        self._shooting_state()
+                    else:
                         if GDV.shooting_state:
                             GDV.shooting_state = False
                         self.window.shootingSignal.emit("当前没有枪械信息")
-                    else:
-                        self._shooting_state()
-                    if not get_in_game():
-                        if GDV.shooting_state:
-                            GDV.shooting_state = False
-                        self.window.shootingSignal.emit("当前不在对局中")
+
 
     def _shooting_state(self):
         future = THREAD_POOL.submit(current_weapon_identification)
@@ -72,4 +70,4 @@ class MouseMonitor:
             self.window.shootingSignal.emit("自动识别已完成")
 
     def on_start_weapon_identification(self, future):
-        self.window.keyPressedSignal.emit("right")
+        self.window.keyPressedSignal.emit(GDV.current_weapon)
