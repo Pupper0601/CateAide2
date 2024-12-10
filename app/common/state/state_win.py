@@ -60,7 +60,8 @@ class StateMainWin(QMainWindow):
         _str = ""
         _gun_info = None
         if len(GDV.guns_data) == 0:
-            GDV.shooting_state = False
+            if GDV.shooting_state:
+                GDV.shooting_state = False
             self.update_shooting_state("获取背包信息失败, 请重试")
             return
 
@@ -71,7 +72,8 @@ class StateMainWin(QMainWindow):
                 _gun_info = GDV.guns_data["1" if GDV.current_weapon == "2" else "2"]
                 GDV.current_weapon = "1" if GDV.current_weapon == "2" else "2"
             else:
-                GDV.shooting_state = False
+                if GDV.shooting_state:
+                    GDV.shooting_state = False
                 self.update_shooting_state("获取背包信息失败, 请重试")
                 return
         else:
@@ -82,7 +84,8 @@ class StateMainWin(QMainWindow):
                 _gun_info = GDV.guns_data["1" if key == "2" else "2"]
                 GDV.current_weapon = "1" if key == "2" else "2"
             else:
-                GDV.shooting_state = False
+                if GDV.shooting_state:
+                    GDV.shooting_state = False
                 self.update_shooting_state("获取背包信息失败, 请重试")
                 return
 
@@ -92,17 +95,26 @@ class StateMainWin(QMainWindow):
             elif "无" not in _value[0]:
                 _str += f", {_value[0]}"
         self.ui.label_2.setText(_str)
-        GDV.shooting_state = True
+        if GDV.shooting_state:
+            GDV.shooting_state = False
         self.update_shooting_state("自动识别已完成")
         logger.info(f"当前武器信息: {GDV.current_weapon}, {_gun_info}")
         GDV.current_weapon_info = _gun_info
 
     def update_shooting_state(self, _str):
+        if GDV.posture_state == "zhan":
+            _str += ", <站姿>"
+        elif GDV.posture_state == "dun":
+            _str += ", <蹲姿>"
+        elif GDV.posture_state == "pa":
+            _str += ", <趴姿>"
+
         if GDV.shooting_state:
-            _str += ", 开始压枪"
+            _str += ", [压枪]"
         else:
-            _str += ", 暂停压枪"
+            _str += ", [暂停]"
         self.ui.label.setText(_str)
+
 
 
     # # ----------- 窗口拖动 -----------

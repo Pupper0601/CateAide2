@@ -11,7 +11,7 @@ import time
 import cv2
 import numpy as np
 from PIL import Image
-from mss import mss
+import mss
 
 from libs.config import TRANSLATE, debug
 from libs.global_variables import GDV
@@ -19,13 +19,29 @@ from tools.logs import logger
 from skimage.metrics import structural_similarity as ssim
 
 
-def take_screenshot(region):
-    """截取屏幕区域并返回为图片"""
-    sct = mss()
-    screenshot = sct.grab(region)
-    img = Image.frombytes('RGBA', screenshot.size, screenshot.bgra, 'raw', 'BGRA')
-    img = img.convert('RGB')  # 转换为 RGB 格式
-    return np.array(img)
+def take_full_screenshot():
+    # 截取整个屏幕的屏幕截图
+    with mss.mss() as sct:
+        start_time = time.time()
+        monitor = sct.monitors[1]  # 获取主显示器的分辨率
+        captured_frame = sct.grab(monitor)  # 截取整个屏幕的屏幕截图
+        img = Image.frombytes('RGBA', captured_frame.size, captured_frame.bgra, 'raw', 'BGRA')
+        img = img.convert('RGB')  # 转换为 RGB 格式
+
+        GDV.global_screenshot = np.array(img)
+        logger.info(f"截取整个屏幕耗时: {time.time() - start_time:.2f}秒")
+
+def get_specific_regin(image, region):
+    region = {'left': region[0], 'top': region[1], 'width': region[2], 'height': region[3]}
+    return image[region['top']:region['top'] + region['height'], region['left']:region['left'] + region['width']]
+
+# def take_screenshot(region):
+#     """截取屏幕区域并返回为图片"""
+#     sct = mss()
+#     screenshot = sct.grab(region)
+#     img = Image.frombytes('RGBA', screenshot.size, screenshot.bgra, 'raw', 'BGRA')
+#     img = img.convert('RGB')  # 转换为 RGB 格式
+#     return np.array(img)
 
 def adaptive_binarize_image(image):
     """对输入图像进行自适应二值化处理"""
@@ -58,17 +74,16 @@ def compare_images(binary_image, key):
 
 def process_screenshot(key, value):
     """处理单个截图，返回相似度最高的图片名称和相似度"""
-    region = {'left': value[0], 'top': value[1], 'width': value[2], 'height': value[3]}
-    screenshot = take_screenshot(region)
+    screenshot = get_specific_regin(GDV.global_screenshot, value)
 
     if screenshot is None:
-        logger.error(f"截图失败，区域: {region}")
+        logger.error(f"截图失败{key}，区域: {value}")
         return None, None
 
     binary_image = adaptive_binarize_image(screenshot)
 
     if binary_image is None:
-        logger.error(f"二值化处理失败，区域: {region}")
+        logger.error(f"二值化处理失败{key}，区域: {value}")
         return None, None
 
     best_match, best_similarity = compare_images(binary_image, key)
@@ -76,6 +91,8 @@ def process_screenshot(key, value):
 
 def start_weapon_identification():
     """处理枪械截图，返回相似度最高的图片名称和相似度"""
+    time.sleep(0.3)
+    take_full_screenshot()
     start_time = time.time()
     _guns = {"1":{}, "2":{}}
 
@@ -104,9 +121,10 @@ def start_weapon_identification():
             _guns[key][k] = [TRANSLATE.get(v, v), v]
     GDV.guns_data.update(_guns)
 
-async def backpack_identification():
-    """处理背包截图"""
-    await asyncio.sleep(0.1)
+def backpack_identification():
+    """ 判断当前是否打开背包 """
+    time.sleep(0.3)
+    take_full_screenshot()
     start_time = time.time()
     _value = GDV.CACHE["config"]["inventory"]["inventory"]
 
@@ -119,7 +137,7 @@ async def backpack_identification():
         return False
 
 def weapon_position_identification(key):
-    """处理枪械位置截图"""
+    """ 判断背包中的枪械位置是否有武器 """
     start_time = time.time()
     _value = GDV.CACHE["config"]["position"][key]
 
@@ -134,29 +152,32 @@ def weapon_position_identification(key):
         return False
 
 def current_weapon_identification():
+    """ 判断当前所持的武器 """
+    time.sleep(0.5)
+    take_full_screenshot()
     """处理当前武器截图"""
     start_time = time.time()
     _value = GDV.CACHE["config"]["shooting_state"]
     for k, v in _value.items():
-        region = {'left': v[0], 'top': v[1], 'width': v[2], 'height': v[3]}
-        screenshot = take_screenshot(region)
+        screenshot = get_specific_regin(GDV.global_screenshot, v)
         if has_large_color_block(screenshot):
             logger.info(f"当前武器状态 --->>> {k}, 识别耗时: {time.time() - start_time:.2f}秒")
             return k
     logger.info(f"当前武器状态 --->>> 无, 识别耗时: {time.time() - start_time:.2f}秒")
     return "0"
 
-def has_large_color_block(image_array, threshold=210):
+def has_large_color_block(image_array, threshold=220):
     """检查图像中是否存在大于阈值的色块"""
     if np.any(image_array > threshold):
         return True
     return False
 
-def get_in_gram():
+def get_in_game():
+    """ 判断是否在对局中 """
+    take_full_screenshot()
     start_time = time.time()
     _value = GDV.CACHE["config"]["ingram"]["ingram"]
-    region = {'left': _value[0], 'top': _value[1], 'width': _value[2], 'height': _value[3]}
-    screenshot = take_screenshot(region)
+    screenshot = get_specific_regin(GDV.global_screenshot, _value)
     if has_large_color_block(screenshot):
         logger.info(f"当前正在对局中, 识别耗时: {time.time() - start_time:.2f}秒")
         return True

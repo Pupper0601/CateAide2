@@ -4,11 +4,13 @@
 # @Email  : pupper.cheng@gmail.com
 
 import asyncio
+from functools import partial
+
 from pynput import keyboard
 
 from libs.config import debug
 from libs.identification import backpack_identification, current_weapon_identification, start_weapon_identification
-from libs.global_variables import GDV
+from libs.global_variables import GDV, THREAD_POOL
 
 
 class KeyboardMonitor:
@@ -36,14 +38,8 @@ class KeyboardMonitor:
         if self.monitoring: # 检查是否正在监听
             if GDV.pubg_win or debug:
                 if key == "tab":
-                    if asyncio.run(backpack_identification()):
-                        GDV.shooting_state = False
-                        self.window.shootingSignal.emit("武器识别中...")
-                        start_weapon_identification()
-                        GDV.mouse_right_identification = True
-                        self.window.keyPressedSignal.emit(key)  # 发送信号
-                    else:
-                        self._close_backpack()
+                    future = THREAD_POOL.submit(backpack_identification)
+                    future.add_done_callback(partial(self.on_backpack_identification, key=key))
 
                 elif key == "esc":
                     self._close_backpack()
@@ -56,32 +52,45 @@ class KeyboardMonitor:
                     self._shooting_state()
 
                 elif key in ("ctrl_l", "space", "z", "c"):
-                    posture = GDV.posture_state
-                    posture_map = {
-                        "c"     : ("蹲姿", "站姿", "dun", "zhan"),
-                        "ctrl_l": ("蹲姿", "站姿", "dun", "zhan"),
-                        "z"     : ("卧姿", "站姿", "pa", "zhan"),
-                        "space" : ("站姿", "站姿", "zhan", "zhan")
-                    }
-                    if key in posture_map:
-                        if GDV.posture_state_button == key.lower() or key.lower() == "z":
-                            if posture == posture_map[key][0]:
-                                GDV.posture_state = posture_map[key][3]
-                            else:
-                                GDV.posture_state = posture_map[key][2]
+                    if GDV.posture_state_button == key :
+                        if GDV.posture_state == "zhan":
+                            GDV.posture_state = "dun"
+                        else:
+                            GDV.posture_state = "zhan"
+                    elif key == "space":
+                        if GDV.posture_state != "zhan":
+                            GDV.posture_state = "zhan"
+                    elif key == "z":
+                        if GDV.posture_state == "pa":
+                            GDV.posture_state = "zhan"
+                        else:
+                            GDV.posture_state = "pa"
 
-                        elif key == "space":
-                            if posture != posture_map[key][0]:
-                                GDV.posture_state = posture_map[key][3]
+                    self._shooting_state()
 
-                        self._shooting_state()
+    def on_backpack_identification(self, future, key):
+        if future.result():
+            if GDV.shooting_state:
+                GDV.shooting_state = False
+            self.window.shootingSignal.emit("武器识别中...")
+            start_weapon_identification()
+            GDV.mouse_right_identification = True
+            self.window.keyPressedSignal.emit(key)  # 发送信号
+        else:
+            self._close_backpack()
 
     def _shooting_state(self):
-        if current_weapon_identification() == "0":
-            GDV.shooting_state = False
+        future = THREAD_POOL.submit(current_weapon_identification)
+        future.add_done_callback(self.on_shooting_state)
+
+    def on_shooting_state(self, future):
+        if future.result() == "0":
+            if GDV.shooting_state:
+                GDV.shooting_state = False
             self.window.shootingSignal.emit("没有手持枪械")
         else:
-            GDV.shooting_state = True
+            if not GDV.shooting_state:
+                GDV.shooting_state = True
             self.window.shootingSignal.emit("自动识别已完成")
 
     def _close_backpack(self):
@@ -89,5 +98,6 @@ class KeyboardMonitor:
         if GDV.guns_data:
             self._shooting_state()
         else:
-            GDV.shooting_state = False
+            if GDV.shooting_state:
+                GDV.shooting_state = False
             self.window.shootingSignal.emit("获取背包信息失败, 请重试")

@@ -53,6 +53,7 @@ class GlobalVariable(Observable):
         self._opening_method = "click"
         self._posture_state = "zhan"
         self._posture_state_button = "c"
+        self._global_screenshot = None
 
 
     @property
@@ -155,6 +156,15 @@ class GlobalVariable(Observable):
     @posture_state_button.setter
     def posture_state_button(self, value):
         self._posture_state_button = value
+
+    @property
+    def global_screenshot(self):
+        return self._global_screenshot
+
+    @global_screenshot.setter
+    def global_screenshot(self, value):
+        self._global_screenshot = value
+
 
 
 GDV = GlobalVariable()  # 全局动态变量
