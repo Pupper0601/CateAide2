@@ -18,6 +18,8 @@ from libs.global_variables import GDV
 from tools.logs import logger
 from skimage.metrics import structural_similarity as ssim
 
+from tools.mouse_visible import is_mouse_visible
+
 
 def take_full_screenshot():
     """
@@ -159,17 +161,21 @@ def backpack_identification():
     判断当前是否打开背包
     :return: True or False
     """
-    time.sleep(0.3)
-    take_full_screenshot()
-    start_time = time.time()
-    _value = GDV.CACHE["config"]["inventory"]["inventory"]
+    if is_mouse_visible():  # 判断鼠标是否可见
+        time.sleep(0.3)
+        take_full_screenshot()
+        start_time = time.time()
+        _value = GDV.CACHE["config"]["inventory"]["inventory"]
 
-    best_match, best_similarity = process_screenshot("inventory", _value)
-    if best_similarity > 0.6:
-        logger.info(f"当前背包状态 --->>> 打开, 识别耗时: {time.time() - start_time:.2f}秒, 相似度: {best_similarity:.2f}")
-        GDV.backpack_state = True
+        best_match, best_similarity = process_screenshot("inventory", _value)
+        if best_similarity > 0.6:
+            logger.info(f"当前背包状态 --->>> 打开, 识别耗时: {time.time() - start_time:.2f}秒, 相似度: {best_similarity:.2f}")
+            GDV.backpack_state = True
+        else:
+            logger.info(f"当前背包状态 --->>> 关闭, 识别耗时: {time.time() - start_time:.2f}秒, 相似度: {best_similarity:.2f}")
+            GDV.backpack_state = False
     else:
-        logger.info(f"当前背包状态 --->>> 关闭, 识别耗时: {time.time() - start_time:.2f}秒, 相似度: {best_similarity:.2f}")
+        logger.info("当前背包状态 --->>> 关闭, 鼠标不可见")
         GDV.backpack_state = False
 
 def weapon_position_identification(key):
@@ -196,20 +202,21 @@ def current_weapon_identification():
     判断当前所持的武器
     :return:
     """
-    time.sleep(0.5)
-    start_time = time.time()
-    _value = GDV.CACHE["config"]["shooting_state"]
-    _img = take_screenshot(_value)
-    res, coordinates = has_large_color_block(_img)
-    if res:
-        if coordinates[0][0] > 50:
-            k = "1"
-        else:
-            k = "2"
-        logger.info(f"当前所持武器 --->>> {k}, 识别耗时: {time.time() - start_time:.2f}秒")
-        GDV.current_weapon = k
-        return k
-    return "0"
+    if not is_mouse_visible():
+        time.sleep(0.5)
+        start_time = time.time()
+        _value = GDV.CACHE["config"]["shooting_state"]
+        _img = take_screenshot(_value)
+        res, coordinates = has_large_color_block(_img)
+        if res:
+            if coordinates[0][0] > 50:
+                k = "1"
+            else:
+                k = "2"
+            logger.info(f"当前所持武器 --->>> {k}, 识别耗时: {time.time() - start_time:.2f}秒")
+            GDV.current_weapon = k
+            return k
+        return "0"
 
 def has_large_color_block(image_array, threshold=220):
     """

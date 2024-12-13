@@ -9,6 +9,7 @@ from libs.identification import current_weapon_identification, get_in_game, star
 
 from libs.global_variables import GDV, THREAD_POOL
 from tools.current_window import is_pubg_active
+from tools.mouse_visible import is_mouse_visible
 
 
 class MouseMonitor:
@@ -33,23 +34,23 @@ class MouseMonitor:
         if self.monitoring:
             if not pressed and button == mouse.Button.right:
                 if GDV.mouse_right_identification:
-                    if GDV.pubg_win:
+                    if GDV.pubg_win and is_mouse_visible():
                         future = THREAD_POOL.submit(start_weapon_identification)
                         future.add_done_callback(self.on_start_weapon_identification)
 
             elif not pressed and button == mouse.Button.left:
-                if not is_pubg_active():
-                    if GDV.shooting_state:
-                        GDV.shooting_state = False
-                    if GDV.pubg_win:
-                        GDV.pubg_win = False
-                    GDV.state_left_info = "当前窗口不是PUBG"
-                    self.window.shootingSignal.emit()
-                else:
-                    if not GDV.pubg_win:
-                        GDV.pubg_win = True
-
-                    self.get_game_state()   # 获取当前是否在对局中
+                if is_mouse_visible():
+                    if not is_pubg_active():
+                        if GDV.shooting_state:
+                            GDV.shooting_state = False
+                        if GDV.pubg_win:
+                            GDV.pubg_win = False
+                        GDV.state_left_info = "当前窗口不是PUBG"
+                        self.window.shootingSignal.emit()
+                    else:
+                        if not GDV.pubg_win:
+                            GDV.pubg_win = True
+                        self.get_game_state()   # 获取当前是否在对局中
 
 
 
@@ -82,14 +83,14 @@ class MouseMonitor:
                 GDV.posture_state = "zhan"
             GDV.state_left_info = "当前不在对局中"
             self.window.shootingSignal.emit()
-        else:
-            if GDV.current_weapon_info:
-                self._shooting_state()
-            else:
-                if GDV.shooting_state:
-                    GDV.shooting_state = False
-                GDV.state_left_info = "当前没有枪械信息"
-                self.window.shootingSignal.emit()
+        # else:
+        #     if GDV.current_weapon_info:
+        #         self._shooting_state()
+        #     else:
+        #         if GDV.shooting_state:
+        #             GDV.shooting_state = False
+        #         GDV.state_left_info = "当前没有枪械信息"
+        #         self.window.shootingSignal.emit()
 
     def on_start_weapon_identification(self, future):
         future.result()

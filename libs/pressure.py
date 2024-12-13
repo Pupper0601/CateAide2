@@ -7,7 +7,7 @@ import os
 import sys
 from pathlib import Path
 
-from libs.config import debug
+from libs.config import debug, system_mouse
 from libs.global_variables import GDV, THREAD_POOL
 from tools.files import load_file
 from tools.logs import logger
@@ -98,12 +98,13 @@ class Pressure:
                 return _effect_data
 
     def write_dict_to_lua_file(self):
+
         _gun_info = self.calculate_factors()
-        if _gun_info == GDV.output_gun_info:
-            logger.info("枪械信息没有更新, 不写入文件")
+
+        GDV.output_gun_info = _gun_info
+
+        if system_mouse:    # 如果是系统鼠标, 则不写入文件
             return
-        else:
-            GDV.output_gun_info = _gun_info
 
         file_path = "C:/CuteAide/output.lua"
         path = Path(file_path)  # 创建文件
@@ -124,7 +125,7 @@ class Pressure:
                             file.write(f"{key} = {{{formatted_list}}}\n")
                     else:
                         file.write(f"{key} = {value}\n")
-                logger.info(f"写入文件成功: {file_path}")
+                logger.info(f"更新压枪数据成功, 新数据以写入文件: {file_path}")
 
 
 if __name__ == '__main__':
