@@ -19,8 +19,8 @@ from tools.logs import logger
 
 
 class StateMainWin(QMainWindow):
-    keyPressedSignal = Signal(str)  # 定义信号
-    shootingSignal = Signal(str)
+    keyPressedSignal = Signal()  # 定义信号
+    shootingSignal = Signal()
     def __init__(self):
         super().__init__()
         self.ui = Ui_StateMainWindow()
@@ -60,9 +60,8 @@ class StateMainWin(QMainWindow):
         _str = ""
         _gun_info = None
         if len(GDV.guns_data) == 0:
-            if GDV.shooting_state:
-                GDV.shooting_state = False
-            self.update_shooting_state("获取背包信息失败, 请重试")
+            GDV.state_left_info = "获取背包信息失败, 请重试"
+            self.update_shooting_state()
             return
 
         key = GDV.current_weapon
@@ -72,20 +71,22 @@ class StateMainWin(QMainWindow):
             _gun_info = GDV.guns_data["1" if key == "2" else "2"]
             GDV.current_weapon = "1" if key == "2" else "2"
         else:
-            if GDV.shooting_state:
-                GDV.shooting_state = False
-            self.update_shooting_state("获取背包信息失败, 请重试")
+            GDV.state_left_info = "获取背包信息失败, 请重试"
+            self.update_shooting_state()
             return
 
         for _key, _value in _gun_info.items():
             if _key == "weapon":
-                _str += f"[{_value[0]}]"
+                _str += f"武器: [{_value[0]}]"
             elif "无" not in _value[0]:
                 _str += f", {_value[0]}"
         self.ui.label_2.setText(_str)
         GDV.current_weapon_info = _gun_info
 
-    def update_shooting_state(self, _str):
+        self.update_shooting_state()
+
+    def update_shooting_state(self):
+        _str = GDV.state_left_info
         if GDV.posture_state == "zhan":
             _str += ", <站姿>"
         elif GDV.posture_state == "dun":
@@ -97,9 +98,7 @@ class StateMainWin(QMainWindow):
             _str += ", [压枪]"
         else:
             _str += ", [暂停]"
-        if GDV.state_left_info != _str:
-            self.ui.label.setText(_str)
-            GDV.state_left_info = _str
+        self.ui.label.setText(_str)
 
 
 

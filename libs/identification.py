@@ -10,7 +10,6 @@ import asyncio
 import time
 import cv2
 import numpy as np
-from Demos.win32console_demo import coord
 from PIL import Image
 import mss
 
@@ -203,14 +202,14 @@ def current_weapon_identification():
     _img = take_screenshot(_value)
     res, coordinates = has_large_color_block(_img)
     if res:
-        if coordinates[0] > 1009:
+        if coordinates[0][0] > 50:
             k = "1"
         else:
             k = "2"
         logger.info(f"当前所持武器 --->>> {k}, 识别耗时: {time.time() - start_time:.2f}秒")
         GDV.current_weapon = k
         return k
-    return "1"
+    return "0"
 
 def has_large_color_block(image_array, threshold=220):
     """
@@ -234,10 +233,10 @@ def get_in_game():
     res, coordinates = has_large_color_block(_img)
     if res:
         logger.info(f"当前正在对局中, 识别耗时: {time.time() - start_time:.2f}秒")
-        return True
+        GDV.in_game = True
     else:
         logger.info(f"当前未在对局中, 识别耗时: {time.time() - start_time:.2f}秒")
-        return False
+        GDV.in_game = False
     
 # def posture_state_identification():
 #     """ 判断当前的姿态 """
