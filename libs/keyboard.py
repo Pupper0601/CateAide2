@@ -36,9 +36,10 @@ class KeyboardMonitor:
             if GDV.pubg_win and GDV.in_game:
                 if key in ("1", "2"):
                     GDV.current_weapon = key
+                    if GDV.current_weapon_info and not GDV.backpack_state:
+                        if not GDV.shooting_state:
+                            GDV.shooting_state = True
                     self.window.keyPressedSignal.emit()
-                    self._shooting_state()
-
 
                 elif key in ("3", "4", "5", "x"):
                     self._shooting_state()
@@ -112,17 +113,13 @@ class KeyboardMonitor:
             self.window.shootingSignal.emit()
 
     def _close_backpack(self):
-        if not is_mouse_visible():
-            GDV.mouse_right_identification = False
-            GDV.backpack_state = False
-            if GDV.guns_data:
-                self._shooting_state()
-            else:
-                if GDV.shooting_state:
-                    GDV.shooting_state = False
-                GDV.state_left_info = "获取背包信息失败, 请重试"
-                self.window.shootingSignal.emit()
+        GDV.mouse_right_identification = False
+        GDV.backpack_state = False
+        if GDV.guns_data:
+            self._shooting_state()
         else:
             if GDV.shooting_state:
                 GDV.shooting_state = False
+            GDV.state_left_info = "获取背包信息失败, 请重试"
             self.window.shootingSignal.emit()
+

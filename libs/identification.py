@@ -161,22 +161,19 @@ def backpack_identification():
     判断当前是否打开背包
     :return: True or False
     """
-    if is_mouse_visible():  # 判断鼠标是否可见
-        time.sleep(0.3)
-        take_full_screenshot()
-        start_time = time.time()
-        _value = GDV.CACHE["config"]["inventory"]["inventory"]
+    time.sleep(0.3)
+    take_full_screenshot()
+    start_time = time.time()
+    _value = GDV.CACHE["config"]["inventory"]["inventory"]
 
-        best_match, best_similarity = process_screenshot("inventory", _value)
-        if best_similarity > 0.6:
-            logger.info(f"当前背包状态 --->>> 打开, 识别耗时: {time.time() - start_time:.2f}秒, 相似度: {best_similarity:.2f}")
-            GDV.backpack_state = True
-        else:
-            logger.info(f"当前背包状态 --->>> 关闭, 识别耗时: {time.time() - start_time:.2f}秒, 相似度: {best_similarity:.2f}")
-            GDV.backpack_state = False
+    best_match, best_similarity = process_screenshot("inventory", _value)
+    if best_similarity > 0.6:
+        logger.info(f"当前背包状态 --->>> 打开, 识别耗时: {time.time() - start_time:.2f}秒, 相似度: {best_similarity:.2f}")
+        GDV.backpack_state = True
     else:
-        logger.info("当前背包状态 --->>> 关闭, 鼠标不可见")
+        logger.info(f"当前背包状态 --->>> 关闭, 识别耗时: {time.time() - start_time:.2f}秒, 相似度: {best_similarity:.2f}")
         GDV.backpack_state = False
+
 
 def weapon_position_identification(key):
     """
@@ -197,28 +194,27 @@ def weapon_position_identification(key):
             GDV.current_weapon = "2" if key == "1" else "1"
         return False
 
-def current_weapon_identification(wait_time=0.5):
+def current_weapon_identification():
     """
     判断当前所持的武器
     :return:
     """
-    if not is_mouse_visible():
-        time.sleep(wait_time)
-        start_time = time.time()
-        _value = GDV.CACHE["config"]["shooting_state"]
-        _img = take_screenshot(_value)
-        res, coordinates = has_large_color_block(_img)
-        if res:
-            if coordinates[0][0] > 50:
-                k = "1"
-            else:
-                k = "2"
-            logger.info(f"当前所持武器 --->>> {k}, 识别耗时: {time.time() - start_time:.2f}秒")
-            GDV.current_weapon = k
-            return k
-        return "0"
+    time.sleep(0.3)
+    start_time = time.time()
+    _value = GDV.CACHE["config"]["shooting_state"]
+    _img = take_screenshot(_value)
+    res, coordinates = has_large_color_block(_img)
+    if res:
+        if coordinates[0][0] > 50:
+            k = "1"
+        else:
+            k = "2"
+        logger.info(f"当前所持武器 --->>> {k}, 识别耗时: {time.time() - start_time:.2f}秒")
+        GDV.current_weapon = k
+        return k
+    return "0"
 
-def has_large_color_block(image_array, threshold=230):
+def has_large_color_block(image_array, threshold=220):
     """
     检查图像中是否存在大于阈值的色块，并返回其坐标
     :param image_array: 需要处理的图像

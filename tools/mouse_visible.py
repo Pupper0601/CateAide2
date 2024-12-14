@@ -26,6 +26,6 @@ def is_mouse_visible():
     if info.flags == CI_FLAGS_SHOWING:
         return True
     else:
-        if not GDV.in_game:
+        if not GDV.in_game and not GDV.backpack_state:
             GDV.in_game = True
         return False
