@@ -39,22 +39,26 @@ class MouseMonitor:
                         future.add_done_callback(self.on_start_weapon_identification)
 
             elif not pressed and button == mouse.Button.left:
-                if not is_pubg_active():
-                    if GDV.shooting_state:
-                        GDV.shooting_state = False
-                    if GDV.pubg_win:
-                        GDV.pubg_win = False
-                    GDV.state_left_info = "当前窗口不是PUBG"
-                    self.window.shootingSignal.emit()
+                if is_mouse_visible():
+                    if not is_pubg_active():
+                        if GDV.shooting_state:
+                            GDV.shooting_state = False
+                        if GDV.pubg_win:
+                            GDV.pubg_win = False
+                        GDV.state_left_info = "当前窗口不是PUBG"
+                        self.window.shootingSignal.emit()
+                    else:
+                        if not GDV.pubg_win:
+                            GDV.pubg_win = True
+                        self.get_game_state()   # 获取当前是否在对局中
                 else:
-                    if not GDV.pubg_win:
-                        GDV.pubg_win = True
-                    self.get_game_state()   # 获取当前是否在对局中
+                    if GDV.current_weapon_info:
+                        self._shooting_state(0)
 
 
 
-    def _shooting_state(self):
-        future = THREAD_POOL.submit(current_weapon_identification)
+    def _shooting_state(self, wait_time):
+        future = THREAD_POOL.submit(current_weapon_identification, wait_time)
         future.add_done_callback(self.on_shooting_state)
 
     def on_shooting_state(self, future):

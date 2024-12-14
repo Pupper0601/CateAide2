@@ -5,6 +5,9 @@
 
 import ctypes
 
+from libs.global_variables import GDV
+from tools.logs import logger
+
 
 def is_mouse_visible():
     """
@@ -20,4 +23,9 @@ def is_mouse_visible():
     CI_FLAGS_SHOWING = 0x00000001
     info = CURSORINFO(cbSize=ctypes.sizeof(CURSORINFO))
     ctypes.windll.user32.GetCursorInfo(ctypes.byref(info))
-    return info.flags == CI_FLAGS_SHOWING
+    if info.flags == CI_FLAGS_SHOWING:
+        return True
+    else:
+        if not GDV.in_game:
+            GDV.in_game = True
+        return False

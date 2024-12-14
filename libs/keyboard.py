@@ -77,6 +77,10 @@ class KeyboardMonitor:
                     else:
                         self._shooting_state()
                     self.window.shootingSignal.emit()
+            else:
+                if GDV.shooting_state:
+                    GDV.shooting_state = False
+                self.window.shootingSignal.emit()
 
     def on_backpack_identification(self, future):
         future.result()

@@ -197,13 +197,13 @@ def weapon_position_identification(key):
             GDV.current_weapon = "2" if key == "1" else "1"
         return False
 
-def current_weapon_identification():
+def current_weapon_identification(wait_time=0.5):
     """
     判断当前所持的武器
     :return:
     """
     if not is_mouse_visible():
-        time.sleep(0.5)
+        time.sleep(wait_time)
         start_time = time.time()
         _value = GDV.CACHE["config"]["shooting_state"]
         _img = take_screenshot(_value)
@@ -218,7 +218,7 @@ def current_weapon_identification():
             return k
         return "0"
 
-def has_large_color_block(image_array, threshold=220):
+def has_large_color_block(image_array, threshold=230):
     """
     检查图像中是否存在大于阈值的色块，并返回其坐标
     :param image_array: 需要处理的图像
