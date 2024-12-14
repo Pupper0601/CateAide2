@@ -100,10 +100,16 @@ class Pressure:
     def write_dict_to_lua_file(self):
 
         _gun_info = self.calculate_factors()
+        logger.info(f"当前压枪数据: {_gun_info}")
 
-        GDV.output_gun_info = _gun_info
+        if _gun_info == GDV.output_gun_info:
+            logger.info("压枪数据没有变化, 不需要更新")
+            return
+        else:
+            GDV.output_gun_info = _gun_info
 
         if system_mouse:    # 如果是系统鼠标, 则不写入文件
+            logger.info("当前使用的是系统鼠标, 不写入文件")
             return
 
         file_path = "C:/CuteAide/output.lua"

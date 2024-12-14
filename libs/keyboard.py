@@ -34,10 +34,11 @@ class KeyboardMonitor:
         key = replace_dict.get(key, key)
         if self.monitoring: # 检查是否正在监听
             if GDV.pubg_win and GDV.in_game:
-
                 if key in ("1", "2"):
                     GDV.current_weapon = key
                     self.window.keyPressedSignal.emit()
+                    self._shooting_state()
+
 
                 elif key in ("3", "4", "5", "x"):
                     self._shooting_state()

@@ -53,8 +53,12 @@ class StateMainWin(QMainWindow):
         # 连接信号到槽
         self.shootingSignal.connect(self.update_shooting_state)
         self.keyPressedSignal.connect(self.update_window_info)
-        self.ui.label.setStyleSheet("font-size: 10px; color: white; letter-spacing: 1.5px; ")
-        self.ui.label_2.setStyleSheet("font-size: 10px; color: white; letter-spacing: 1.5px; ")
+        self.ui.label.setStyleSheet("font-size: 12px; color: rgb(237,237,239); letter-spacing: 1.5px; font-family: "
+                                    "'Microsoft YaHei UI'; ")
+        self.ui.label.setText("👏 欢迎使用 CateAide2")
+        self.ui.label_2.setStyleSheet("font-size: 12px; color: rgb(237,237,239); letter-spacing: 1.5px; font-family: "
+                                      "'Microsoft YaHei UI'; ")
+        self.ui.label_2.setText("使用中有任何问题在QQ群反馈: 679556431")
 
     def update_window_info(self):
         _str = ""

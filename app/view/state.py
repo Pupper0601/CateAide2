@@ -34,12 +34,12 @@ class Ui_StateMainWindow(object):
         self.centralwidget.setObjectName(u"centralwidget")
         self.widget = QWidget(self.centralwidget)
         self.widget.setObjectName(u"widget")
-        self.widget.setGeometry(QRect(0, 0, 750, 20))
+        self.widget.setGeometry(QRect(0, 0, 750, 23))
         self.widget.setMinimumSize(QSize(750, 20))
         self.widget.setMaximumSize(QSize(750, 20))
         self.widget.setStyleSheet(u"#widget{\n"
 "	border: 1px solid rgba(214,214,214, 50);\n"
-"	background-color: rgba(173, 173, 173,100);\n"
+"	background-color: rgba(77, 90, 101,150);\n"
 "	border-bottom-left-radius: 10px;\n"
 "	border-bottom-right-radius: 10px;\n"
 "}\n"
@@ -60,8 +60,8 @@ class Ui_StateMainWindow(object):
         self.frame.setStyleSheet(u"#frame{\n"
 "	border: none;\n"
 "}")
-        self.frame.setFrameShape(QFrame.StyledPanel)
-        self.frame.setFrameShadow(QFrame.Raised)
+        self.frame.setFrameShape(QFrame.Shape.StyledPanel)
+        self.frame.setFrameShadow(QFrame.Shadow.Raised)
         self.horizontalLayout_2 = QHBoxLayout(self.frame)
         self.horizontalLayout_2.setSpacing(0)
         self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
@@ -74,7 +74,7 @@ class Ui_StateMainWindow(object):
 "	color: rgb(220, 220, 220);\n"
 "\n"
 "}")
-        self.label.setAlignment(Qt.AlignCenter)
+        self.label.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         self.horizontalLayout_2.addWidget(self.label)
 
@@ -95,12 +95,12 @@ class Ui_StateMainWindow(object):
         self.frame_2.setSizePolicy(sizePolicy)
         self.frame_2.setMinimumSize(QSize(0, 20))
         self.frame_2.setMaximumSize(QSize(16777215, 20))
-        self.frame_2.setLayoutDirection(Qt.LeftToRight)
+        self.frame_2.setLayoutDirection(Qt.LayoutDirection.LeftToRight)
         self.frame_2.setStyleSheet(u"#frame_2{\n"
 "	border: none;\n"
 "}")
-        self.frame_2.setFrameShape(QFrame.StyledPanel)
-        self.frame_2.setFrameShadow(QFrame.Raised)
+        self.frame_2.setFrameShape(QFrame.Shape.StyledPanel)
+        self.frame_2.setFrameShadow(QFrame.Shadow.Raised)
         self.horizontalLayout_3 = QHBoxLayout(self.frame_2)
         self.horizontalLayout_3.setSpacing(0)
         self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
@@ -108,12 +108,12 @@ class Ui_StateMainWindow(object):
         self.label_2 = QLabel(self.frame_2)
         self.label_2.setObjectName(u"label_2")
         self.label_2.setMinimumSize(QSize(0, 20))
-        self.label_2.setLayoutDirection(Qt.LeftToRight)
+        self.label_2.setLayoutDirection(Qt.LayoutDirection.LeftToRight)
         self.label_2.setStyleSheet(u"#label_2{\n"
 "	\n"
 "	color: rgb(220, 220, 220);\n"
 "}")
-        self.label_2.setAlignment(Qt.AlignCenter)
+        self.label_2.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         self.horizontalLayout_3.addWidget(self.label_2)
 
