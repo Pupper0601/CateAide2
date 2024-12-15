@@ -12,6 +12,10 @@ from tools.logs import logger
 
 
 def is_pubg_active():
+    """
+    判断当前活动窗口是否是 PUBG
+    :return:  True: 是  False: 不是
+    """
     try:
         active_window = gw.getActiveWindow()
         if active_window:

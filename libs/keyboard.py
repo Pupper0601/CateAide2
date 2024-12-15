@@ -5,7 +5,8 @@
 
 from pynput import keyboard
 
-from libs.identification import backpack_identification, current_weapon_identification, start_weapon_identification
+from libs.identification import backpack_identification, current_shooting_state, current_weapon_identification, \
+    start_weapon_identification
 from libs.global_variables import GDV, THREAD_POOL
 from tools.mouse_visible import is_mouse_visible
 
@@ -35,10 +36,15 @@ class KeyboardMonitor:
         if self.monitoring: # 检查是否正在监听
             if GDV.pubg_win and GDV.in_game:
                 if key in ("1", "2"):
-                    GDV.current_weapon = key
-                    if GDV.current_weapon_info and not GDV.backpack_state:
+                    if GDV.current_weapon_info:
+                        GDV.current_weapon = key
                         if not GDV.shooting_state:
                             GDV.shooting_state = True
+                        GDV.state_left_info = "自动识别已完成"
+                        self.window.shootingSignal.emit()
+                    else:
+                        GDV.state_left_info = "获取背包信息失败, 请重试"
+                        self.window.shootingSignal.emit()
                     self.window.keyPressedSignal.emit()
 
                 elif key in ("3", "4", "5", "x"):
@@ -97,18 +103,15 @@ class KeyboardMonitor:
             self._close_backpack()
 
     def _shooting_state(self):
-        future = THREAD_POOL.submit(current_weapon_identification)
+        future = THREAD_POOL.submit(current_shooting_state, 0.5)
         future.add_done_callback(self.on_shooting_state)
 
     def on_shooting_state(self, future):
-        if future.result() == "0":
-            if GDV.shooting_state:
-                GDV.shooting_state = False
+        future.result()
+        if not GDV.shooting_state:
             GDV.state_left_info = "没有手持枪械"
             self.window.shootingSignal.emit()
         else:
-            if not GDV.shooting_state:
-                GDV.shooting_state = True
             GDV.state_left_info = "自动识别已完成"
             self.window.shootingSignal.emit()
 

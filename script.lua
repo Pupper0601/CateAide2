@@ -18,6 +18,19 @@ end
 
 local debug = false
 
+local cumulative_recoil = 0 -- 累计后坐力
+
+Cumulative = function(_data)
+    -- 累计后坐力
+    cumulative_recoil = cumulative_recoil + (_data * calculate_influencing_factor())
+    adjusted_recoil = math.floor(cumulative_recoil)
+    cumulative_recoil = cumulative_recoil - adjusted_recoil
+    if adjusted_recoil < 1 then
+        adjusted_recoil = 1
+    end
+    return adjusted_recoil
+end
+
 -- 开始压枪
 Auto_Down = function()
     dofile(address)
@@ -39,7 +52,7 @@ Auto_Down = function()
     end
 
     _number_bullets = 0   -- 子弹数
-    nowTime = GetRunningTime()
+    nowTime = GetRunningTime() -- 获取当前时间
     last_logged_bullet = 0  -- 记录最后输出的子弹数
 
     while IsMouseButtonPressed(1) do
@@ -50,7 +63,7 @@ Auto_Down = function()
         _number_bullets = math.ceil((GetRunningTime() - nowTime) / weapon_intervals)  -- 子弹数
         for _, recoil_data in ipairs(guns_trajectory) do
             if recoil_data[1] == _number_bullets then
-                adjusted_recoil = math.floor(recoil_data[2] * calculate_influencing_factor())  -- 调整后的后坐力
+                adjusted_recoil = Cumulative(recoil_data[2])  -- 调整后的后坐力
                 -- 只在新子弹发射时输出日志
                 if _number_bullets > last_logged_bullet then
                     OutputLogMessage("当前子弹数: %s, 后坐力: %s, 系数: %s, 下压像素: %s\n",
@@ -65,7 +78,7 @@ Auto_Down = function()
                 if debug then
                     MoveMouseRelative(1, 0)
                 end
-                Sleep(1)
+                Sleep(10)
             end
         end
     end

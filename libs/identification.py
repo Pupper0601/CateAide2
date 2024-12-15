@@ -199,7 +199,7 @@ def current_weapon_identification():
     判断当前所持的武器
     :return:
     """
-    time.sleep(0.3)
+    time.sleep(0.5)
     start_time = time.time()
     _value = GDV.CACHE["config"]["shooting_state"]
     _img = take_screenshot(_value)
@@ -213,6 +213,25 @@ def current_weapon_identification():
         GDV.current_weapon = k
         return k
     return "0"
+
+def current_shooting_state(timeout=0):
+    """
+    判断当前是否可以压枪
+    :return:  GDV.shooting_state(True or False)
+    """
+    time.sleep(timeout)
+    start_time = time.time()
+    _value = GDV.CACHE["config"]["shooting_state"]
+    _img = take_screenshot(_value)
+    res, coordinates = has_large_color_block(_img)
+    if res:
+        if not GDV.shooting_state:
+            GDV.shooting_state = True
+            logger.info(f"当前可以压枪, 识别耗时: {time.time() - start_time:.2f}秒")
+    else:
+        if GDV.shooting_state:
+            GDV.shooting_state = False
+            logger.info(f"当前不能压枪, 识别耗时: {time.time() - start_time:.2f}秒")
 
 def has_large_color_block(image_array, threshold=220):
     """
@@ -229,7 +248,10 @@ def has_large_color_block(image_array, threshold=220):
 
 
 def get_in_game():
-    """ 判断是否在对局中 """
+    """
+    判断是否在对局中
+    :return: GDV.in_game(True or False)
+    """
     start_time = time.time()
     _value = GDV.CACHE["config"]["ingram"]
     _img = take_screenshot(_value)
