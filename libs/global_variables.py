@@ -5,9 +5,12 @@
 import threading
 from concurrent.futures import ThreadPoolExecutor
 
+from libs.ghub_device import GHubDevice
 from tools.logs import logger
 
 THREAD_POOL = ThreadPoolExecutor()
+
+GHUB = GHubDevice()
 
 
 class Observable:
@@ -56,6 +59,8 @@ class GlobalVariable(Observable):
         self._global_screenshot = None
         self._state_left_info = ""
         self._backpack_state = False
+        self._mouse_left_state = False
+        self._mouse_right_state = False
 
 
     @property
@@ -182,6 +187,22 @@ class GlobalVariable(Observable):
     @backpack_state.setter
     def backpack_state(self, value):
         self._backpack_state = value
+
+    @property
+    def mouse_left_state(self):
+        return self._mouse_left_state
+
+    @mouse_left_state.setter
+    def mouse_left_state(self, value):
+        self._mouse_left_state = value
+
+    @property
+    def mouse_right_state(self):
+        return self._mouse_right_state
+
+    @mouse_right_state.setter
+    def mouse_right_state(self, value):
+        self._mouse_right_state = value
 
 
 

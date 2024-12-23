@@ -51,45 +51,43 @@ Auto_Down = function()
         return
     end
 
-    _number_bullets = 0   -- 子弹数
-    nowTime = GetRunningTime() -- 获取当前时间
-    last_logged_bullet = 0  -- 记录最后输出的子弹数
+    local _number_bullets = 0   -- 子弹数
+     local nowTime = GetRunningTime() -- 获取当前时间
 
-    while IsMouseButtonPressed(1) do
-        if shooting_state == "0" then
-            break
-        end
-
-        _number_bullets = math.ceil((GetRunningTime() - nowTime) / weapon_intervals)  -- 子弹数
-        for _, recoil_data in ipairs(guns_trajectory) do
-            if recoil_data[1] == _number_bullets then
+    for _, recoil_data in ipairs(guns_trajectory) do
+        while IsMouseButtonPressed(1) and shooting_state == "1" do
+            for i=1, 4 do
                 adjusted_recoil = Cumulative(recoil_data[2])  -- 调整后的后坐力
-                -- 只在新子弹发射时输出日志
-                if _number_bullets > last_logged_bullet then
-                    OutputLogMessage("当前子弹数: %s, 后坐力: %s, 系数: %s, 下压像素: %s\n",
-                                     _number_bullets, recoil_data[2],
+                 MoveMouseRelative(0, adjusted_recoil)  -- 移动鼠标
+
+                delay(weapon_intervals / 4 )    -- 延迟
+                --OutputLogMessage("当前时间 %s, 初始时间: %s, 差值: %s\n", GetRunningTime(), nowTime, GetRunningTime() - nowTime)
+
+                OutputLogMessage("当前子弹数: %s, 后坐力: %s, 系数: %s, 下压像素: %s\n",
+                                     recoil_data[1], recoil_data[2],
                                      calculate_influencing_factor(), adjusted_recoil)
-                    last_logged_bullet = _number_bullets  -- 更新最后输出的子弹数
-                end
-                MoveMouseRelative(0, adjusted_recoil)
+
                 if not IsMouseButtonPressed(1) then
                     break
                 end
-                if debug then
-                    MoveMouseRelative(1, 0)
-                end
-                Sleep(10)
+                i = i + 1
             end
+            break
         end
     end
 end
 
+local cumulative_time = 0  -- 累计时间
+
 delay = function(wait)
-    -- 延迟函数
-    local nowTime = GetRunningTime()    -- 获取当前时间
-    while GetRunningTime() - nowTime <= wait do
-        -- 当前时间减去开始时间小于等于延迟时间
+    _time = wait + cumulative_time
+    s, f = math.modf(_time) -- 整数部分和小数部分
+    cumulative_time = cumulative_time + f
+    if cumulative_time >= 1 then
+        cumulative_time = cumulative_time - 1
+        s = s + 1
     end
+    Sleep(s)
 end
 
 

@@ -5,6 +5,7 @@
 
 from pynput import mouse
 
+from libs.auto_down import mouse_move_y
 from libs.identification import current_shooting_state, current_weapon_identification, get_in_game, \
     start_weapon_identification
 
@@ -35,6 +36,7 @@ class MouseMonitor:
     def on_click(self, x, y, button, pressed):
         if self.monitoring:
             if not pressed and button == mouse.Button.right:
+                GDV.mouse_right_state = False
                 if GDV.mouse_right_identification and GDV.backpack_state:
                     future = THREAD_POOL.submit(start_weapon_identification)
                     future.add_done_callback(self.on_start_weapon_identification)
@@ -42,8 +44,8 @@ class MouseMonitor:
                     if not is_mouse_visible():
                         self._shooting_state()
 
-
             elif not pressed and button == mouse.Button.left:
+                GDV.mouse_left_state = False
                 if not is_pubg_active():    # 判断当前窗口是否是PUBG
                     if GDV.shooting_state:
                         GDV.shooting_state = False
@@ -55,6 +57,10 @@ class MouseMonitor:
                     if not GDV.pubg_win:
                         GDV.pubg_win = True
                     self.get_game_state()   # 获取当前是否在对局中
+
+            elif pressed and button == mouse.Button.left:
+                GDV.mouse_left_state = True
+                self.auto_down_state()
 
 
 
@@ -99,3 +105,11 @@ class MouseMonitor:
     def on_start_weapon_identification(self, future):
         future.result()
         self.window.keyPressedSignal.emit()
+
+    def auto_down_state(self):
+        future = THREAD_POOL.submit(is_mouse_visible)
+        future.add_done_callback(self.mouse_to)
+
+    def mouse_to(self, future):
+        if not future.result():
+            mouse_move_y(GDV.output_gun_info)

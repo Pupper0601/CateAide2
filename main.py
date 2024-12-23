@@ -35,7 +35,7 @@ def run_as_admin():
 
 
 # 应用管理员检测
-run_as_admin()
+# run_as_admin()
 
 
 class MainWin(QMainWindow):
@@ -55,7 +55,7 @@ class MainWin(QMainWindow):
             self.home_win.show()
             self.login_win.close()
 
-run_as_admin()
+# run_as_admin()
 app = QApplication(sys.argv)
 window = MainWin()
 sys.exit(app.exec())
