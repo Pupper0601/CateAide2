@@ -47,7 +47,12 @@ class Pressure:
                             logger.error(f"配件系数中没有找到对应的配件: {value[1]}")
                             _factor_data[key] = 1.0
 
-                _factor_data["car"] = _factors["car"]["car"]
+                # 获取当前是否在车上
+                if GDV.in_car:
+                    _factor_data["car"] = _factors["car"]["car"]
+                else:
+                    _factor_data["car"] = 1.0
+
                 # 获取当前姿态
                 _factor_data["posture_state"] = _factors["pose"][GDV.posture_state]
                 # 获取当前武器基础系数
@@ -86,7 +91,8 @@ class Pressure:
         if _effect_data is not None:
             if not _effect_data.get("no_gun"):
                 coefficient = 1.0
-                for key in ("scope", "muzzle", "grip", "stock", "global_recoil", "alone_factor", "magnifying_power", "posture_state"):
+                for key in ("scope", "muzzle", "grip", "stock", "global_recoil", "alone_factor", "magnifying_power",
+                            "posture_state", "car"):
                     coefficient *= _effect_data[key]
                     del _effect_data[key]
 

@@ -14,7 +14,8 @@ from tools.logs import logger
 
 
 def mouse_move_y(gun_data:dict):
-    if not gun_data:
+
+    if gun_data is None or len(gun_data)  == 0 :
         logger.info("当前武器数据为空")
         return
 
@@ -33,6 +34,7 @@ def mouse_move_y(gun_data:dict):
     for index, value in enumerate(move_coefficient):
         if not GDV.mouse_left_state:
             break
+
         num = 0
         start_time = round(time.perf_counter(), 3) * 1000
         move_sum = int(round(value * gun_data["coefficient"], 2))   # 计算当前移动的距离
@@ -54,6 +56,7 @@ def mouse_move_y(gun_data:dict):
                 break
             time.sleep(0.01)
             num += 1
+        logger.info(f"当前子弹移动耗时: {round(time.perf_counter(), 3) * 1000 - start_time}")
             # logger.info(f"当前移动次数: {num},  剩余移动距离: {move_sum}, 消耗的时间: {elapsed}")
     # keyboard.release(Key.shift) # 释放shift键
 
@@ -64,3 +67,4 @@ def move_coefficient_handle(gun_data):
         for key, value in i.items():
             lists.append(value)
     return lists
+

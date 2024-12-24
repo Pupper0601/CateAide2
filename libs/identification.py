@@ -271,6 +271,22 @@ def get_in_game():
 #     _value = GDV.CACHE["config"]["pose"]["pose"]
 #     screenshot = get_specific_regin(GDV.global_screenshot, _value)
 
+def posture_in_car():
+    """
+    判断当前是否在车内
+    :return: GDV.in_car(True or False)
+    """
+    start_time = time.time()
+    _value = GDV.CACHE["config"]["car"]
+    _img = take_screenshot(_value)
+    res, coordinates = has_large_color_block(_img)
+    if res:
+        logger.info(f"当前在车内, 识别耗时: {time.time() - start_time:.2f}秒")
+        GDV.in_car = True
+    else:
+        logger.info(f"当前不在车内, 识别耗时: {time.time() - start_time:.2f}秒")
+        GDV.in_car = False
+
 
 
 if __name__ == '__main__':

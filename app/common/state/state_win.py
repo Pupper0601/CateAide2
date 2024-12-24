@@ -98,6 +98,11 @@ class StateMainWin(QMainWindow):
         elif GDV.posture_state == "pa":
             _str += ", <趴姿>"
 
+        if GDV.in_car:
+            _str += ", <车内>"
+        else:
+            _str += ""
+
         if GDV.shooting_state:
             _str += ", [压枪]"
         else:
