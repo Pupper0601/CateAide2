@@ -277,17 +277,20 @@ def posture_in_car():
     :return: GDV.in_car(True or False)
     """
     start_time = time.time()
+    lists = [GDV.CACHE["config"]["car"]]
     _value = GDV.CACHE["config"]["car"]
-    _img = take_screenshot(_value)
-    res, coordinates = has_large_color_block(_img)
-    if res:
-        logger.info(f"当前在车内, 识别耗时: {time.time() - start_time:.2f}秒")
-        GDV.in_car = True
-    else:
-        logger.info(f"当前不在车内, 识别耗时: {time.time() - start_time:.2f}秒")
-        GDV.in_car = False
-
-
+    lists.append([_value[0] - 261, _value[1], _value[2], _value[3]])
+    time.sleep(0.1)
+    for v in lists:
+        _img = take_screenshot(v)
+        res, coordinates = has_large_color_block(_img)
+        if res:
+            logger.info(f"当前在车内, 识别耗时: {time.time() - start_time:.2f}秒")
+            GDV.in_car = True
+            return
+    GDV.in_car = False
+    logger.info(f"当前不在车内, 识别耗时: {time.time() - start_time:.2f}秒")
+    return
 
 if __name__ == '__main__':
     # weapon_identification()
