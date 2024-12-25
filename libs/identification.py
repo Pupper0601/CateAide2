@@ -280,7 +280,7 @@ def posture_in_car():
     lists = [GDV.CACHE["config"]["car"]]
     _value = GDV.CACHE["config"]["car"]
     lists.append([_value[0] - 261, _value[1], _value[2], _value[3]])
-    time.sleep(0.1)
+    time.sleep(0.3)
     for v in lists:
         _img = take_screenshot(v)
         res, coordinates = has_large_color_block(_img)

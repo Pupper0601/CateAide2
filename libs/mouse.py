@@ -88,11 +88,12 @@ class MouseMonitor:
                 GDV.shooting_state = False
             if GDV.posture_state != "zhan":
                 GDV.posture_state = "zhan"
-            GDV.state_left_info = "当前不在对局中, 清空枪械数据"
+            if GDV.in_car:
+                GDV.in_car = False
+            GDV.state_left_info = "当前不在对局中"
             GDV.guns_data.clear()
             GDV.current_weapon_info.clear()
             self.window.shootingSignal.emit()
-            self.window.keyPressedSignal.emit()
         else:
             if GDV.current_weapon_info:
                 self._shooting_state()
