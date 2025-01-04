@@ -26,9 +26,9 @@ class Ui_HomeMainWindow(object):
     def setupUi(self, HomeMainWindow):
         if not HomeMainWindow.objectName():
             HomeMainWindow.setObjectName(u"HomeMainWindow")
-        HomeMainWindow.resize(600, 350)
-        HomeMainWindow.setMinimumSize(QSize(600, 350))
-        HomeMainWindow.setMaximumSize(QSize(600, 350))
+        HomeMainWindow.resize(600, 400)
+        HomeMainWindow.setMinimumSize(QSize(600, 400))
+        HomeMainWindow.setMaximumSize(QSize(600, 400))
         icon = QIcon()
         icon.addFile(u":/images/resource/images/log.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         HomeMainWindow.setWindowIcon(icon)
@@ -40,15 +40,19 @@ class Ui_HomeMainWindow(object):
         HomeMainWindow.setUnifiedTitleAndToolBarOnMac(False)
         self.centralwidget = QWidget(HomeMainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
+        self.centralwidget.setStyleSheet(u"#centralwidget{\n"
+"	border: none;\n"
+"	border-radius: 10px;\n"
+"}")
         self.widget = QWidget(self.centralwidget)
         self.widget.setObjectName(u"widget")
-        self.widget.setGeometry(QRect(0, 0, 600, 350))
-        self.widget.setMinimumSize(QSize(600, 350))
-        self.widget.setMaximumSize(QSize(600, 350))
+        self.widget.setGeometry(QRect(0, 0, 600, 400))
+        self.widget.setMinimumSize(QSize(600, 400))
+        self.widget.setMaximumSize(QSize(600, 400))
         self.widget.setStyleSheet(u"#widget{\n"
 "	border-radius: 10px;\n"
 "	border: 1px solid rbg(0,0,0);\n"
-"	background: rgba(255, 255, 255, 80);\n"
+"	background: rgba(255, 255, 255, 0);\n"
 "}")
         self.verticalLayout = QVBoxLayout(self.widget)
         self.verticalLayout.setSpacing(0)
@@ -61,6 +65,11 @@ class Ui_HomeMainWindow(object):
         sizePolicy.setVerticalStretch(1)
         sizePolicy.setHeightForWidth(self.widget_5.sizePolicy().hasHeightForWidth())
         self.widget_5.setSizePolicy(sizePolicy)
+        self.widget_5.setStyleSheet(u"#widget_5{\n"
+"	border-radius: 10px;\n"
+"	\n"
+"	background-color: rgba(255, 255, 255, 0);\n"
+"}")
         self.horizontalLayout_4 = QHBoxLayout(self.widget_5)
         self.horizontalLayout_4.setSpacing(0)
         self.horizontalLayout_4.setObjectName(u"horizontalLayout_4")
@@ -219,12 +228,15 @@ class Ui_HomeMainWindow(object):
         self.frame_15.setObjectName(u"frame_15")
         sizePolicy2.setHeightForWidth(self.frame_15.sizePolicy().hasHeightForWidth())
         self.frame_15.setSizePolicy(sizePolicy2)
+        self.frame_15.setStyleSheet(u"#frame_15{\n"
+"	border: none;\n"
+"}")
         self.frame_15.setFrameShape(QFrame.StyledPanel)
         self.frame_15.setFrameShadow(QFrame.Raised)
         self.verticalLayout_4 = QVBoxLayout(self.frame_15)
         self.verticalLayout_4.setSpacing(5)
         self.verticalLayout_4.setObjectName(u"verticalLayout_4")
-        self.verticalLayout_4.setContentsMargins(5, 5, 5, 5)
+        self.verticalLayout_4.setContentsMargins(10, 5, 5, 5)
         self.frame_3 = QFrame(self.frame_15)
         self.frame_3.setObjectName(u"frame_3")
         sizePolicy.setHeightForWidth(self.frame_3.sizePolicy().hasHeightForWidth())
@@ -422,6 +434,7 @@ class Ui_HomeMainWindow(object):
         self.frame_5.setFrameShape(QFrame.NoFrame)
         self.verticalLayout_2 = QVBoxLayout(self.frame_5)
         self.verticalLayout_2.setObjectName(u"verticalLayout_2")
+        self.verticalLayout_2.setContentsMargins(10, 4, 10, 4)
         self.RadioButton_2 = RadioButton(self.frame_5)
         self.RadioButton_2.setObjectName(u"RadioButton_2")
         self.RadioButton_2.setChecked(False)
@@ -455,7 +468,7 @@ class Ui_HomeMainWindow(object):
         self.horizontalLayout_9 = QHBoxLayout(self.frame_20)
         self.horizontalLayout_9.setSpacing(0)
         self.horizontalLayout_9.setObjectName(u"horizontalLayout_9")
-        self.horizontalLayout_9.setContentsMargins(0, 0, 0, 0)
+        self.horizontalLayout_9.setContentsMargins(0, 10, 0, 10)
         self.horizontalSpacer = QSpacerItem(1, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
         self.horizontalLayout_9.addItem(self.horizontalSpacer)
@@ -806,13 +819,16 @@ class Ui_HomeMainWindow(object):
         sizePolicy.setHeightForWidth(self.frame_25.sizePolicy().hasHeightForWidth())
         self.frame_25.setSizePolicy(sizePolicy)
         self.frame_25.setMinimumSize(QSize(0, 40))
-        self.frame_25.setMaximumSize(QSize(16777215, 40))
+        self.frame_25.setMaximumSize(QSize(16777215, 50))
+        self.frame_25.setStyleSheet(u"#frame_25{\n"
+"	border: none;\n"
+"}")
         self.frame_25.setFrameShape(QFrame.StyledPanel)
         self.frame_25.setFrameShadow(QFrame.Raised)
         self.horizontalLayout_12 = QHBoxLayout(self.frame_25)
         self.horizontalLayout_12.setSpacing(1)
         self.horizontalLayout_12.setObjectName(u"horizontalLayout_12")
-        self.horizontalLayout_12.setContentsMargins(0, 0, 0, 0)
+        self.horizontalLayout_12.setContentsMargins(0, 5, 0, 5)
         self.horizontalSpacer_25 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
         self.horizontalLayout_12.addItem(self.horizontalSpacer_25)
@@ -851,12 +867,15 @@ class Ui_HomeMainWindow(object):
         self.frame_24.setObjectName(u"frame_24")
         sizePolicy2.setHeightForWidth(self.frame_24.sizePolicy().hasHeightForWidth())
         self.frame_24.setSizePolicy(sizePolicy2)
+        self.frame_24.setStyleSheet(u"#frame_24{\n"
+"	border: none;\n"
+"}")
         self.frame_24.setFrameShape(QFrame.StyledPanel)
         self.frame_24.setFrameShadow(QFrame.Raised)
         self.verticalLayout_5 = QVBoxLayout(self.frame_24)
         self.verticalLayout_5.setSpacing(5)
         self.verticalLayout_5.setObjectName(u"verticalLayout_5")
-        self.verticalLayout_5.setContentsMargins(5, 5, 5, 5)
+        self.verticalLayout_5.setContentsMargins(5, 5, 10, 5)
         self.frame_27 = QFrame(self.frame_24)
         self.frame_27.setObjectName(u"frame_27")
         sizePolicy6.setHeightForWidth(self.frame_27.sizePolicy().hasHeightForWidth())

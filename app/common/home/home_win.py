@@ -48,14 +48,14 @@ class HomeMainWin(QMainWindow):
         self.init_slot()
 
     def init_slot(self):
-        self.ui.SwitchButton_3.checkedChanged.connect(self.show_state)
-        self.ui.PushButton_2.clicked.connect(click_qq_group)
-        self.ui.PushButton_3.clicked.connect(get_gun_pressure_script)
+        self.ui.SwitchButton_9.checkedChanged.connect(self.show_state)
+        self.ui.PushButton_7.clicked.connect(click_qq_group)
+        self.ui.PushButton_8.clicked.connect(get_gun_pressure_script)
         self.ui.PushButton.clicked.connect(self.identification_control)
-        self.ui.RadioButton.clicked.connect(self.update_mouse_gun)
-        self.ui.RadioButton_2.clicked.connect(self.update_mouse_gun)
-        self.ui.RadioButton_3.clicked.connect(self.update_posture_buttons)
-        self.ui.RadioButton_4.clicked.connect(self.update_posture_buttons)
+        self.ui.RadioButton_13.clicked.connect(self.update_mouse_gun)
+        self.ui.RadioButton_14.clicked.connect(self.update_mouse_gun)
+        self.ui.RadioButton_15.clicked.connect(self.update_posture_buttons)
+        self.ui.RadioButton_16.clicked.connect(self.update_posture_buttons)
         self.resolution()
 
     def resolution(self):
@@ -85,23 +85,23 @@ class HomeMainWin(QMainWindow):
 
     def show_state(self):
         # 显示/隐藏状态窗口
-        if self.ui.SwitchButton_3.isChecked():
+        if self.ui.SwitchButton_9.isChecked():
             self.start_win.show()
         else:
             self.start_win.close()
 
     def update_mouse_gun(self):
         # 更新开镜方式
-        if self.ui.RadioButton.isChecked():
+        if self.ui.RadioButton_13.isChecked():
             GDV.opening_method = "click"
-        elif self.ui.RadioButton_2.isChecked():
+        elif self.ui.RadioButton_14.isChecked():
             GDV.opening_method = "long_press"
 
     def update_posture_buttons(self):
         # 判断当前选中的姿势
-        if self.ui.RadioButton_3.isChecked():  # C 键 下蹲
+        if self.ui.RadioButton_15.isChecked():  # C 键 下蹲
             GDV.posture_state_button = "c"
-        elif self.ui.RadioButton_4.isChecked():  # ctrl 键 下蹲
+        elif self.ui.RadioButton_16.isChecked():  # ctrl 键 下蹲
             GDV.posture_state_button = "ctrl_l"
 
     # ----------- 窗口拖动 -----------
