@@ -62,6 +62,7 @@ class GlobalVariable(Observable):
         self._mouse_left_state = False
         self._mouse_right_state = False
         self._in_car = False
+        self._mouse_server = 0
 
 
     @property
@@ -213,6 +214,14 @@ class GlobalVariable(Observable):
     def in_car(self, value):
         self._in_car = value
         self.notify_observers()
+
+    @property
+    def mouse_server(self):
+        return self._mouse_server
+
+    @mouse_server.setter
+    def mouse_server(self, value):
+        self._mouse_server = value
 
 
 

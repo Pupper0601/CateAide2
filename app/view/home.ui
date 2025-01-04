@@ -1126,7 +1126,7 @@ FluentLabelBase{color:#000000}
                     <string>系统控制驱动, 无需安装 罗技驱动</string>
                    </property>
                    <property name="checked">
-                    <bool>false</bool>
+                    <bool>true</bool>
                    </property>
                   </widget>
                  </item>
@@ -1145,8 +1145,11 @@ FluentLabelBase{color:#000000}
                    <property name="text">
                     <string>GHUB 最新版驱动, 下方获取脚本</string>
                    </property>
-                   <property name="checked">
+                   <property name="checkable">
                     <bool>true</bool>
+                   </property>
+                   <property name="checked">
+                    <bool>false</bool>
                    </property>
                   </widget>
                  </item>
@@ -1656,12 +1659,18 @@ PillToolButton:disabled:checked {
                  </item>
                  <item>
                   <widget class="PushButton" name="PushButton_8">
+                   <property name="enabled">
+                    <bool>false</bool>
+                   </property>
                    <property name="text">
                     <string>获取压枪脚本</string>
                    </property>
                    <property name="icon">
                     <iconset resource="../../resource.qrc">
                      <normaloff>:/icon/app/resource/icon/floating.png</normaloff>:/icon/app/resource/icon/floating.png</iconset>
+                   </property>
+                   <property name="checkable">
+                    <bool>true</bool>
                    </property>
                   </widget>
                  </item>

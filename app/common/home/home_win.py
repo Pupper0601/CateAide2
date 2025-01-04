@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 # @Author : Pupper
 # @Email  : pupper.cheng@gmail.com
+import os
 
 from PySide6.QtGui import QDesktopServices, QIcon, Qt, QPainter, QBrush, QColor
 from PySide6.QtWidgets import QApplication, QMainWindow, QGraphicsBlurEffect, QMessageBox, QWidget, QVBoxLayout
@@ -56,13 +57,22 @@ class HomeMainWin(QMainWindow):
         self.ui.RadioButton_14.clicked.connect(self.update_mouse_gun)
         self.ui.RadioButton_15.clicked.connect(self.update_posture_buttons)
         self.ui.RadioButton_16.clicked.connect(self.update_posture_buttons)
+        self.ui.RadioButton_2.clicked.connect(self.server_mouse)
+        self.ui.RadioButton_4.clicked.connect(self.server_mouse)
+        self.ui.RadioButton_19.clicked.connect(self.server_mouse)
         self.resolution()
 
     def resolution(self):
         # 获取屏幕分辨率
         width, height = get_primary_screen_resolution()
         self.ui.StrongBodyLabel_2.setText(f"分辨率: {width}x{height}")
-        GDV.CACHE = images_cache()
+        img_path = object_join_path(f"basis_images/{width}_{height}")
+        if os.path.exists(img_path) and os.path.isdir(img_path):
+            self.ui.StrongBodyLabel_6.setText("已适配")
+            GDV.CACHE = images_cache(img_path)
+        else:
+            self.ui.StrongBodyLabel_6.setText("未适配, 请联系作者")
+
 
     def identification_control(self):
         # 识别控制
@@ -103,6 +113,18 @@ class HomeMainWin(QMainWindow):
             GDV.posture_state_button = "c"
         elif self.ui.RadioButton_16.isChecked():  # ctrl 键 下蹲
             GDV.posture_state_button = "ctrl_l"
+
+    def server_mouse(self):
+        # 服务器鼠标
+        if self.ui.RadioButton_2.isChecked():
+            GDV.mouse_server = 0
+            self.ui.PushButton_8.setEnabled(False)
+        elif self.ui.RadioButton_4.isChecked():
+            GDV.mouse_server = 1
+            self.ui.PushButton_8.setEnabled(False)
+        elif self.ui.RadioButton_19.isChecked():
+            GDV.mouse_server = 2
+            self.ui.PushButton_8.setEnabled(True)
 
     # ----------- 窗口拖动 -----------
     def mousePressEvent(self, event):

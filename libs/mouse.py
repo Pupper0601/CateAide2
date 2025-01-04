@@ -6,7 +6,8 @@
 from pynput import mouse
 
 from libs.auto_down import mouse_move_y
-from libs.identification import current_shooting_state, current_weapon_identification, get_in_game, \
+from libs.identification import current_posture_state, current_shooting_state, current_weapon_identification, \
+    get_in_game, \
     start_weapon_identification
 
 from libs.global_variables import GDV, THREAD_POOL
@@ -43,6 +44,10 @@ class MouseMonitor:
                 else:
                     if not is_mouse_visible():
                         self._shooting_state()
+            elif pressed and button == mouse.Button.right:
+                if GDV.in_game and not is_mouse_visible():
+                    logger.info("鼠标右键点击")
+                    self.posture_state()
 
             elif not pressed and button == mouse.Button.left:
                 GDV.mouse_left_state = False
@@ -114,3 +119,11 @@ class MouseMonitor:
     def mouse_to(self, future):
         if not future.result():
             mouse_move_y(GDV.output_gun_info)
+
+    def posture_state(self):
+        future = THREAD_POOL.submit(current_posture_state)
+        future.add_done_callback(self.on_posture_state)
+
+    def on_posture_state(self, future):
+        future.result()
+        self.window.shootingSignal.emit()

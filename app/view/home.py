@@ -621,7 +621,7 @@ class Ui_HomeMainWindow(object):
         self.verticalLayout_2.setContentsMargins(10, 4, 10, 4)
         self.RadioButton_2 = RadioButton(self.frame_5)
         self.RadioButton_2.setObjectName(u"RadioButton_2")
-        self.RadioButton_2.setChecked(False)
+        self.RadioButton_2.setChecked(True)
 
         self.verticalLayout_2.addWidget(self.RadioButton_2)
 
@@ -633,7 +633,8 @@ class Ui_HomeMainWindow(object):
 
         self.RadioButton_19 = RadioButton(self.frame_5)
         self.RadioButton_19.setObjectName(u"RadioButton_19")
-        self.RadioButton_19.setChecked(True)
+        self.RadioButton_19.setCheckable(True)
+        self.RadioButton_19.setChecked(False)
 
         self.verticalLayout_2.addWidget(self.RadioButton_19)
 
@@ -1035,9 +1036,11 @@ class Ui_HomeMainWindow(object):
 
         self.PushButton_8 = PushButton(self.frame_25)
         self.PushButton_8.setObjectName(u"PushButton_8")
+        self.PushButton_8.setEnabled(False)
         icon6 = QIcon()
         icon6.addFile(u":/icon/app/resource/icon/floating.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.PushButton_8.setIcon(icon6)
+        self.PushButton_8.setCheckable(True)
 
         self.horizontalLayout_12.addWidget(self.PushButton_8)
 

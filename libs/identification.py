@@ -292,6 +292,31 @@ def posture_in_car():
     logger.info(f"当前不在车内, 识别耗时: {time.time() - start_time:.2f}秒")
     return
 
+def current_posture_state():
+    """
+    判断当前的姿态
+    :return: GDV.posture_state
+    """
+    time.sleep(0.3)
+    start_time = time.time()
+    _value = GDV.CACHE["config"]["pose"]
+    _img = take_screenshot(_value)
+    res, coordinates = has_large_color_block(_img)
+    if res:
+        if coordinates[0][0] < 10:
+            if GDV.posture_state != "zhan":
+                GDV.posture_state = "zhan"
+            logger.info(f"当前姿态 --->>> 站立, 识别耗时: {time.time() - start_time:.2f}秒")
+        elif coordinates[0][0] < 20:
+            if GDV.posture_state != "dun":
+                GDV.posture_state = "dun"
+            logger.info(f"当前姿态 --->>> 蹲姿, 识别耗时: {time.time() - start_time:.2f}秒")
+        elif coordinates[0][0] > 20:
+            if GDV.posture_state != "pa":
+                GDV.posture_state = "pa"
+            logger.info(f"当前姿态 --->>> 蹲姿, 识别耗时: {time.time() - start_time:.2f}秒")
+
+
 if __name__ == '__main__':
     # weapon_identification()
     # print(GUNS_DATA)

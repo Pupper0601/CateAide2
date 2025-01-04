@@ -6,6 +6,7 @@
 import ctypes
 import time
 
+import pydirectinput
 from pynput import mouse
 from pynput.keyboard import Controller, Key
 
@@ -44,15 +45,15 @@ def mouse_move_y(gun_data: dict):
             f" {GDV.mouse_left_state}")
         while GDV.mouse_left_state:
             if move_sum > _speed:
-                GHUB.mouse_xy(0, _speed)
+                mouse_move(0, _speed)
                 move_sum -= _speed
             elif move_sum > 0:
-                GHUB.mouse_xy(0, _speed)
+                mouse_move(0, _speed)
                 move_sum = 0
             elapsed = (round(time.perf_counter(), 3) * 1000 - start_time)
             if not GDV.mouse_left_state or elapsed > gun_data["weapon_intervals"] - 10:
                 if move_sum > 0:
-                    GHUB.mouse_xy(0, _speed)
+                    mouse_move(0, _speed)
                 logger.info(f"退出循环, {elapsed}")
                 break
             time.sleep(0.01)
@@ -69,3 +70,9 @@ def move_coefficient_handle(gun_data):
         for key, value in i.items():
             lists.append(value)
     return lists
+
+def mouse_move(x,y):
+    if GDV.mouse_server == 0:
+        pydirectinput.move(x,y)
+    elif GDV.mouse_server == 1:
+        GHUB.mouse_xy(x,y)

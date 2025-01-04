@@ -7,7 +7,6 @@ import os
 import sys
 from pathlib import Path
 
-from libs.config import debug, system_mouse
 from libs.global_variables import GDV, THREAD_POOL
 from tools.files import load_file
 from tools.logs import logger
@@ -23,7 +22,10 @@ class Pressure:
 
     @staticmethod
     def get_component_factor():
-        _gun_data = load_file(object_join_path("gun_data.json"))
+        if GDV.mouse_server != 2:
+            _gun_data = load_file(object_join_path("gun_data.json"))
+        else:
+            _gun_data = load_file(object_join_path("ghub_data.json"))
 
         _factor_data = {}
         current_weapon_info = GDV.current_weapon_info
@@ -114,7 +116,7 @@ class Pressure:
         else:
             GDV.output_gun_info = _gun_info
 
-        if system_mouse:    # 如果是系统鼠标, 则不写入文件
+        if GDV.mouse_server != 2:    # 如果是系统鼠标, 则不写入文件
             logger.info("当前使用的是系统鼠标, 不写入文件")
             return
 

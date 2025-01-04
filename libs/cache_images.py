@@ -15,17 +15,17 @@ from tools.files import load_file
 from tools.logs import logger
 from tools.paths import get_project_root, object_join_path
 
-def images_cache():
+def images_cache(paths):
     """缓存图片"""
     _start_time = time.time()
-    images = load_images_from_folder()
-    config = load_images_config()
+    images = load_images_from_folder(paths)
+    config = load_images_config(paths)
     logger.info(f"图片缓存完成, 耗时: {time.time() - _start_time:.2f} 秒")
     return {"images": images, "config": config}
 
-def load_images_from_folder():
+def load_images_from_folder(paths):
     """从文件夹中加载所有图片"""
-    images_path = object_join_path("basis_images")
+    images_path = paths
 
     images = {}
     for root, dirs, files in os.walk(images_path):  # 遍历文件夹及其子文件夹
@@ -44,9 +44,9 @@ def load_images_from_folder():
 
     return images
 
-def load_images_config():
+def load_images_config(paths):
     """从配置文件中加载图片"""
-    config_path = object_join_path("basis_images/config.json")
+    config_path = paths + "/config.json"
     config = load_file(config_path)
     return config
 
