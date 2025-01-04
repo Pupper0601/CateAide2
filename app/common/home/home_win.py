@@ -57,6 +57,12 @@ class HomeMainWin(QMainWindow):
         self.ui.RadioButton_14.clicked.connect(self.update_mouse_gun)
         self.ui.RadioButton_15.clicked.connect(self.update_posture_buttons)
         self.ui.RadioButton_16.clicked.connect(self.update_posture_buttons)
+
+        self.ui.RadioButton_2.setEnabled(False)
+        self.ui.RadioButton_19.setEnabled(False)
+        self.ui.RadioButton_4.setChecked(True)
+        GDV.mouse_server = 1
+
         self.ui.RadioButton_2.clicked.connect(self.server_mouse)
         self.ui.RadioButton_4.clicked.connect(self.server_mouse)
         self.ui.RadioButton_19.clicked.connect(self.server_mouse)

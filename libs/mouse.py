@@ -44,9 +44,9 @@ class MouseMonitor:
                 else:
                     if not is_mouse_visible():
                         self._shooting_state()
+
             elif pressed and button == mouse.Button.right:
                 if GDV.in_game and not is_mouse_visible():
-                    logger.info("鼠标右键点击")
                     self.posture_state()
 
             elif not pressed and button == mouse.Button.left:
@@ -64,8 +64,9 @@ class MouseMonitor:
                     self.get_game_state()   # 获取当前是否在对局中
 
             elif pressed and button == mouse.Button.left:
-                GDV.mouse_left_state = True
-                self.auto_down_state()
+                if GDV.mouse_server != 2:
+                    GDV.mouse_left_state = True
+                    self.auto_down_state()
 
 
 

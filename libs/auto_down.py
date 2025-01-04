@@ -3,12 +3,8 @@
 # @Author : Pupper
 # @Email  : pupper.cheng@gmail.com
 
-import ctypes
 import time
-
 import pydirectinput
-from pynput import mouse
-from pynput.keyboard import Controller, Key
 
 from libs.global_variables import GDV, GHUB
 from tools.logs import logger
@@ -76,3 +72,4 @@ def mouse_move(x,y):
         pydirectinput.move(x,y)
     elif GDV.mouse_server == 1:
         GHUB.mouse_xy(x,y)
+        logger.info(f"鼠标移动: x: {x}, y: {y}")
