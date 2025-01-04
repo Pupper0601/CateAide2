@@ -5,6 +5,7 @@
     <file>app/resource/images/login_bg.png</file>
   </qresource>
   <qresource prefix="icon">
+    <file>app/resource/icon/string.png</file>
     <file>app/resource/icon/buy.png</file>
     <file>app/resource/icon/close.png</file>
     <file>app/resource/icon/dashang.png</file>

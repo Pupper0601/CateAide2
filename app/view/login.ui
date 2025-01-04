@@ -367,7 +367,7 @@ color: rgb(193, 0, 0);
 }</string>
              </property>
              <property name="text">
-              <string>CuteAide</string>
+              <string>CuteAide2</string>
              </property>
             </widget>
            </item>
@@ -1267,6 +1267,9 @@ PillToolButton:disabled:checked {
            </item>
            <item>
             <widget class="PushButton" name="PushButton">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
              <property name="text">
               <string>购买激活码</string>
              </property>

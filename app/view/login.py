@@ -836,6 +836,7 @@ class Ui_LoginMainWindow(object):
 
         self.PushButton = PushButton(self.frame_10)
         self.PushButton.setObjectName(u"PushButton")
+        self.PushButton.setEnabled(False)
         icon2 = QIcon()
         icon2.addFile(u":/icon/app/resource/icon/buy.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.PushButton.setIcon(icon2)
@@ -884,7 +885,7 @@ class Ui_LoginMainWindow(object):
 #if QT_CONFIG(tooltip)
         self.frame_5.setToolTip(QCoreApplication.translate("LoginMainWindow", u"<html><head/><body><p>\u8bf7\u8f93\u51656~30\u4f4d\u5bc6\u7801</p></body></html>", None))
 #endif // QT_CONFIG(tooltip)
-        self.pushButton.setText(QCoreApplication.translate("LoginMainWindow", u"CuteAide", None))
+        self.pushButton.setText(QCoreApplication.translate("LoginMainWindow", u"CuteAide2", None))
 #if QT_CONFIG(tooltip)
         self.frame_7.setToolTip("")
 #endif // QT_CONFIG(tooltip)
