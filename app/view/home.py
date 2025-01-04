@@ -93,6 +93,9 @@ class Ui_HomeMainWindow(object):
         self.pushButton_5.setObjectName(u"pushButton_5")
         self.pushButton_5.setStyleSheet(u"#pushButton_5{\n"
 "	border: none;\n"
+"	\n"
+"	color: rgb(85, 0, 255);\n"
+"	background-color: rgba(255, 255, 255, 0);\n"
 "}")
         icon1 = QIcon()
         icon1.addFile(u":/icon/app/resource/icon/versrion.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
@@ -130,6 +133,9 @@ class Ui_HomeMainWindow(object):
         self.label_18.setObjectName(u"label_18")
         self.label_18.setStyleSheet(u"#label_18{\n"
 "	font: 700 18pt \"\u9ed1\u4f53\";\n"
+"	background-color: rgba(255, 255, 255, 0);\n"
+"	\n"
+"	color: rgb(255, 105, 5);\n"
 "}")
 
         self.horizontalLayout_5.addWidget(self.label_18)
@@ -212,6 +218,9 @@ class Ui_HomeMainWindow(object):
         sizePolicy3.setVerticalStretch(8)
         sizePolicy3.setHeightForWidth(self.widget_6.sizePolicy().hasHeightForWidth())
         self.widget_6.setSizePolicy(sizePolicy3)
+        self.widget_6.setStyleSheet(u"#widget_6{\n"
+"	background-color: rgba(255, 255, 255, 0);\n"
+"}")
         self.horizontalLayout = QHBoxLayout(self.widget_6)
         self.horizontalLayout.setSpacing(0)
         self.horizontalLayout.setObjectName(u"horizontalLayout")
@@ -230,6 +239,7 @@ class Ui_HomeMainWindow(object):
         self.frame_15.setSizePolicy(sizePolicy2)
         self.frame_15.setStyleSheet(u"#frame_15{\n"
 "	border: none;\n"
+"background-color: rgba(255, 255, 255, 0);\n"
 "}")
         self.frame_15.setFrameShape(QFrame.StyledPanel)
         self.frame_15.setFrameShadow(QFrame.Raised)
@@ -291,6 +301,7 @@ class Ui_HomeMainWindow(object):
 "\n"
 "#StrongBodyLabel_7{\n"
 "	color: rgb(255, 112, 16);\n"
+"background-color: rgba(255, 255, 255, 0);\n"
 "}")
 
         self.horizontalLayout_15.addWidget(self.StrongBodyLabel_7)
@@ -301,6 +312,41 @@ class Ui_HomeMainWindow(object):
 
         self.StrongBodyLabel_8 = StrongBodyLabel(self.frame_3)
         self.StrongBodyLabel_8.setObjectName(u"StrongBodyLabel_8")
+        self.StrongBodyLabel_8.setStyleSheet(u"FluentLabelBase {\n"
+"    color: black;\n"
+"}\n"
+"\n"
+"HyperlinkLabel {\n"
+"    color: #009faa;\n"
+"    border: none;\n"
+"    background-color: transparent;\n"
+"    text-align: left;\n"
+"    padding: 0;\n"
+"    margin: 0;\n"
+"}\n"
+"\n"
+"HyperlinkLabel[underline=true] {\n"
+"    text-decoration: underline;\n"
+"}\n"
+"\n"
+"HyperlinkLabel[underline=false] {\n"
+"    text-decoration: none;\n"
+"}\n"
+"\n"
+"HyperlinkLabel:hover {\n"
+"    color: #007780;\n"
+"}\n"
+"\n"
+"HyperlinkLabel:pressed {\n"
+"    color: #00a7b3;\n"
+"}\n"
+"FluentLabelBase{color:#000000}\n"
+"\n"
+"#StrongBodyLabel_8{\n"
+"	background-color: rgba(255, 255, 255, 0);\n"
+"	\n"
+"	color: rgb(255, 67, 34);\n"
+"}")
 
         self.horizontalLayout_15.addWidget(self.StrongBodyLabel_8)
 
@@ -341,8 +387,9 @@ class Ui_HomeMainWindow(object):
         self.frame_8.setMaximumSize(QSize(16777215, 32))
         self.frame_8.setStyleSheet(u"#frame_8{\n"
 "	border: nome;\n"
-"	\n"
-"}")
+"	background-color: rgba(255, 255, 255, 0);\n"
+"}\n"
+"")
         self.frame_8.setFrameShape(QFrame.NoFrame)
         self.horizontalLayout_2 = QHBoxLayout(self.frame_8)
         self.horizontalLayout_2.setSpacing(0)
@@ -354,6 +401,40 @@ class Ui_HomeMainWindow(object):
 
         self.StrongBodyLabel = StrongBodyLabel(self.frame_8)
         self.StrongBodyLabel.setObjectName(u"StrongBodyLabel")
+        self.StrongBodyLabel.setStyleSheet(u"FluentLabelBase {\n"
+"    color: black;\n"
+"}\n"
+"\n"
+"HyperlinkLabel {\n"
+"    color: #009faa;\n"
+"    border: none;\n"
+"    background-color: transparent;\n"
+"    text-align: left;\n"
+"    padding: 0;\n"
+"    margin: 0;\n"
+"}\n"
+"\n"
+"HyperlinkLabel[underline=true] {\n"
+"    text-decoration: underline;\n"
+"}\n"
+"\n"
+"HyperlinkLabel[underline=false] {\n"
+"    text-decoration: none;\n"
+"}\n"
+"\n"
+"HyperlinkLabel:hover {\n"
+"    color: #007780;\n"
+"}\n"
+"\n"
+"HyperlinkLabel:pressed {\n"
+"    color: #00a7b3;\n"
+"}\n"
+"FluentLabelBase{color:#000000}\n"
+"\n"
+"#StrongBodyLabel{\n"
+"	background-color: rgba(255, 255, 255, 0);\n"
+"	color: rgb(255, 158, 23);\n"
+"}")
 
         self.horizontalLayout_2.addWidget(self.StrongBodyLabel)
 
@@ -364,6 +445,40 @@ class Ui_HomeMainWindow(object):
         self.StrongBodyLabel_2 = StrongBodyLabel(self.frame_8)
         self.StrongBodyLabel_2.setObjectName(u"StrongBodyLabel_2")
         self.StrongBodyLabel_2.setMinimumSize(QSize(120, 0))
+        self.StrongBodyLabel_2.setStyleSheet(u"FluentLabelBase {\n"
+"    color: black;\n"
+"}\n"
+"\n"
+"HyperlinkLabel {\n"
+"    color: #009faa;\n"
+"    border: none;\n"
+"    background-color: transparent;\n"
+"    text-align: left;\n"
+"    padding: 0;\n"
+"    margin: 0;\n"
+"}\n"
+"\n"
+"HyperlinkLabel[underline=true] {\n"
+"    text-decoration: underline;\n"
+"}\n"
+"\n"
+"HyperlinkLabel[underline=false] {\n"
+"    text-decoration: none;\n"
+"}\n"
+"\n"
+"HyperlinkLabel:hover {\n"
+"    color: #007780;\n"
+"}\n"
+"\n"
+"HyperlinkLabel:pressed {\n"
+"    color: #00a7b3;\n"
+"}\n"
+"FluentLabelBase{color:#000000}\n"
+"\n"
+"#StrongBodyLabel_2{\n"
+"	background-color: rgba(255, 255, 255, 0);\n"
+"	color: rgb(255, 98, 25);\n"
+"}")
 
         self.horizontalLayout_2.addWidget(self.StrongBodyLabel_2)
 
@@ -380,10 +495,11 @@ class Ui_HomeMainWindow(object):
         self.frame_31.setSizePolicy(sizePolicy5)
         self.frame_31.setMinimumSize(QSize(0, 25))
         self.frame_31.setMaximumSize(QSize(16777215, 32))
-        self.frame_31.setStyleSheet(u"#frame_8{\n"
+        self.frame_31.setStyleSheet(u"#frame_31{\n"
 "	border: nome;\n"
-"	\n"
-"}")
+"	background-color: rgba(255, 255, 255, 0);\n"
+"}\n"
+"")
         self.frame_31.setFrameShape(QFrame.NoFrame)
         self.horizontalLayout_3 = QHBoxLayout(self.frame_31)
         self.horizontalLayout_3.setSpacing(0)
@@ -395,6 +511,40 @@ class Ui_HomeMainWindow(object):
 
         self.StrongBodyLabel_5 = StrongBodyLabel(self.frame_31)
         self.StrongBodyLabel_5.setObjectName(u"StrongBodyLabel_5")
+        self.StrongBodyLabel_5.setStyleSheet(u"FluentLabelBase {\n"
+"    color: black;\n"
+"}\n"
+"\n"
+"HyperlinkLabel {\n"
+"    color: #009faa;\n"
+"    border: none;\n"
+"    background-color: transparent;\n"
+"    text-align: left;\n"
+"    padding: 0;\n"
+"    margin: 0;\n"
+"}\n"
+"\n"
+"HyperlinkLabel[underline=true] {\n"
+"    text-decoration: underline;\n"
+"}\n"
+"\n"
+"HyperlinkLabel[underline=false] {\n"
+"    text-decoration: none;\n"
+"}\n"
+"\n"
+"HyperlinkLabel:hover {\n"
+"    color: #007780;\n"
+"}\n"
+"\n"
+"HyperlinkLabel:pressed {\n"
+"    color: #00a7b3;\n"
+"}\n"
+"FluentLabelBase{color:#000000}\n"
+"\n"
+"#StrongBodyLabel_5{\n"
+"	background-color: rgba(255, 255, 255, 0);\n"
+"	color: rgb(255, 158, 23);\n"
+"}")
 
         self.horizontalLayout_3.addWidget(self.StrongBodyLabel_5)
 
@@ -405,6 +555,40 @@ class Ui_HomeMainWindow(object):
         self.StrongBodyLabel_6 = StrongBodyLabel(self.frame_31)
         self.StrongBodyLabel_6.setObjectName(u"StrongBodyLabel_6")
         self.StrongBodyLabel_6.setMinimumSize(QSize(120, 0))
+        self.StrongBodyLabel_6.setStyleSheet(u"FluentLabelBase {\n"
+"    color: black;\n"
+"}\n"
+"\n"
+"HyperlinkLabel {\n"
+"    color: #009faa;\n"
+"    border: none;\n"
+"    background-color: transparent;\n"
+"    text-align: left;\n"
+"    padding: 0;\n"
+"    margin: 0;\n"
+"}\n"
+"\n"
+"HyperlinkLabel[underline=true] {\n"
+"    text-decoration: underline;\n"
+"}\n"
+"\n"
+"HyperlinkLabel[underline=false] {\n"
+"    text-decoration: none;\n"
+"}\n"
+"\n"
+"HyperlinkLabel:hover {\n"
+"    color: #007780;\n"
+"}\n"
+"\n"
+"HyperlinkLabel:pressed {\n"
+"    color: #00a7b3;\n"
+"}\n"
+"FluentLabelBase{color:#000000}\n"
+"\n"
+"#StrongBodyLabel_6{\n"
+"	background-color: rgba(255, 255, 255, 0);\n"
+"	color: rgb(255, 98, 25);\n"
+"}")
 
         self.horizontalLayout_3.addWidget(self.StrongBodyLabel_6)
 
@@ -463,7 +647,9 @@ class Ui_HomeMainWindow(object):
         self.frame_20.setMaximumSize(QSize(16777215, 55))
         self.frame_20.setStyleSheet(u"#frame_20{\n"
 "	border: none;\n"
-"}")
+"	background-color: rgba(255, 255, 255, 0);\n"
+"}\n"
+"")
         self.frame_20.setFrameShape(QFrame.NoFrame)
         self.horizontalLayout_9 = QHBoxLayout(self.frame_20)
         self.horizontalLayout_9.setSpacing(0)
@@ -822,7 +1008,9 @@ class Ui_HomeMainWindow(object):
         self.frame_25.setMaximumSize(QSize(16777215, 50))
         self.frame_25.setStyleSheet(u"#frame_25{\n"
 "	border: none;\n"
-"}")
+"	background-color: rgba(255, 255, 255, 0);\n"
+"}\n"
+"")
         self.frame_25.setFrameShape(QFrame.StyledPanel)
         self.frame_25.setFrameShadow(QFrame.Raised)
         self.horizontalLayout_12 = QHBoxLayout(self.frame_25)
@@ -869,6 +1057,7 @@ class Ui_HomeMainWindow(object):
         self.frame_24.setSizePolicy(sizePolicy2)
         self.frame_24.setStyleSheet(u"#frame_24{\n"
 "	border: none;\n"
+"background-color: rgba(255, 255, 255, 0);\n"
 "}")
         self.frame_24.setFrameShape(QFrame.StyledPanel)
         self.frame_24.setFrameShadow(QFrame.Raised)
@@ -898,8 +1087,9 @@ class Ui_HomeMainWindow(object):
         sizePolicy7.setVerticalStretch(0)
         sizePolicy7.setHeightForWidth(self.frame_28.sizePolicy().hasHeightForWidth())
         self.frame_28.setSizePolicy(sizePolicy7)
-        self.frame_28.setStyleSheet(u"#frame_2{\n"
-"	border: none;\n"
+        self.frame_28.setStyleSheet(u"#frame_28{\n"
+"	border:none;\n"
+"	background-color: rgba(255, 255, 255, 0);\n"
 "}")
         self.frame_28.setFrameShape(QFrame.NoFrame)
         self.horizontalLayout_24 = QHBoxLayout(self.frame_28)
@@ -936,8 +1126,9 @@ class Ui_HomeMainWindow(object):
         self.frame_29.setObjectName(u"frame_29")
         sizePolicy7.setHeightForWidth(self.frame_29.sizePolicy().hasHeightForWidth())
         self.frame_29.setSizePolicy(sizePolicy7)
-        self.frame_29.setStyleSheet(u"#frame_19{\n"
-"	border: none;\n"
+        self.frame_29.setStyleSheet(u"#frame_29{\n"
+"	border:none;\n"
+"	background-color: rgba(255, 255, 255, 0);\n"
 "}")
         self.frame_29.setFrameShape(QFrame.NoFrame)
         self.horizontalLayout_25 = QHBoxLayout(self.frame_29)
@@ -978,8 +1169,9 @@ class Ui_HomeMainWindow(object):
         sizePolicy8.setHeightForWidth(self.frame_30.sizePolicy().hasHeightForWidth())
         self.frame_30.setSizePolicy(sizePolicy8)
         self.frame_30.setMaximumSize(QSize(16777215, 40))
-        self.frame_30.setStyleSheet(u"#frame_6{\n"
+        self.frame_30.setStyleSheet(u"#frame_30{\n"
 "	border:none;\n"
+"	background-color: rgba(255, 255, 255, 0);\n"
 "}")
         self.frame_30.setFrameShape(QFrame.NoFrame)
         self.horizontalLayout_26 = QHBoxLayout(self.frame_30)
@@ -1039,8 +1231,9 @@ class Ui_HomeMainWindow(object):
         sizePolicy8.setHeightForWidth(self.frame_32.sizePolicy().hasHeightForWidth())
         self.frame_32.setSizePolicy(sizePolicy8)
         self.frame_32.setMaximumSize(QSize(16777215, 40))
-        self.frame_32.setStyleSheet(u"#frame_6{\n"
+        self.frame_32.setStyleSheet(u"#frame_32{\n"
 "	border:none;\n"
+"	background-color: rgba(255, 255, 255, 0);\n"
 "}")
         self.frame_32.setFrameShape(QFrame.NoFrame)
         self.horizontalLayout_27 = QHBoxLayout(self.frame_32)
@@ -1080,8 +1273,9 @@ class Ui_HomeMainWindow(object):
         sizePolicy8.setHeightForWidth(self.frame_33.sizePolicy().hasHeightForWidth())
         self.frame_33.setSizePolicy(sizePolicy8)
         self.frame_33.setMaximumSize(QSize(16777215, 40))
-        self.frame_33.setStyleSheet(u"#frame_6{\n"
+        self.frame_33.setStyleSheet(u"#frame_33{\n"
 "	border:none;\n"
+"	background-color: rgba(255, 255, 255, 0);\n"
 "}")
         self.frame_33.setFrameShape(QFrame.NoFrame)
         self.horizontalLayout_28 = QHBoxLayout(self.frame_33)
@@ -1121,9 +1315,11 @@ class Ui_HomeMainWindow(object):
         sizePolicy8.setHeightForWidth(self.frame_34.sizePolicy().hasHeightForWidth())
         self.frame_34.setSizePolicy(sizePolicy8)
         self.frame_34.setMaximumSize(QSize(16777215, 40))
-        self.frame_34.setStyleSheet(u"#frame_6{\n"
+        self.frame_34.setStyleSheet(u"#frame_34{\n"
 "	border:none;\n"
-"}")
+"	background-color: rgba(255, 255, 255, 0);\n"
+"}\n"
+"")
         self.frame_34.setFrameShape(QFrame.NoFrame)
         self.horizontalLayout_29 = QHBoxLayout(self.frame_34)
         self.horizontalLayout_29.setSpacing(0)
@@ -1165,9 +1361,11 @@ class Ui_HomeMainWindow(object):
         sizePolicy4.setHeightForWidth(self.frame_26.sizePolicy().hasHeightForWidth())
         self.frame_26.setSizePolicy(sizePolicy4)
         self.frame_26.setMaximumSize(QSize(16777215, 55))
-        self.frame_26.setStyleSheet(u"#frame_20{\n"
+        self.frame_26.setStyleSheet(u"#frame_26{\n"
 "	border: none;\n"
-"}")
+"	background-color: rgba(255, 255, 255, 0);\n"
+"}\n"
+"")
         self.frame_26.setFrameShape(QFrame.NoFrame)
         self.horizontalLayout_14 = QHBoxLayout(self.frame_26)
         self.horizontalLayout_14.setSpacing(0)

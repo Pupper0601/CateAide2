@@ -152,6 +152,9 @@
              <property name="styleSheet">
               <string notr="true">#pushButton_5{
 	border: none;
+	
+	color: rgb(85, 0, 255);
+	background-color: rgba(255, 255, 255, 0);
 }</string>
              </property>
              <property name="text">
@@ -244,6 +247,9 @@
              <property name="styleSheet">
               <string notr="true">#label_18{
 	font: 700 18pt &quot;黑体&quot;;
+	background-color: rgba(255, 255, 255, 0);
+	
+	color: rgb(255, 105, 5);
 }</string>
              </property>
              <property name="text">
@@ -410,6 +416,11 @@ QPushButton:hover{
          <verstretch>8</verstretch>
         </sizepolicy>
        </property>
+       <property name="styleSheet">
+        <string notr="true">#widget_6{
+	background-color: rgba(255, 255, 255, 0);
+}</string>
+       </property>
        <layout class="QHBoxLayout" name="horizontalLayout">
         <property name="spacing">
          <number>0</number>
@@ -461,6 +472,7 @@ QPushButton:hover{
              <property name="styleSheet">
               <string notr="true">#frame_15{
 	border: none;
+background-color: rgba(255, 255, 255, 0);
 }</string>
              </property>
              <property name="frameShape">
@@ -576,6 +588,7 @@ FluentLabelBase{color:#000000}
 
 #StrongBodyLabel_7{
 	color: rgb(255, 112, 16);
+background-color: rgba(255, 255, 255, 0);
 }</string>
                    </property>
                    <property name="text">
@@ -598,6 +611,43 @@ FluentLabelBase{color:#000000}
                  </item>
                  <item>
                   <widget class="StrongBodyLabel" name="StrongBodyLabel_8">
+                   <property name="styleSheet">
+                    <string notr="true">FluentLabelBase {
+    color: black;
+}
+
+HyperlinkLabel {
+    color: #009faa;
+    border: none;
+    background-color: transparent;
+    text-align: left;
+    padding: 0;
+    margin: 0;
+}
+
+HyperlinkLabel[underline=true] {
+    text-decoration: underline;
+}
+
+HyperlinkLabel[underline=false] {
+    text-decoration: none;
+}
+
+HyperlinkLabel:hover {
+    color: #007780;
+}
+
+HyperlinkLabel:pressed {
+    color: #00a7b3;
+}
+FluentLabelBase{color:#000000}
+
+#StrongBodyLabel_8{
+	background-color: rgba(255, 255, 255, 0);
+	
+	color: rgb(255, 67, 34);
+}</string>
+                   </property>
                    <property name="text">
                     <string>2025-01-04 18:32:31</string>
                    </property>
@@ -688,8 +738,9 @@ FluentLabelBase{color:#000000}
                    <property name="styleSheet">
                     <string notr="true">#frame_8{
 	border: nome;
-	
-}</string>
+	background-color: rgba(255, 255, 255, 0);
+}
+</string>
                    </property>
                    <property name="frameShape">
                     <enum>QFrame::NoFrame</enum>
@@ -725,6 +776,42 @@ FluentLabelBase{color:#000000}
                     </item>
                     <item>
                      <widget class="StrongBodyLabel" name="StrongBodyLabel">
+                      <property name="styleSheet">
+                       <string notr="true">FluentLabelBase {
+    color: black;
+}
+
+HyperlinkLabel {
+    color: #009faa;
+    border: none;
+    background-color: transparent;
+    text-align: left;
+    padding: 0;
+    margin: 0;
+}
+
+HyperlinkLabel[underline=true] {
+    text-decoration: underline;
+}
+
+HyperlinkLabel[underline=false] {
+    text-decoration: none;
+}
+
+HyperlinkLabel:hover {
+    color: #007780;
+}
+
+HyperlinkLabel:pressed {
+    color: #00a7b3;
+}
+FluentLabelBase{color:#000000}
+
+#StrongBodyLabel{
+	background-color: rgba(255, 255, 255, 0);
+	color: rgb(255, 158, 23);
+}</string>
+                      </property>
                       <property name="text">
                        <string>分  辨  率:</string>
                       </property>
@@ -750,6 +837,42 @@ FluentLabelBase{color:#000000}
                         <width>120</width>
                         <height>0</height>
                        </size>
+                      </property>
+                      <property name="styleSheet">
+                       <string notr="true">FluentLabelBase {
+    color: black;
+}
+
+HyperlinkLabel {
+    color: #009faa;
+    border: none;
+    background-color: transparent;
+    text-align: left;
+    padding: 0;
+    margin: 0;
+}
+
+HyperlinkLabel[underline=true] {
+    text-decoration: underline;
+}
+
+HyperlinkLabel[underline=false] {
+    text-decoration: none;
+}
+
+HyperlinkLabel:hover {
+    color: #007780;
+}
+
+HyperlinkLabel:pressed {
+    color: #00a7b3;
+}
+FluentLabelBase{color:#000000}
+
+#StrongBodyLabel_2{
+	background-color: rgba(255, 255, 255, 0);
+	color: rgb(255, 98, 25);
+}</string>
                       </property>
                       <property name="text">
                        <string>1920*1080</string>
@@ -793,10 +916,11 @@ FluentLabelBase{color:#000000}
                     </size>
                    </property>
                    <property name="styleSheet">
-                    <string notr="true">#frame_8{
+                    <string notr="true">#frame_31{
 	border: nome;
-	
-}</string>
+	background-color: rgba(255, 255, 255, 0);
+}
+</string>
                    </property>
                    <property name="frameShape">
                     <enum>QFrame::NoFrame</enum>
@@ -832,6 +956,42 @@ FluentLabelBase{color:#000000}
                     </item>
                     <item>
                      <widget class="StrongBodyLabel" name="StrongBodyLabel_5">
+                      <property name="styleSheet">
+                       <string notr="true">FluentLabelBase {
+    color: black;
+}
+
+HyperlinkLabel {
+    color: #009faa;
+    border: none;
+    background-color: transparent;
+    text-align: left;
+    padding: 0;
+    margin: 0;
+}
+
+HyperlinkLabel[underline=true] {
+    text-decoration: underline;
+}
+
+HyperlinkLabel[underline=false] {
+    text-decoration: none;
+}
+
+HyperlinkLabel:hover {
+    color: #007780;
+}
+
+HyperlinkLabel:pressed {
+    color: #00a7b3;
+}
+FluentLabelBase{color:#000000}
+
+#StrongBodyLabel_5{
+	background-color: rgba(255, 255, 255, 0);
+	color: rgb(255, 158, 23);
+}</string>
+                      </property>
                       <property name="text">
                        <string>适配状态:</string>
                       </property>
@@ -857,6 +1017,42 @@ FluentLabelBase{color:#000000}
                         <width>120</width>
                         <height>0</height>
                        </size>
+                      </property>
+                      <property name="styleSheet">
+                       <string notr="true">FluentLabelBase {
+    color: black;
+}
+
+HyperlinkLabel {
+    color: #009faa;
+    border: none;
+    background-color: transparent;
+    text-align: left;
+    padding: 0;
+    margin: 0;
+}
+
+HyperlinkLabel[underline=true] {
+    text-decoration: underline;
+}
+
+HyperlinkLabel[underline=false] {
+    text-decoration: none;
+}
+
+HyperlinkLabel:hover {
+    color: #007780;
+}
+
+HyperlinkLabel:pressed {
+    color: #00a7b3;
+}
+FluentLabelBase{color:#000000}
+
+#StrongBodyLabel_6{
+	background-color: rgba(255, 255, 255, 0);
+	color: rgb(255, 98, 25);
+}</string>
                       </property>
                       <property name="text">
                        <string>已适配</string>
@@ -974,7 +1170,9 @@ FluentLabelBase{color:#000000}
                 <property name="styleSheet">
                  <string notr="true">#frame_20{
 	border: none;
-}</string>
+	background-color: rgba(255, 255, 255, 0);
+}
+</string>
                 </property>
                 <property name="frameShape">
                  <enum>QFrame::NoFrame</enum>
@@ -1393,7 +1591,9 @@ PillToolButton:disabled:checked {
                 <property name="styleSheet">
                  <string notr="true">#frame_25{
 	border: none;
-}</string>
+	background-color: rgba(255, 255, 255, 0);
+}
+</string>
                 </property>
                 <property name="frameShape">
                  <enum>QFrame::StyledPanel</enum>
@@ -1495,6 +1695,7 @@ PillToolButton:disabled:checked {
              <property name="styleSheet">
               <string notr="true">#frame_24{
 	border: none;
+background-color: rgba(255, 255, 255, 0);
 }</string>
              </property>
              <property name="frameShape">
@@ -1573,8 +1774,9 @@ PillToolButton:disabled:checked {
                     </sizepolicy>
                    </property>
                    <property name="styleSheet">
-                    <string notr="true">#frame_2{
-	border: none;
+                    <string notr="true">#frame_28{
+	border:none;
+	background-color: rgba(255, 255, 255, 0);
 }</string>
                    </property>
                    <property name="frameShape">
@@ -1664,8 +1866,9 @@ PillToolButton:disabled:checked {
                     </sizepolicy>
                    </property>
                    <property name="styleSheet">
-                    <string notr="true">#frame_19{
-	border: none;
+                    <string notr="true">#frame_29{
+	border:none;
+	background-color: rgba(255, 255, 255, 0);
 }</string>
                    </property>
                    <property name="frameShape">
@@ -1761,8 +1964,9 @@ PillToolButton:disabled:checked {
                     </size>
                    </property>
                    <property name="styleSheet">
-                    <string notr="true">#frame_6{
+                    <string notr="true">#frame_30{
 	border:none;
+	background-color: rgba(255, 255, 255, 0);
 }</string>
                    </property>
                    <property name="frameShape">
@@ -1922,8 +2126,9 @@ PillToolButton:disabled:checked {
                     </size>
                    </property>
                    <property name="styleSheet">
-                    <string notr="true">#frame_6{
+                    <string notr="true">#frame_32{
 	border:none;
+	background-color: rgba(255, 255, 255, 0);
 }</string>
                    </property>
                    <property name="frameShape">
@@ -2037,8 +2242,9 @@ PillToolButton:disabled:checked {
                     </size>
                    </property>
                    <property name="styleSheet">
-                    <string notr="true">#frame_6{
+                    <string notr="true">#frame_33{
 	border:none;
+	background-color: rgba(255, 255, 255, 0);
 }</string>
                    </property>
                    <property name="frameShape">
@@ -2152,9 +2358,11 @@ PillToolButton:disabled:checked {
                     </size>
                    </property>
                    <property name="styleSheet">
-                    <string notr="true">#frame_6{
+                    <string notr="true">#frame_34{
 	border:none;
-}</string>
+	background-color: rgba(255, 255, 255, 0);
+}
+</string>
                    </property>
                    <property name="frameShape">
                     <enum>QFrame::NoFrame</enum>
@@ -2270,9 +2478,11 @@ PillToolButton:disabled:checked {
                  </size>
                 </property>
                 <property name="styleSheet">
-                 <string notr="true">#frame_20{
+                 <string notr="true">#frame_26{
 	border: none;
-}</string>
+	background-color: rgba(255, 255, 255, 0);
+}
+</string>
                 </property>
                 <property name="frameShape">
                  <enum>QFrame::NoFrame</enum>

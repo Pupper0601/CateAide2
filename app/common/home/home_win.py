@@ -42,7 +42,7 @@ class HomeMainWin(QMainWindow):
 
         # 添加毛玻璃效果
         GlobalBlur(self.winId(), Dark=True, QWidget=self)
-        self.setStyleSheet("background-color: rgba(255, 255, 255, 0)")
+        self.setStyleSheet("background-color: rgba(255, 255, 255, 0.1)")
 
         self.show_state()
         self.init_slot()
