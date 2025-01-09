@@ -59,6 +59,16 @@ def mouse_move_y(gun_data: dict):
     # keyboard.release(Key.shift) # 释放shift键
 
 
+decimals = 0
+def  keep_deci(moves):
+    # 保留小数点后三位
+    global decimals
+    moves += decimals
+    tmp_int = int(moves)
+    decimals = moves - tmp_int
+    return tmp_int
+
+
 def move_coefficient_handle(gun_data):
     # 处理武器的移动系数
     lists = []
@@ -72,4 +82,3 @@ def mouse_move(x,y):
         pydirectinput.move(x,y)
     elif GDV.mouse_server == 1:
         GHUB.mouse_xy(x,y)
-        logger.info(f"鼠标移动: x: {x}, y: {y}")

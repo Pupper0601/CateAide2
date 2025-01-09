@@ -287,6 +287,7 @@ def posture_in_car():
         if res:
             logger.info(f"当前在车内, 识别耗时: {time.time() - start_time:.2f}秒")
             GDV.in_car = True
+            GDV.posture_state = "zhan"
             return
     GDV.in_car = False
     logger.info(f"当前不在车内, 识别耗时: {time.time() - start_time:.2f}秒")
@@ -304,7 +305,7 @@ def current_posture_state():
     _img = adaptive_binarize_image(_img)
     best_match, best_similarity = compare_images(_img, "pose")
     print(best_match, best_similarity)
-    if best_similarity > 0.4:
+    if best_similarity > 0.7:
         if best_match == "zhan":
             if GDV.posture_state != "zhan":
                 GDV.posture_state = "zhan"
