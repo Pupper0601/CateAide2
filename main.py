@@ -53,6 +53,7 @@ class MainWin(QMainWindow):
     def show_home(self):
         if self.login_win.login_flow():
             self.home_win.show()
+            self.home_win.vip()
             self.login_win.close()
 
 # run_as_admin()

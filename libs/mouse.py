@@ -21,6 +21,7 @@ class MouseMonitor:
         self.monitoring = False
         self.listener = None
         self.window = window
+        self.right_click = False
 
     def start(self):
         self.monitoring = True
@@ -43,7 +44,11 @@ class MouseMonitor:
                     future.add_done_callback(self.on_start_weapon_identification)
                 else:
                     if not is_mouse_visible():
-                        self._shooting_state()
+                        if not self.right_click:
+                            self._shooting_state()
+                            self.right_click = True
+                        else:
+                            self.right_click = False
 
             elif pressed and button == mouse.Button.right:
                 if GDV.in_game and not is_mouse_visible():

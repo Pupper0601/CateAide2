@@ -44,14 +44,23 @@ class AesEncrypt(object):
         characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()"
         return ''.join(random.choice(characters) for _ in range(length))
 
-if __name__ == '__main__':
+def test_ka():
+    """试用激活码"""
     aes_encrypt = AesEncrypt()
-    for i in range(10):
-        # s = time.time()
+    for i in range(100):
         day = 1
-        t = str(day) + "|" + aes_encrypt.random_string(16)
+        t = "CateAide2" + "|" + str(day) + "|" + aes_encrypt.random_string(16)
         e = aes_encrypt.encrypt(t)
-        d = aes_encrypt.decrypt(e)
-        print(t)
         print(e)
-        print(d)
+
+def permanent_ka():
+    """永久激活码"""
+    aes_encrypt = AesEncrypt()
+    for i in range(100):
+        day = 3650
+        t = "CateAide2" + "|" + str(day) + "|" + aes_encrypt.random_string(16)
+        e = aes_encrypt.encrypt(t)
+        print(e)
+
+if __name__ == '__main__':
+    permanent_ka()

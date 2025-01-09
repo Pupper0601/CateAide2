@@ -3,6 +3,7 @@
 # @Author : Pupper
 # @Email  : pupper.cheng@gmail.com
 import threading
+import time
 from concurrent.futures import ThreadPoolExecutor
 
 from libs.ghub_device import GHubDevice
@@ -63,6 +64,7 @@ class GlobalVariable(Observable):
         self._mouse_right_state = False
         self._in_car = False
         self._mouse_server = 0
+        self._vip = "0"
 
 
     @property
@@ -222,6 +224,14 @@ class GlobalVariable(Observable):
     @mouse_server.setter
     def mouse_server(self, value):
         self._mouse_server = value
+
+    @property
+    def vip(self):
+        return self._vip
+
+    @vip.setter
+    def vip(self, value):
+        self._vip = value
 
 
 

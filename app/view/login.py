@@ -405,6 +405,7 @@ class Ui_LoginMainWindow(object):
         self.PasswordLineEdit = PasswordLineEdit(self.frame_8)
         self.PasswordLineEdit.setObjectName(u"PasswordLineEdit")
         self.PasswordLineEdit.setMinimumSize(QSize(200, 33))
+        self.PasswordLineEdit.setPasswordVisible(False)
 
         self.horizontalLayout_5.addWidget(self.PasswordLineEdit)
 
@@ -836,7 +837,7 @@ class Ui_LoginMainWindow(object):
 
         self.PushButton = PushButton(self.frame_10)
         self.PushButton.setObjectName(u"PushButton")
-        self.PushButton.setEnabled(False)
+        self.PushButton.setEnabled(True)
         icon2 = QIcon()
         icon2.addFile(u":/icon/app/resource/icon/buy.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.PushButton.setIcon(icon2)
@@ -900,6 +901,15 @@ class Ui_LoginMainWindow(object):
         self.LineEdit.setText("")
         self.LineEdit.setPlaceholderText(QCoreApplication.translate("LoginMainWindow", u"\u8bf7\u8f93\u5165\u6b63\u786e\u7684\u90ae\u7bb1", None))
         self.StrongBodyLabel_2.setText(QCoreApplication.translate("LoginMainWindow", u"\u6fc0\u6d3b\u7801:", None))
+#if QT_CONFIG(tooltip)
+        self.PasswordLineEdit.setToolTip("")
+#endif // QT_CONFIG(tooltip)
+#if QT_CONFIG(statustip)
+        self.PasswordLineEdit.setStatusTip("")
+#endif // QT_CONFIG(statustip)
+#if QT_CONFIG(whatsthis)
+        self.PasswordLineEdit.setWhatsThis("")
+#endif // QT_CONFIG(whatsthis)
         self.PasswordLineEdit.setPlaceholderText(QCoreApplication.translate("LoginMainWindow", u"\u8bf7\u8f93\u5165\u6fc0\u6d3b\u7801", None))
         self.CheckBox.setText(QCoreApplication.translate("LoginMainWindow", u"\u8bb0\u4f4f\u6211", None))
         self.PrimaryPushButton.setText(QCoreApplication.translate("LoginMainWindow", u"\u767b    \u5f55", None))

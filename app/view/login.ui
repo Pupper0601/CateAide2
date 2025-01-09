@@ -720,8 +720,20 @@ FluentLabelBase{color:#000000}</string>
                   <height>33</height>
                  </size>
                 </property>
+                <property name="toolTip">
+                 <string/>
+                </property>
+                <property name="statusTip">
+                 <string/>
+                </property>
+                <property name="whatsThis">
+                 <string/>
+                </property>
                 <property name="placeholderText">
                  <string>请输入激活码</string>
+                </property>
+                <property name="passwordVisible">
+                 <bool>false</bool>
                 </property>
                </widget>
               </item>
@@ -1268,7 +1280,7 @@ PillToolButton:disabled:checked {
            <item>
             <widget class="PushButton" name="PushButton">
              <property name="enabled">
-              <bool>false</bool>
+              <bool>true</bool>
              </property>
              <property name="text">
               <string>购买激活码</string>

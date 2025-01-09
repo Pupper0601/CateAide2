@@ -5,14 +5,14 @@
 # @Email  : pupper.cheng@gmail.com
 from pathlib import Path
 
-from PySide6.QtGui import Qt, QPainter, QBrush, QColor
+from PySide6.QtGui import QDesktopServices, Qt, QPainter, QBrush, QColor
 from PySide6.QtWidgets import QMainWindow, QGraphicsBlurEffect, QWidget, QVBoxLayout
-from PySide6.QtCore import QPoint
+from PySide6.QtCore import QPoint, QUrl
 from BlurWindow.blurWindow import GlobalBlur
 from qfluentwidgets import Dialog
 
 from app.common.common import click_qq_group
-from app.common.login.login import code_verification, email_verification
+from app.common.login.login import code_verification, code_verify, email_verification
 from app.view.login import Ui_LoginMainWindow
 from libs.config import config_file_path
 from libs.dialog import dialog
@@ -42,6 +42,7 @@ class LoginMainWin(QMainWindow):
 
     def slot(self):
         self.login_ui.PushButton_2.clicked.connect(click_qq_group)
+        self.login_ui.PushButton.clicked.connect(self.shopping_code)
         self.read_config()
 
     def login_flow(self):
@@ -54,8 +55,9 @@ class LoginMainWin(QMainWindow):
             if not code_verification(login_code):
                 dialog("⚠️提示", "🛅激活码 错误 或 已经过期, 请确认.", cancel_hide=True)
                 return False
-            write_config(f'{{"email": "{email}", "login_code": "{login_code}"}}')
-            return True
+            if code_verify(email, login_code):
+                write_config(f'{{"email": "{email}", "login_code": "{login_code}"}}')
+                return True
         else:
             dialog("⚠️提示", "📬邮箱 或 🛅激活码 不能为空 !!!", cancel_hide=True)
             return False
@@ -66,6 +68,13 @@ class LoginMainWin(QMainWindow):
             if config:
                 self.login_ui.LineEdit.setText(config["email"])
                 self.login_ui.PasswordLineEdit.setText(config["login_code"])
+
+    def shopping_code(self):
+        url = QUrl("https://pupperc.com")
+        if not url.isValid():
+            print("URL无效")
+            return
+        QDesktopServices.openUrl(url)
 
     # ----------- 窗口拖动 -----------
     def mousePressEvent(self, event):

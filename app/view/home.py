@@ -1747,7 +1747,7 @@ class Ui_HomeMainWindow(object):
         self.label_18.setText(QCoreApplication.translate("HomeMainWindow", u"CuteAide2", None))
         self.pushButton_4.setText("")
         self.pushButton_3.setText("")
-        self.StrongBodyLabel_7.setText(QCoreApplication.translate("HomeMainWindow", u"VIP \u5012\u8ba1\u65f6: ", None))
+        self.StrongBodyLabel_7.setText(QCoreApplication.translate("HomeMainWindow", u"VIP \u5230\u671f\u65f6\u95f4: ", None))
         self.StrongBodyLabel_8.setText(QCoreApplication.translate("HomeMainWindow", u"2025-01-04 18:32:31", None))
         self.StrongBodyLabel.setText(QCoreApplication.translate("HomeMainWindow", u"\u5206  \u8fa8  \u7387:", None))
         self.StrongBodyLabel_2.setText(QCoreApplication.translate("HomeMainWindow", u"1920*1080", None))

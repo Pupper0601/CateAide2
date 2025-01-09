@@ -3,6 +3,7 @@
 # @Author : Pupper
 # @Email  : pupper.cheng@gmail.com
 import os
+from datetime import datetime
 
 from PySide6.QtGui import QDesktopServices, QIcon, Qt, QPainter, QBrush, QColor
 from PySide6.QtWidgets import QApplication, QMainWindow, QGraphicsBlurEffect, QMessageBox, QWidget, QVBoxLayout
@@ -131,6 +132,9 @@ class HomeMainWin(QMainWindow):
         elif self.ui.RadioButton_19.isChecked():
             GDV.mouse_server = 2
             self.ui.PushButton_8.setEnabled(True)
+
+    def vip(self):
+        self.ui.StrongBodyLabel_8.setText(str(GDV.vip))
 
     # ----------- 窗口拖动 -----------
     def mousePressEvent(self, event):

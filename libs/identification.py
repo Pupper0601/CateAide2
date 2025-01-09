@@ -304,21 +304,20 @@ def current_posture_state():
     _img = adaptive_binarize_image(_img)
     best_match, best_similarity = compare_images(_img, "pose")
     print(best_match, best_similarity)
-    # res, coordinates = has_large_color_block(_img)
-    # print(coordinates)
-    # if res:
-    #     if coordinates[0][0] < 10:
-    #         if GDV.posture_state != "zhan":
-    #             GDV.posture_state = "zhan"
-    #         logger.info(f"当前姿态 --->>> 站立, 识别耗时: {time.time() - start_time:.2f}秒")
-    #     elif coordinates[0][0] < 20:
-    #         if GDV.posture_state != "dun":
-    #             GDV.posture_state = "dun"
-    #         logger.info(f"当前姿态 --->>> 蹲姿, 识别耗时: {time.time() - start_time:.2f}秒")
-    #     elif coordinates[0][0] > 20:
-    #         if GDV.posture_state != "pa":
-    #             GDV.posture_state = "pa"
-    #         logger.info(f"当前姿态 --->>> 蹲姿, 识别耗时: {time.time() - start_time:.2f}秒")
+    if best_similarity > 0.4:
+        if best_match == "zhan":
+            if GDV.posture_state != "zhan":
+                GDV.posture_state = "zhan"
+            logger.info(f"当前姿态 --->>> 站立, 识别耗时: {time.time() - start_time:.2f}秒")
+        elif best_match == "dun":
+            if GDV.posture_state != "dun":
+                GDV.posture_state = "dun"
+            logger.info(f"当前姿态 --->>> 蹲姿, 识别耗时: {time.time() - start_time:.2f}秒")
+        elif best_match == "pa":
+            if GDV.posture_state != "pa":
+                GDV.posture_state = "pa"
+            logger.info(f"当前姿态 --->>> 蹲姿, 识别耗时: {time.time() - start_time:.2f}秒")
+
 
 
 if __name__ == '__main__':
