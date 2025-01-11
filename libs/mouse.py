@@ -62,11 +62,12 @@ class MouseMonitor:
                     if GDV.pubg_win:
                         GDV.pubg_win = False
                     GDV.state_left_info = "当前窗口不是PUBG"
-                    self.window.shootingSignal.emit()
+                    self.window.Left_StateSignal.emit()
                 else:
                     if not GDV.pubg_win:
                         GDV.pubg_win = True
                     self.get_game_state()   # 获取当前是否在对局中
+
 
             elif pressed and button == mouse.Button.left:
                 if GDV.mouse_server != 2:
@@ -83,10 +84,10 @@ class MouseMonitor:
         future.result()
         if GDV.shooting_state:
             GDV.state_left_info = "自动识别已完成"
-            self.window.shootingSignal.emit()
+            self.window.Left_StateSignal.emit()
         else:
             GDV.state_left_info = "没有手持枪械"
-            self.window.shootingSignal.emit()
+            self.window.Left_StateSignal.emit()
 
     def get_game_state(self):
         future = THREAD_POOL.submit(get_in_game)    # 获取当前是否在对局中
@@ -104,7 +105,8 @@ class MouseMonitor:
             GDV.state_left_info = "当前不在对局中"
             GDV.guns_data.clear()
             GDV.current_weapon_info.clear()
-            self.window.shootingSignal.emit()
+            self.window.Left_StateSignal.emit()
+            self.window.Right_PressedSignal.emit()
         else:
             if GDV.current_weapon_info:
                 self._shooting_state()
@@ -112,11 +114,11 @@ class MouseMonitor:
                 if GDV.shooting_state:
                     GDV.shooting_state = False
                 GDV.state_left_info = "当前没有枪械信息"
-                self.window.shootingSignal.emit()
+                self.window.Left_StateSignal.emit()
 
     def on_start_weapon_identification(self, future):
         future.result()
-        self.window.keyPressedSignal.emit()
+        self.window.Right_PressedSignal.emit()
 
     def auto_down_state(self):
         future = THREAD_POOL.submit(is_mouse_visible)
@@ -132,4 +134,4 @@ class MouseMonitor:
 
     def on_posture_state(self, future):
         future.result()
-        self.window.shootingSignal.emit()
+        self.window.Left_StateSignal.emit()

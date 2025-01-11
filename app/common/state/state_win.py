@@ -19,8 +19,8 @@ from tools.logs import logger
 
 
 class StateMainWin(QMainWindow):
-    keyPressedSignal = Signal()  # 定义信号
-    shootingSignal = Signal()
+    Right_PressedSignal = Signal()  # 定义信号
+    Left_StateSignal = Signal()
     def __init__(self):
         super().__init__()
         self.ui = Ui_StateMainWindow()
@@ -51,8 +51,8 @@ class StateMainWin(QMainWindow):
 
     def init_slot(self):
         # 连接信号到槽
-        self.shootingSignal.connect(self.update_shooting_state)
-        self.keyPressedSignal.connect(self.update_window_info)
+        self.Left_StateSignal.connect(self.update_shooting_state)
+        self.Right_PressedSignal.connect(self.update_window_info)
         self.ui.label.setStyleSheet("font-size: 12px; color: rgb(237,237,239); letter-spacing: 1.5px; font-family: "
                                     "'Microsoft YaHei UI'; ")
         self.ui.label.setText("👏 欢迎使用 CateAide2")
@@ -64,7 +64,6 @@ class StateMainWin(QMainWindow):
         _str = ""
         _gun_info = None
         if len(GDV.guns_data) == 0:
-            GDV.state_left_info = "获取背包信息失败, 请重试"
             self.update_shooting_state()
             return
 
@@ -75,7 +74,6 @@ class StateMainWin(QMainWindow):
             _gun_info = GDV.guns_data["1" if key == "2" else "2"]
             GDV.current_weapon = "1" if key == "2" else "2"
         else:
-            GDV.state_left_info = "获取背包信息失败, 请重试"
             self.update_shooting_state()
             return
 
@@ -91,17 +89,16 @@ class StateMainWin(QMainWindow):
 
     def update_shooting_state(self):
         _str = GDV.state_left_info
-        if GDV.posture_state == "zhan":
-            _str += ", <站姿>"
-        elif GDV.posture_state == "dun":
-            _str += ", <蹲姿>"
-        elif GDV.posture_state == "pa":
-            _str += ", <趴姿>"
 
         if GDV.in_car:
             _str += ", <车内>"
         else:
-            _str += ""
+            if GDV.posture_state == "zhan":
+                _str += ", <站姿>"
+            elif GDV.posture_state == "dun":
+                _str += ", <蹲姿>"
+            elif GDV.posture_state == "pa":
+                _str += ", <趴姿>"
 
         if GDV.shooting_state:
             _str += ", [压枪]"

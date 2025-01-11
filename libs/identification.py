@@ -18,33 +18,6 @@ from libs.global_variables import GDV
 from tools.logs import logger
 from skimage.metrics import structural_similarity as ssim
 
-from tools.mouse_visible import is_mouse_visible
-
-
-def take_full_screenshot():
-    """
-    截取整个屏幕
-    :return: 将截取的屏幕保存在全局变量中
-    """
-    with mss.mss() as sct:
-        start_time = time.time()
-        monitor = sct.monitors[1]  # 获取主显示器的分辨率
-        captured_frame = sct.grab(monitor)  # 截取整个屏幕的屏幕截图
-        img = Image.frombytes('RGBA', captured_frame.size, captured_frame.bgra, 'raw', 'BGRA')
-        img = img.convert('RGB')  # 转换为 RGB 格式
-
-        GDV.global_screenshot = np.array(img)
-        logger.info(f"截取整个屏幕耗时: {time.time() - start_time:.2f}秒")
-
-def get_specific_regin(image, region):
-    """
-    获取指定区域的图片
-    :param image: 存放全屏截图的变量
-    :param region: 需要截取的区域, 格式为 (left, top, width, height)
-    :return: 返回截取的图片
-    """
-    region = {'left': region[0], 'top': region[1], 'width': region[2], 'height': region[3]}
-    return image[region['top']:region['top'] + region['height'], region['left']:region['left'] + region['width']]
 
 def take_screenshot(region):
     """
@@ -107,17 +80,9 @@ def process_screenshot(key, value):
     :return: 最佳匹配图片名称, 最佳匹配图片的相似度
     """
 
-    screenshot = get_specific_regin(GDV.global_screenshot, value)
-
-    if screenshot is None:
-        logger.error(f"截图失败{key}，区域: {value}")
-        return None, None
-
+    # 截取指定区域的图片, 并进行二值化处理
+    screenshot = take_screenshot(value)
     binary_image = adaptive_binarize_image(screenshot)
-
-    if binary_image is None:
-        logger.error(f"二值化处理失败{key}，区域: {value}")
-        return None, None
 
     best_match, best_similarity = compare_images(binary_image, key)
     return best_match, best_similarity
@@ -127,28 +92,19 @@ def start_weapon_identification():
     获取背包中的枪械信息, 并将结果存入全局变量中
     :return:
     """
-    take_full_screenshot()  # 截取整个屏幕
     start_time = time.time()
     _guns = {"1":{}, "2":{}}
 
     for key, value in GDV.CACHE["config"]["guns"].items():
-        if weapon_position_identification(key): # 判断背包中的枪械位置是否有武器
-            for _key, _value in value.items():
-                best_match, best_similarity = process_screenshot(_key, _value)  # 获取枪械信息
-                if best_match is not None:
-                    if best_similarity > 0.6:
-                        _guns[key][_key]= best_match
-                    else:
-                        _guns[key][_key]= f"{_key}_none"
+        for _key, _value in value.items():
+            best_match, best_similarity = process_screenshot(_key, _value)  # 获取枪械信息
+            if best_match is not None:
+                if best_similarity > 0.6:
+                    _guns[key][_key]= best_match
                 else:
                     _guns[key][_key]= f"{_key}_none"
-        else:
-            _guns[key] = {
-                "weapon": "weapon_none",
-                "scope": "scope_none",
-                "muzzle": "muzzle_none",
-                "grip": "grip_none",
-                "stock": "stock_none"}
+            else:
+                _guns[key][_key]= f"{_key}_none"
 
     logger.info(f"获取枪械信息耗时: {time.time() - start_time:.2f}秒")
     for key, value in _guns.items():
@@ -162,11 +118,10 @@ def backpack_identification():
     :return: True or False
     """
     time.sleep(0.3)
-    take_full_screenshot()
     start_time = time.time()
-    _value = GDV.CACHE["config"]["inventory"]["inventory"]
+    _value = GDV.CACHE["config"]["backpack"]
 
-    best_match, best_similarity = process_screenshot("inventory", _value)
+    best_match, best_similarity = process_screenshot("backpack", _value)
     if best_similarity > 0.6:
         logger.info(f"当前背包状态 --->>> 打开, 识别耗时: {time.time() - start_time:.2f}秒, 相似度: {best_similarity:.2f}")
         GDV.backpack_state = True
@@ -253,7 +208,7 @@ def get_in_game():
     :return: GDV.in_game(True or False)
     """
     start_time = time.time()
-    _value = GDV.CACHE["config"]["ingram"]
+    _value = GDV.CACHE["config"]["in_game"]
     _img = take_screenshot(_value)
     res, coordinates = has_large_color_block(_img)
     if res:
@@ -298,7 +253,7 @@ def current_posture_state():
     判断当前的姿态
     :return: GDV.posture_state
     """
-    time.sleep(0.5)
+    time.sleep(0.4)
     start_time = time.time()
     _value = GDV.CACHE["config"]["pose"]
     _img = take_screenshot(_value)
