@@ -34,15 +34,16 @@ def mouse_move_y(gun_data: dict):
 
         num = 0
         start_time = round(time.perf_counter(), 3) * 1000   # 记录开始时间
-        move_sum = int(round(value * gun_data["coefficient"], 2))  # 计算当前移动的距离
-        _speed = int(round(move_sum / gun_data["weapon_intervals"] * 15, 2))  # 计算当前移动的速度
+        move_sum = round(value * gun_data["coefficient"], 2)  # 计算当前移动的距离
+        _speed = round(move_sum / gun_data["weapon_intervals"] * 15, 2)  # 计算当前移动的速度
         logger.info(
             f"\n\n 当前子弹数为: {index + 1}, 需要移动的距离为: {move_sum}, 每次移动的距离为: {_speed}, 鼠标左键状态:"
             f" {GDV.mouse_left_state}")
         while GDV.mouse_left_state:
+            move_y = keep_deci(_speed)
             if move_sum > _speed:
-                mouse_move(0, _speed)
-                move_sum -= _speed
+                mouse_move(0, move_y)
+                move_sum -= move_y
             elif move_sum > 0:
                 mouse_move(0, _speed)
                 move_sum = 0

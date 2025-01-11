@@ -54,7 +54,7 @@ class MouseMonitor:
                 if GDV.in_game and not is_mouse_visible():
                     self.posture_state()
 
-            elif not pressed and button == mouse.Button.left:
+            elif not pressed and (button == mouse.Button.left or button == mouse.Button.right):
                 GDV.mouse_left_state = False
                 if not is_pubg_active():    # 判断当前窗口是否是PUBG
                     if GDV.shooting_state:
