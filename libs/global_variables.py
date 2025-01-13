@@ -54,7 +54,7 @@ class GlobalVariable(Observable):
         self._in_game = False
         self._current_weapon_info = {}
         self._output_gun_info = {}
-        self._opening_method = "click"
+        self._opening_method = 0    # 0: 点击右键, 1: 长按右键
         self._posture_state = "zhan"
         self._posture_state_button = "c"
         self._global_screenshot = None
@@ -63,7 +63,7 @@ class GlobalVariable(Observable):
         self._mouse_left_state = False
         self._mouse_right_state = False
         self._in_car = False
-        self._mouse_server = 0
+        self._mouse_server = 0  # 0: 系统鼠标, 1: Ghub 2021, 2: GHub 最新版
         self._vip = "0"
 
 
@@ -219,10 +219,17 @@ class GlobalVariable(Observable):
 
     @property
     def mouse_server(self):
+        """
+        鼠标驱动类型 0: 系统鼠标, 1: Ghub 2021, 2: GHub 最新版
+        """
         return self._mouse_server
 
     @mouse_server.setter
     def mouse_server(self, value):
+        """
+        鼠标驱动类型
+        :param value: 0: 系统鼠标, 1: Ghub 2021, 2: GHub 最新版
+        """
         self._mouse_server = value
 
     @property

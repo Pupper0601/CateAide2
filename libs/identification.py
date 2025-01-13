@@ -3,9 +3,6 @@
 # @Author : Pupper
 # @Email  : pupper.cheng@gmail.com
 
-"""
-处理多个位置的屏幕截图并对比
-"""
 import asyncio
 import time
 import cv2
@@ -13,7 +10,7 @@ import numpy as np
 from PIL import Image
 import mss
 
-from libs.config import TRANSLATE, debug
+from libs.config import TRANSLATE, debug, discern_means
 from libs.global_variables import GDV
 from tools.logs import logger
 from skimage.metrics import structural_similarity as ssim
@@ -97,10 +94,10 @@ def start_weapon_identification():
 
     for key, value in GDV.CACHE["config"]["guns"].items():
         for _key, _value in value.items():
-            best_match, best_similarity = process_screenshot(_key, _value)  # 获取枪械信息
+            best_match, best_similarity = process_screenshot(_key, _value)
             if best_match is not None:
                 if best_similarity > 0.6:
-                    _guns[key][_key]= best_match
+                    _guns[key][_key]= best_match.split("_")[0]
                 else:
                     _guns[key][_key]= f"{_key}_none"
             else:
@@ -110,6 +107,7 @@ def start_weapon_identification():
     for key, value in _guns.items():
         for k, v in value.items():
             _guns[key][k] = [TRANSLATE.get(v, v), v]
+
     GDV.guns_data.update(_guns)
 
 def backpack_identification():
@@ -128,26 +126,6 @@ def backpack_identification():
     else:
         logger.info(f"当前背包状态 --->>> 关闭, 识别耗时: {time.time() - start_time:.2f}秒, 相似度: {best_similarity:.2f}")
         GDV.backpack_state = False
-
-
-def weapon_position_identification(key):
-    """
-    判断背包中的枪械位置是否有武器
-    :param key: 位置编号
-    :return: True or False
-    """
-    start_time = time.time()
-    _value = GDV.CACHE["config"]["position"][key]
-
-    best_match, best_similarity = process_screenshot("position", _value)
-    if best_similarity > 0.6:
-        logger.info(f"{key} 号位置 有武器, 识别耗时: {time.time() - start_time:.2f}秒, 相似度: {best_similarity:.2f}")
-        return True
-    else:
-        logger.info(f"{key} 号位置 没有武器, 识别耗时: {time.time() - start_time:.2f}秒, 相似度: {best_similarity:.2f}")
-        if GDV.current_weapon == key:
-            GDV.current_weapon = "2" if key == "1" else "1"
-        return False
 
 def current_weapon_identification():
     """
@@ -217,14 +195,6 @@ def get_in_game():
     else:
         logger.info(f"当前未在对局中, 识别耗时: {time.time() - start_time:.2f}秒")
         GDV.in_game = False
-    
-# def posture_state_identification():
-#     """ 判断当前的姿态 """
-#     time.sleep(0.3)
-#     take_full_screenshot()
-#     start_time = time.time()
-#     _value = GDV.CACHE["config"]["pose"]["pose"]
-#     screenshot = get_specific_regin(GDV.global_screenshot, _value)
 
 def posture_in_car():
     """
@@ -260,7 +230,7 @@ def current_posture_state():
     _img = adaptive_binarize_image(_img)
     best_match, best_similarity = compare_images(_img, "pose")
     print(best_match, best_similarity)
-    if best_similarity > 0.7:
+    if best_similarity > 0.6:
         if best_match == "zhan":
             if GDV.posture_state != "zhan":
                 GDV.posture_state = "zhan"

@@ -7,11 +7,17 @@ debug = False
 
 config_file_path = r"C:/CuteAide2/config.json"
 
+discern_means = 1 # 识别方式，0为SSIM，1为SIFT
+
 qq = ('https://qm.qq.com/cgi-bin/qm/qr?k=C_li-vF5tFboRacsQm7II86lwsY1P4gg&jump_from=webapi&authKey=IN7xudayhxrku'
       '/cQCHZkluKEZxuPQo2dX3UYei3E/vfGz932L96LV76u17VB4D8f')
 
 KEY = 'F4JHs7EbUDWpDukK'
 IV = "LV56kp3YI9RgXUZz"
+
+# 定义虚拟键代码
+VK_LBUTTON = 0x01   # 鼠标左键
+VK_RBUTTON = 0x02   # 鼠标右键
 
 
 TRANSLATE = {
@@ -69,7 +75,9 @@ TRANSLATE = {
     "AMR"         : "Lynx AMR",
     "WIN94"       : "Win94",
     "MXNG"        : "莫辛纳甘步枪",
+    "MXNG_1": "莫辛纳甘步枪",
     "ZDZT"        : "自动装填步枪",
+    "ZDZT_1"        : "自动装填步枪",
     "MINI14"      : "Mini14",
     "SKS"         : "SKS",
     "VSS"         : "VSS",
@@ -77,6 +85,7 @@ TRANSLATE = {
     "MK14"        : "Mk14",
     "MK12"        : "Mk12",
     "DLGNF"       : "德拉贡诺夫",
+    "DLGNF_1"       : "德拉贡诺夫",
     "S686"        : "S686",
     "S12K"        : "S12K",
     "S1897"       : "S1897",
@@ -84,6 +93,7 @@ TRANSLATE = {
     "O12"         : "O12",
     "PP19"        : "PP-19 Bizon",
     "TMX"         : "汤姆逊冲锋枪",
+    "TMX_1"         : "汤姆逊冲锋枪",
     "UMP"         : "UMP",
     "UZI"         : "微型 UZI",
     "VECTOR"      : "Vector",

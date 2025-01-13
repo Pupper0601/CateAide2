@@ -2,20 +2,13 @@
 # -*- coding: utf-8 -*-
 # @Author : Pupper
 # @Email  : pupper.cheng@gmail.com
-import asyncio
 
-from PySide6.QtGui import Qt, QPainter, QBrush, QColor
-from PySide6.QtWidgets import QApplication, QGraphicsDropShadowEffect, QMainWindow, QGraphicsBlurEffect, QWidget, \
-    QVBoxLayout
-from PySide6.QtCore import QPoint
-from BlurWindow.blurWindow import GlobalBlur
 from PySide6.QtCore import Signal
+from PySide6.QtGui import Qt
+from PySide6.QtWidgets import QApplication, QMainWindow
 
 from app.view.state import Ui_StateMainWindow
-import libs.global_variables as gv
 from libs.global_variables import GDV
-from libs.config import debug
-from tools.logs import logger
 
 
 class StateMainWin(QMainWindow):

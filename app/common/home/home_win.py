@@ -3,17 +3,15 @@
 # @Author : Pupper
 # @Email  : pupper.cheng@gmail.com
 import os
-from datetime import datetime
 
-from PySide6.QtGui import QDesktopServices, QIcon, Qt, QPainter, QBrush, QColor
-from PySide6.QtWidgets import QApplication, QMainWindow, QGraphicsBlurEffect, QMessageBox, QWidget, QVBoxLayout
-from PySide6.QtCore import QPoint, QUrl
 from BlurWindow.blurWindow import GlobalBlur
+from PySide6.QtCore import QPoint
+from PySide6.QtGui import QIcon, Qt
+from PySide6.QtWidgets import QMainWindow
 
 from app.common.common import click_qq_group, get_gun_pressure_script
-from app.view.home import Ui_HomeMainWindow
 from app.common.state.state_win import StateMainWin
-import resource_rc
+from app.view.home import Ui_HomeMainWindow
 from libs.cache_images import images_cache
 from libs.global_variables import GDV
 from libs.keyboard import KeyboardMonitor
@@ -110,9 +108,9 @@ class HomeMainWin(QMainWindow):
     def update_mouse_gun(self):
         # 更新开镜方式
         if self.ui.RadioButton_13.isChecked():
-            GDV.opening_method = "click"
+            GDV.opening_method = 0  # 右键点击
         elif self.ui.RadioButton_14.isChecked():
-            GDV.opening_method = "long_press"
+            GDV.opening_method = 1  # 长按右键
 
     def update_posture_buttons(self):
         # 判断当前选中的姿势

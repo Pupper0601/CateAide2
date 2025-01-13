@@ -6,21 +6,18 @@
 from pynput import mouse
 
 from libs.auto_down import mouse_move_y
-from libs.identification import current_posture_state, current_shooting_state, current_weapon_identification, \
-    get_in_game, \
-    start_weapon_identification
-
 from libs.global_variables import GDV, THREAD_POOL
+from libs.identification import current_posture_state, current_shooting_state, get_in_game, \
+    start_weapon_identification
 from tools.current_window import is_pubg_active
-from tools.logs import logger
 from tools.mouse_visible import is_mouse_visible
 
 
 class MouseMonitor:
-    def __init__(self, window):
+    def __init__(self, state_win):
         self.monitoring = False
         self.listener = None
-        self.window = window
+        self.state_win = state_win
         self.right_click = False
 
     def start(self):
@@ -52,17 +49,19 @@ class MouseMonitor:
 
             elif pressed and button == mouse.Button.right:
                 if GDV.in_game and not is_mouse_visible():
+                    GDV.mouse_right_state = True
                     self.posture_state()
 
             elif not pressed and (button == mouse.Button.left or button == mouse.Button.right):
                 GDV.mouse_left_state = False
+                GDV.mouse_right_state = False
                 if not is_pubg_active():    # 判断当前窗口是否是PUBG
                     if GDV.shooting_state:
                         GDV.shooting_state = False
                     if GDV.pubg_win:
                         GDV.pubg_win = False
                     GDV.state_left_info = "当前窗口不是PUBG"
-                    self.window.Left_StateSignal.emit()
+                    self.state_win.Left_StateSignal.emit()
                 else:
                     if not GDV.pubg_win:
                         GDV.pubg_win = True
@@ -71,8 +70,13 @@ class MouseMonitor:
 
             elif pressed and button == mouse.Button.left:
                 if GDV.mouse_server != 2:
-                    GDV.mouse_left_state = True
-                    self.auto_down_state()
+                    if GDV.opening_method == 0:
+                        GDV.mouse_left_state = True
+                        self.auto_down_state()
+                    elif GDV.opening_method == 1:
+                        if GDV.mouse_right_state:
+                            GDV.mouse_left_state = True
+                            self.auto_down_state()
 
 
 
@@ -84,10 +88,10 @@ class MouseMonitor:
         future.result()
         if GDV.shooting_state:
             GDV.state_left_info = "自动识别已完成"
-            self.window.Left_StateSignal.emit()
+            self.state_win.Left_StateSignal.emit()
         else:
             GDV.state_left_info = "没有手持枪械"
-            self.window.Left_StateSignal.emit()
+            self.state_win.Left_StateSignal.emit()
 
     def get_game_state(self):
         future = THREAD_POOL.submit(get_in_game)    # 获取当前是否在对局中
@@ -105,8 +109,8 @@ class MouseMonitor:
             GDV.state_left_info = "当前不在对局中"
             GDV.guns_data.clear()
             GDV.current_weapon_info.clear()
-            self.window.Left_StateSignal.emit()
-            self.window.Right_PressedSignal.emit()
+            self.state_win.Left_StateSignal.emit()
+            self.state_win.Right_PressedSignal.emit()
         else:
             if GDV.current_weapon_info:
                 self._shooting_state()
@@ -114,11 +118,11 @@ class MouseMonitor:
                 if GDV.shooting_state:
                     GDV.shooting_state = False
                 GDV.state_left_info = "当前没有枪械信息"
-                self.window.Left_StateSignal.emit()
+                self.state_win.Left_StateSignal.emit()
 
     def on_start_weapon_identification(self, future):
         future.result()
-        self.window.Right_PressedSignal.emit()
+        self.state_win.Right_PressedSignal.emit()
 
     def auto_down_state(self):
         future = THREAD_POOL.submit(is_mouse_visible)
@@ -134,4 +138,4 @@ class MouseMonitor:
 
     def on_posture_state(self, future):
         future.result()
-        self.window.Left_StateSignal.emit()
+        self.state_win.Left_StateSignal.emit()

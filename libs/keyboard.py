@@ -2,20 +2,23 @@
 # -*- coding: utf-8 -*-
 # @Author : Pupper
 # @Email  : pupper.cheng@gmail.com
-
+from PySide6.QtCore import Signal
 from pynput import keyboard
 
-from libs.identification import backpack_identification, current_shooting_state, current_weapon_identification, \
-    posture_in_car, start_weapon_identification
+from app.common.grenade.grenade_win import GrenadeMainWin
 from libs.global_variables import GDV, THREAD_POOL
+from libs.identification import backpack_identification, current_shooting_state, posture_in_car, \
+    start_weapon_identification
 from tools.mouse_visible import is_mouse_visible
 
 
 class KeyboardMonitor:
-    def __init__(self, window):
+    GrenadeSignal = Signal()
+    def __init__(self, state_win):
         self.monitoring = False
         self.listener = None
-        self.window = window
+        self.state_win = state_win
+        # self.grenade_win = GrenadeMainWin()
 
     def start(self):
         self.monitoring = True
@@ -43,8 +46,8 @@ class KeyboardMonitor:
                         GDV.state_left_info = "自动识别已完成"
                     else:
                         GDV.state_left_info = "获取背包信息失败, 请重试"
-                    self.window.Left_StateSignal.emit()
-                    self.window.Right_PressedSignal.emit()
+                    self.state_win.Left_StateSignal.emit()
+                    self.state_win.Right_PressedSignal.emit()
 
                 elif key in ("3", "4", "5", "x"):
                     self._shooting_state()
@@ -63,7 +66,10 @@ class KeyboardMonitor:
                             GDV.posture_state = "zhan"
                         else:
                             GDV.posture_state = "pa"
-                    self.window.Left_StateSignal.emit()
+                    self.state_win.Left_StateSignal.emit()
+
+
+
 
     def on_key_release(self, keys):
         key = str(keys.name if isinstance(keys, keyboard.Key) else keys.char).lower()
@@ -82,14 +88,14 @@ class KeyboardMonitor:
                             GDV.shooting_state = False
                     else:
                         self._shooting_state()
-                    self.window.Left_StateSignal.emit()
+                    self.state_win.Left_StateSignal.emit()
 
                 elif key == "f":
                     self._car_state()
             else:
                 if GDV.shooting_state:
                     GDV.shooting_state = False
-                self.window.Left_StateSignal.emit()
+                self.state_win.Left_StateSignal.emit()
 
     def on_backpack_identification(self, future):
         future.result()
@@ -97,10 +103,10 @@ class KeyboardMonitor:
             if GDV.shooting_state:
                 GDV.shooting_state = False
             GDV.state_left_info = "武器识别中..."
-            self.window.Left_StateSignal.emit()
+            self.state_win.Left_StateSignal.emit()
             start_weapon_identification()
             GDV.mouse_right_identification = True
-            self.window.Right_PressedSignal.emit()  # 发送信号
+            self.state_win.Right_PressedSignal.emit()  # 发送信号
         else:
             self._close_backpack()
 
@@ -112,10 +118,10 @@ class KeyboardMonitor:
         future.result()
         if not GDV.shooting_state:
             GDV.state_left_info = "没有手持枪械"
-            self.window.Left_StateSignal.emit()
+            self.state_win.Left_StateSignal.emit()
         else:
             GDV.state_left_info = "自动识别已完成"
-            self.window.Left_StateSignal.emit()
+            self.state_win.Left_StateSignal.emit()
 
     def _close_backpack(self):
         GDV.mouse_right_identification = False
@@ -126,7 +132,7 @@ class KeyboardMonitor:
             if GDV.shooting_state:
                 GDV.shooting_state = False
             GDV.state_left_info = "获取背包信息失败, 请重试"
-            self.window.Left_StateSignal.emit()
+            self.state_win.Left_StateSignal.emit()
 
     def _car_state(self):
         future = THREAD_POOL.submit(posture_in_car)
@@ -134,5 +140,5 @@ class KeyboardMonitor:
 
     def on_car_state(self, future):
         future.result()
-        self.window.Left_StateSignal.emit()
+        self.state_win.Left_StateSignal.emit()
 
