@@ -2039,13 +2039,13 @@ background-color: rgba(255, 255, 255, 0);
                     <item>
                      <widget class="SwitchButton" name="SwitchButton_8">
                       <property name="enabled">
-                       <bool>false</bool>
+                       <bool>true</bool>
                       </property>
                       <property name="text">
                        <string>丢雷倒计时</string>
                       </property>
                       <property name="onText">
-                       <string>保密开发中</string>
+                       <string>丢雷倒计时</string>
                       </property>
                       <property name="offText">
                        <string>丢雷倒计时</string>

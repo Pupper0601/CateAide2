@@ -6,6 +6,8 @@ from PySide6.QtCore import Signal
 from pynput import keyboard
 
 from app.common.grenade.grenade_win import GrenadeMainWin
+from libs.common import is_mouse_button_down
+from libs.config import VK_LBUTTON
 from libs.global_variables import GDV, THREAD_POOL
 from libs.identification import backpack_identification, current_shooting_state, posture_in_car, \
     start_weapon_identification
@@ -14,11 +16,11 @@ from tools.mouse_visible import is_mouse_visible
 
 class KeyboardMonitor:
     GrenadeSignal = Signal()
-    def __init__(self, state_win):
+    def __init__(self, state_win, grenade_win):
         self.monitoring = False
         self.listener = None
         self.state_win = state_win
-        # self.grenade_win = GrenadeMainWin()
+        self.grenade_win = grenade_win
 
     def start(self):
         self.monitoring = True
@@ -67,6 +69,10 @@ class KeyboardMonitor:
                         else:
                             GDV.posture_state = "pa"
                     self.state_win.Left_StateSignal.emit()
+
+                elif key == "r":
+                    if not GDV.shooting_state and is_mouse_button_down(VK_LBUTTON):
+                        self.grenade_win.ShowGrenadeSignal.emit()
 
 
 

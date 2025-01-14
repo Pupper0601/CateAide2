@@ -65,6 +65,7 @@ class GlobalVariable(Observable):
         self._in_car = False
         self._mouse_server = 0  # 0: 系统鼠标, 1: Ghub 2021, 2: GHub 最新版
         self._vip = "0"
+        self._grenade_state = False # 手雷状态, True: 打开, False: 关闭
 
 
     @property
@@ -239,6 +240,14 @@ class GlobalVariable(Observable):
     @vip.setter
     def vip(self, value):
         self._vip = value
+
+    @property
+    def grenade_state(self):
+        return self._grenade_state
+
+    @grenade_state.setter
+    def grenade_state(self, value):
+        self._grenade_state = value
 
 
 

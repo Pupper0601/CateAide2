@@ -25,10 +25,14 @@ def take_screenshot(region):
     
     """截取屏幕区域并返回为图片"""
     region = {'left': region[0], 'top': region[1], 'width': region[2], 'height': region[3]}
-    sct = mss.mss()
-    screenshot = sct.grab(region)
-    img = Image.frombytes('RGBA', screenshot.size, screenshot.bgra, 'raw', 'BGRA')
-    img = img.convert('RGB')  # 转换为 RGB 格式
+    try:
+        sct = mss.mss()
+        screenshot = sct.grab(region)
+        img = Image.frombytes('RGBA', screenshot.size, screenshot.bgra, 'raw', 'BGRA')
+        img = img.convert('RGB')  # 转换为 RGB 格式
+    except Exception as e:
+        logger.error(f"截图失败: {e}")
+        return None
     return np.array(img)
 
 def adaptive_binarize_image(image):

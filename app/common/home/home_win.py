@@ -10,6 +10,7 @@ from PySide6.QtGui import QIcon, Qt
 from PySide6.QtWidgets import QMainWindow
 
 from app.common.common import click_qq_group, get_gun_pressure_script
+from app.common.grenade.grenade_win import GrenadeMainWin
 from app.common.state.state_win import StateMainWin
 from app.view.home import Ui_HomeMainWindow
 from libs.cache_images import images_cache
@@ -28,8 +29,9 @@ class HomeMainWin(QMainWindow):
         self.ui.setupUi(self)
         self.setWindowTitle("CuteAide")
         self.start_win = StateMainWin()
+        self.grenade_win = GrenadeMainWin()
 
-        self.keyboard_monitor = KeyboardMonitor(self.start_win)
+        self.keyboard_monitor = KeyboardMonitor(self.start_win, self.grenade_win)
         self.mouse_monitor = MouseMonitor(self.start_win)
 
         # 隐藏窗口边框
@@ -48,7 +50,8 @@ class HomeMainWin(QMainWindow):
         self.init_slot()
 
     def init_slot(self):
-        self.ui.SwitchButton_9.checkedChanged.connect(self.show_state)
+        self.ui.SwitchButton_9.checkedChanged.connect(self.show_state)  # 显示/隐藏状态窗口
+        self.ui.SwitchButton_8.checkedChanged.connect(self.show_grenade)  # 显示/隐藏手雷窗口
         self.ui.PushButton_7.clicked.connect(click_qq_group)
         self.ui.PushButton_8.clicked.connect(get_gun_pressure_script)
         self.ui.PushButton.clicked.connect(self.identification_control)
@@ -104,6 +107,13 @@ class HomeMainWin(QMainWindow):
             self.start_win.show()
         else:
             self.start_win.close()
+
+    def show_grenade(self):
+        # 显示/隐藏手雷窗口
+        if self.ui.SwitchButton_8.isChecked():
+            GDV.grenade_state = True
+        else:
+            GDV.grenade_state = False
 
     def update_mouse_gun(self):
         # 更新开镜方式

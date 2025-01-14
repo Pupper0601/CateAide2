@@ -1197,7 +1197,7 @@ class Ui_HomeMainWindow(object):
 
         self.SwitchButton_8 = SwitchButton(self.frame_30)
         self.SwitchButton_8.setObjectName(u"SwitchButton_8")
-        self.SwitchButton_8.setEnabled(False)
+        self.SwitchButton_8.setEnabled(True)
 
         self.horizontalLayout_26.addWidget(self.SwitchButton_8)
 

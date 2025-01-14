@@ -22,5 +22,10 @@ class Worker(QObject):
 
 # 获取键盘状态
 def is_mouse_button_down(key):
+    """
+    获取鼠标按键状态
+    :param key:     按键
+    :return:   True 按下，False 未按下
+    """
     state = ctypes.windll.user32.GetAsyncKeyState(key)
     return state & 0x8000 != 0
