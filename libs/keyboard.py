@@ -16,11 +16,13 @@ from tools.mouse_visible import is_mouse_visible
 
 class KeyboardMonitor:
     GrenadeSignal = Signal()
-    def __init__(self, state_win, grenade_win):
+    def __init__(self, state_win, grenade_win, distance_win, map_mark_win):
         self.monitoring = False
         self.listener = None
         self.state_win = state_win
         self.grenade_win = grenade_win
+        self.distance_win = distance_win
+        self.map_mark_win = map_mark_win
 
     def start(self):
         self.monitoring = True
@@ -74,9 +76,16 @@ class KeyboardMonitor:
                     if not GDV.shooting_state and is_mouse_button_down(VK_LBUTTON):
                         self.grenade_win.ShowGrenadeSignal.emit()
 
+                elif key == "alt_l":
+                    if GDV.map_distance:
+                        self.distance_win.ShowDistanceSignal.emit()
 
-
-
+                elif key == "up":
+                    if GDV.map_marking:
+                        self.map_mark_win.MapUpSignal.emit()
+                elif key == "down":
+                    if GDV.map_marking:
+                        self.map_mark_win.MapDownSignal.emit()
     def on_key_release(self, keys):
         key = str(keys.name if isinstance(keys, keyboard.Key) else keys.char).lower()
         if self.monitoring:
@@ -87,17 +96,25 @@ class KeyboardMonitor:
 
                 elif key == "esc":
                     self._close_backpack()
+                    self.map_mark_win.MapMarkCloseSignal.emit()
 
                 elif  key == "m":
                     if is_mouse_visible():
                         if GDV.shooting_state:
                             GDV.shooting_state = False
+                        if GDV.map_marking:
+                            self.map_mark_win.MapMarkShowSignal.emit()
                     else:
                         self._shooting_state()
+                        if GDV.map_marking:
+                            self.map_mark_win.MapMarkCloseSignal.emit()
                     self.state_win.Left_StateSignal.emit()
 
                 elif key == "f":
                     self._car_state()
+
+                elif key == "alt_l":
+                    self.distance_win.CloneDistanceSignal.emit()
             else:
                 if GDV.shooting_state:
                     GDV.shooting_state = False

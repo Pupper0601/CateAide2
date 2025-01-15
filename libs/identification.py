@@ -22,11 +22,13 @@ def take_screenshot(region):
     :param region: 需要截取的区域, 格式为 (left, top, width, height)
     :return: 截取的图片
     """
-    
-    """截取屏幕区域并返回为图片"""
+
     region = {'left': region[0], 'top': region[1], 'width': region[2], 'height': region[3]}
+    sct = mss.mss()
+    for i in range(3):
+        pass
+
     try:
-        sct = mss.mss()
         screenshot = sct.grab(region)
         img = Image.frombytes('RGBA', screenshot.size, screenshot.bgra, 'raw', 'BGRA')
         img = img.convert('RGB')  # 转换为 RGB 格式
@@ -56,21 +58,23 @@ def compare_images(binary_image, key):
     """
     best_match = None     # 最佳匹配图片名称
     best_similarity = 0   # 最佳匹配图片的相似度
+    if best_similarity is not None:
 
-    for img_key, img_value in GDV.CACHE["images"][key].items():
-        img_bin_value = adaptive_binarize_image(img_value)
+        for img_key, img_value in GDV.CACHE["images"][key].items():
+            img_bin_value = adaptive_binarize_image(img_value)
 
-        if img_bin_value is not None:
-            # 计算 SSIM 相似度
-            similarity, _ = ssim(binary_image, img_bin_value, full=True)
+            if img_bin_value is not None:
+                # 计算 SSIM 相似度
+                similarity, _ = ssim(binary_image, img_bin_value, full=True)
 
-            if similarity > best_similarity:
-                best_similarity = similarity
-                best_match = img_key
+                if similarity > best_similarity:
+                    best_similarity = similarity
+                    best_match = img_key
 
-    if debug:
-        logger.info(f"{key} 相似度: {best_similarity:.2f}")
+        if debug:
+            logger.info(f"{key} 相似度: {best_similarity:.2f}")
 
+        return best_match, best_similarity
     return best_match, best_similarity
 
 def process_screenshot(key, value):

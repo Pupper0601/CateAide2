@@ -66,6 +66,8 @@ class GlobalVariable(Observable):
         self._mouse_server = 0  # 0: 系统鼠标, 1: Ghub 2021, 2: GHub 最新版
         self._vip = "0"
         self._grenade_state = False # 手雷状态, True: 打开, False: 关闭
+        self._map_distance = False # 地图距离状态, True: 打开, False: 关闭
+        self._map_marking = False # 地图标记状态, True: 打开, False: 关闭
 
 
     @property
@@ -248,6 +250,22 @@ class GlobalVariable(Observable):
     @grenade_state.setter
     def grenade_state(self, value):
         self._grenade_state = value
+
+    @property
+    def map_distance(self):
+        return self._map_distance
+
+    @map_distance.setter
+    def map_distance(self, value):
+        self._map_distance = value
+
+    @property
+    def map_marking(self):
+        return self._map_marking
+
+    @map_marking.setter
+    def map_marking(self, value):
+        self._map_marking = value
 
 
 

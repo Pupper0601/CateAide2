@@ -27,6 +27,7 @@
     <file>app/resource/icon/versrion.png</file>
     <file>app/resource/icon/vip.png</file>
     <file>app/resource/icon/vip_1.png</file>
+    <file>app/resource/icon/precious.png</file>
   </qresource>
   <qresource prefix="qss"/>
 </RCC>

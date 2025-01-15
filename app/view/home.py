@@ -1259,7 +1259,7 @@ class Ui_HomeMainWindow(object):
 
         self.SwitchButton_11 = SwitchButton(self.frame_32)
         self.SwitchButton_11.setObjectName(u"SwitchButton_11")
-        self.SwitchButton_11.setEnabled(False)
+        self.SwitchButton_11.setEnabled(True)
         self.SwitchButton_11.setChecked(False)
 
         self.horizontalLayout_27.addWidget(self.SwitchButton_11)
@@ -1291,7 +1291,7 @@ class Ui_HomeMainWindow(object):
 
         self.SwitchButton_12 = SwitchButton(self.frame_33)
         self.SwitchButton_12.setObjectName(u"SwitchButton_12")
-        self.SwitchButton_12.setEnabled(False)
+        self.SwitchButton_12.setEnabled(True)
 
         self.horizontalLayout_28.addWidget(self.SwitchButton_12)
 
@@ -1766,7 +1766,7 @@ class Ui_HomeMainWindow(object):
         self.SwitchButton_9.setOnText(QCoreApplication.translate("HomeMainWindow", u"\u663e\u793a\u60ac\u6d6e\u7a97", None))
         self.SwitchButton_9.setOffText(QCoreApplication.translate("HomeMainWindow", u"\u663e\u793a\u60ac\u6d6e\u7a97", None))
         self.SwitchButton_8.setText(QCoreApplication.translate("HomeMainWindow", u"\u4e22\u96f7\u5012\u8ba1\u65f6", None))
-        self.SwitchButton_8.setOnText(QCoreApplication.translate("HomeMainWindow", u"\u4fdd\u5bc6\u5f00\u53d1\u4e2d", None))
+        self.SwitchButton_8.setOnText(QCoreApplication.translate("HomeMainWindow", u"\u4e22\u96f7\u5012\u8ba1\u65f6", None))
         self.SwitchButton_8.setOffText(QCoreApplication.translate("HomeMainWindow", u"\u4e22\u96f7\u5012\u8ba1\u65f6", None))
         self.SwitchButton_10.setText(QCoreApplication.translate("HomeMainWindow", u"\u667a\u80fd\u97f3\u91cf", None))
         self.SwitchButton_10.setOnText(QCoreApplication.translate("HomeMainWindow", u"\u4fdd\u5bc6\u5f00\u53d1\u4e2d", None))

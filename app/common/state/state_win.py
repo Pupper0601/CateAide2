@@ -40,7 +40,7 @@ class StateMainWin(QMainWindow):
         frame_geometry = self.frameGeometry()  # 获取窗口大小
         frame_geometry.moveCenter(screen_center)
         frame_geometry.moveTop(0)  # 将窗口移动到屏幕顶部
-        self.move(frame_geometry.topLeft())
+        self.move(frame_geometry.topLeft()) # 移动窗口
 
     def init_slot(self):
         # 连接信号到槽

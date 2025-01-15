@@ -2204,7 +2204,7 @@ background-color: rgba(255, 255, 255, 0);
                     <item>
                      <widget class="SwitchButton" name="SwitchButton_11">
                       <property name="enabled">
-                       <bool>false</bool>
+                       <bool>true</bool>
                       </property>
                       <property name="checked">
                        <bool>false</bool>
@@ -2291,7 +2291,7 @@ background-color: rgba(255, 255, 255, 0);
                     <item>
                      <widget class="SwitchButton" name="SwitchButton_12">
                       <property name="enabled">
-                       <bool>false</bool>
+                       <bool>true</bool>
                       </property>
                       <property name="text">
                        <string>显示密室</string>

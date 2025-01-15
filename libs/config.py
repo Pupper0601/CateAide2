@@ -18,6 +18,10 @@ IV = "LV56kp3YI9RgXUZz"
 # 定义虚拟键代码
 VK_LBUTTON = 0x01   # 鼠标左键
 VK_RBUTTON = 0x02   # 鼠标右键
+VK_MENU = 0x12      # Alt 键
+
+# 音量控制
+volume_control = 2
 
 
 TRANSLATE = {

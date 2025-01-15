@@ -6,6 +6,8 @@
 from pynput import mouse
 
 from libs.auto_down import mouse_move_y
+from libs.common import is_mouse_button_down
+from libs.config import VK_MENU
 from libs.global_variables import GDV, THREAD_POOL
 from libs.identification import current_posture_state, current_shooting_state, get_in_game, \
     start_weapon_identification
@@ -14,16 +16,17 @@ from tools.mouse_visible import is_mouse_visible
 
 
 class MouseMonitor:
-    def __init__(self, state_win):
+    def __init__(self, state_win, distance_win):
         self.monitoring = False
         self.listener = None
         self.state_win = state_win
+        self.distance_win = distance_win
         self.right_click = False
 
     def start(self):
         self.monitoring = True
         # 初始化并启动鼠标监听器
-        self.listener = mouse.Listener(on_click=self.on_click)
+        self.listener = mouse.Listener(on_click=self.on_click, on_scroll=self.on_scroll)
         self.listener.start()
 
     def stop(self):
@@ -31,6 +34,9 @@ class MouseMonitor:
         # 停止监听器
         if self.listener:
             self.listener.stop()
+
+    def on_scroll(self, x, y, dx, dy):
+        self.distance_win.EnlargeSignal.emit(dy)
 
     def on_click(self, x, y, button, pressed):
         if self.monitoring:
@@ -48,9 +54,11 @@ class MouseMonitor:
                             self.right_click = False
 
             elif pressed and button == mouse.Button.right:
-                if GDV.in_game and not is_mouse_visible():
+                if GDV.shooting_state and not is_mouse_visible():
                     GDV.mouse_right_state = True
                     self.posture_state()
+                elif not GDV.shooting_state and is_mouse_button_down(VK_MENU):
+                    self.distance_win.UpdateCoordinateSignal.emit((x, y))
 
             elif not pressed and (button == mouse.Button.left or button == mouse.Button.right):
                 GDV.mouse_left_state = False
