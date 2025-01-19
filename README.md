@@ -1,6 +1,6 @@
 <div align="center">
 <img src="img/log.ico" alt="Logo" width="50" />
-<em style="font-size: 32px; font-weight: bold; color: red;">CuteAide2</em>
+<span style="font-size: 32px; font-weight: bold; color: red;">CuteAide2</span>
 </div>
 
 <h4 align="center" style="color: #FF5733;"> --->>>  开源的才是最好的  <<<---</h4>
