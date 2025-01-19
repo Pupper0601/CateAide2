@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 # @Author : Pupper
-# @Email  : pupper.cheng@gmail.com
+# @Email  : pupper.cheng@gmail.comemoji
 
 import base64
 import random
